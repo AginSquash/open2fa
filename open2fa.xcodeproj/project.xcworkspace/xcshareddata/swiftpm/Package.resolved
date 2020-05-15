@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "core-open2fa",
+        "repositoryURL": "https://github.com/AginSquash/core-open2fa",
+        "state": {
+          "branch": null,
+          "revision": "9b463c038f9036556455a1e22cc964a6202c5d03",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift",
+        "state": {
+          "branch": null,
+          "revision": "39f08ac5269361a50c08ce1e2f41989bfc4b1ec8",
+          "version": "1.3.1"
+        }
+      },
+      {
+        "package": "SwiftOTP",
+        "repositoryURL": "https://github.com/lachlanbell/SwiftOTP.git",
+        "state": {
+          "branch": null,
+          "revision": "4c919ab7f007bed0c97c97a640260ac1b31f8a1a",
+          "version": "2.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
