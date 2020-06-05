@@ -13,11 +13,15 @@ struct ContentView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     var body: some View {
-        List {
-            ForEach (core_driver.core.getListOTP()) { c in
-                CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+        NavigationView {
+            List {
+                ForEach (core_driver.core.getListOTP()) { c in
+                    CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                }
             }
+            .navigationBarTitle("Open 2FA")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

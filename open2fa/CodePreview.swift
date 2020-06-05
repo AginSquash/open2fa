@@ -24,11 +24,20 @@ struct CodePreview: View {
         return new_codeSingle
     }
     
+    var timeRemaningWrapped: String {
+        if timeRemaning < 10 {
+            return "0" + String(timeRemaning)
+        } else {
+            return String(timeRemaning)
+        }
+    }
+    
     var body: some View {
         HStack {
-            Text(String(timeRemaning))
-                .foregroundColor(.secondary)
+            Text(timeRemaningWrapped)
+                .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
             Text(code.name)
+                .padding(.leading)
             Spacer()
             Text(codeSingle)
         }
@@ -39,7 +48,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 10)
+        return CodePreview(code: code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15)
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }
