@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "core-open2fa",
+        "package": "core_open2fa",
         "repositoryURL": "https://github.com/AginSquash/core-open2fa",
         "state": {
           "branch": null,
-          "revision": "9b463c038f9036556455a1e22cc964a6202c5d03",
-          "version": "1.0.0"
+          "revision": "3375ebbfed95bc9e05fef215dcbc79060eb2891b",
+          "version": "1.2.6"
         }
       },
       {

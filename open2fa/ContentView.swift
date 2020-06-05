@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import core_open2fa
 
 struct ContentView: View {
+    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    
     var body: some View {
         Text("Hello, World!")
     }
@@ -16,6 +19,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+
+        return ContentView().environmentObject(core_driver)
     }
 }

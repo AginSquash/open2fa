@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4CF246F53B800E04D70 /* AppDelegate.swift */; };
 		CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */; };
 		CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4D3246F53B800E04D70 /* ContentView.swift */; };
 		CD87B4D6246F53B900E04D70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4D5246F53B900E04D70 /* Assets.xcassets */; };
 		CD87B4D9246F53B900E04D70 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */; };
 		CD87B4DC246F53B900E04D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */; };
-		CD87B4E5246F53EB00E04D70 /* core-open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CD87B4E4246F53EB00E04D70 /* core-open2fa */; };
+		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD87B4CC246F53B800E04D70 /* open2fa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = open2fa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD87B4CF246F53B800E04D70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD87B4E5246F53EB00E04D70 /* core-open2fa in Frameworks */,
+				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +46,7 @@
 			children = (
 				CD87B4CE246F53B800E04D70 /* open2fa */,
 				CD87B4CD246F53B800E04D70 /* Products */,
+				CDC636EF2471DC8400F10540 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +64,7 @@
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
+				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
 				CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */,
 				CD87B4DD246F53B900E04D70 /* Info.plist */,
@@ -75,6 +79,13 @@
 				CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CDC636EF2471DC8400F10540 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,7 +105,7 @@
 			);
 			name = open2fa;
 			packageProductDependencies = (
-				CD87B4E4246F53EB00E04D70 /* core-open2fa */,
+				CDC636F02471DC8400F10540 /* core_open2fa */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -157,6 +168,7 @@
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
+				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,10 +375,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CD87B4E4246F53EB00E04D70 /* core-open2fa */ = {
+		CDC636F02471DC8400F10540 /* core_open2fa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */;
-			productName = "core-open2fa";
+			productName = core_open2fa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
