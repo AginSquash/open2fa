@@ -23,9 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Setting up core open2fa
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
-        core_driver.core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
-        core_driver.core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
-        core_driver.core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+        core_driver.DEBUG()
         
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView().environmentObject(core_driver)

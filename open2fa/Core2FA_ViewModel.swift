@@ -14,8 +14,8 @@ class Core2FA_ViewModel: ObservableObject
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
     
-    var core: CORE_OPEN2FA
-    var timer: Timer?
+    private var core: CORE_OPEN2FA
+    private var timer: Timer?
     static var needUpdate = false
     
     
@@ -47,6 +47,12 @@ class Core2FA_ViewModel: ObservableObject
             fatalError("DeleteCode error")
         }
         self.codes.removeAll(where: { $0.id == uuid } )
+    }
+    
+    func DEBUG() {
+        core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
+        core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
+        core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
     }
     
     init(fileURL: URL, pass: String) {
