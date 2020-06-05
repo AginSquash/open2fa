@@ -12,8 +12,11 @@ import core_open2fa
 struct ContentView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
+    @State private var showSheet = false
+    
     @State private var isDeleteMode = false
     @State private var chosenForDelete = 0
+    
     var body: some View {
         NavigationView {
             List {
@@ -25,14 +28,17 @@ struct ContentView: View {
             .navigationBarTitle("Open 2FA")
             .navigationBarItems(leading: EditButton(),
                                 trailing:
-                                    Button(action: {  }, label: { Text("Add") })
-                                )
+                                    Button(action: { self.showSheet = true }, label: { Text("Add") }) )
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(isPresented: $isDeleteMode) {
             Alert(title: Text("Are you sure want to delete \(self.core_driver.codes[self.chosenForDelete].name)?"), message: Text("This action is irreversible"),
                   primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuid: self.core_driver.codes[self.chosenForDelete].id ) }), secondaryButton: .cancel())
         }
+        .sheet(isPresented: $showSheet) {
+            AddCodeView().environmentObject(self.core_driver)
+        }
+    
     }
     
     func callAlert(at offset: IndexSet) {

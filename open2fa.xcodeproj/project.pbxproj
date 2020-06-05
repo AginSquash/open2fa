@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
+		CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */; };
 		CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4CF246F53B800E04D70 /* AppDelegate.swift */; };
 		CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */; };
 		CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD87B4D3246F53B800E04D70 /* ContentView.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
+		CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCodeView.swift; sourceTree = "<group>"; };
 		CD87B4CC246F53B800E04D70 /* open2fa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = open2fa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD87B4CF246F53B800E04D70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
+				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
@@ -173,6 +176,7 @@
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
+				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
