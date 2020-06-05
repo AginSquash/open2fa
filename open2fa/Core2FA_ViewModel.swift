@@ -50,9 +50,26 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     func DEBUG() {
-        core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
-        core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
-        core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+    }
+    
+    func addService(name: String, code: String) -> String? {
+        let result = core.AddCode(service_name: name, code: code)
+        if result == .SUCCEFULL {
+            self.codes = self.core.getListOTP()
+            return nil
+        }
+        
+        switch result {
+        case .ALREADY_EXIST:
+            return "This name already taken"
+        case .CODE_INCORRECT:
+            return "This code is incorrect"
+        default:
+            return "Unknown error"
+        }
     }
     
     init(fileURL: URL, pass: String) {

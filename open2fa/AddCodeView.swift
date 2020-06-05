@@ -11,9 +11,11 @@ import core_open2fa
 
 struct AddCodeView: View {
     @EnvironmentObject var core: Core2FA_ViewModel
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var name = String()
     @State private var code = String()
+    @State private var error: String? = nil
     var body: some View {
         NavigationView {
             Form {
@@ -25,12 +27,20 @@ struct AddCodeView: View {
                     TextField("Code", text: $code)
                 }
                 Section {
-                    Button(action: { }, label: { Text("Save") } )
+                    Button(action: {
+                        self.error = self.core.addService(name: self.name, code: self.code)
+                        if self.error == nil {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }, label: { Text("Save") } )
                 }
             }
             .navigationBarTitle("Adding new service", displayMode: .inline)
         }
          .navigationViewStyle(StackNavigationViewStyle())
+        .alert(item: $error) { error in
+            Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
+        }
     }
 }
 
@@ -39,4 +49,8 @@ struct AddCodeView_Previews: PreviewProvider {
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
         return AddCodeView().environmentObject(core_driver)
     }
+}
+
+extension String: Identifiable {
+    public var id: String { self }
 }
