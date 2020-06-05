@@ -23,6 +23,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Setting up core open2fa
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
+        core_driver.core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
+        core_driver.core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
+        core_driver.core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+        
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView().environmentObject(core_driver)
         
@@ -46,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        Core2FA_ViewModel.needUpdate = true
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -56,6 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        Core2FA_ViewModel.needUpdate = true
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

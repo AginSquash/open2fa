@@ -13,7 +13,11 @@ struct ContentView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     var body: some View {
-        Text("Hello, World!")
+        List {
+            ForEach (core_driver.core.getListOTP()) { c in
+                CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+            }
+        }
     }
 }
 
@@ -21,6 +25,10 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
+        core_driver.core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
+        core_driver.core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
+        core_driver.core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+        
         return ContentView().environmentObject(core_driver)
     }
 }
