@@ -18,10 +18,19 @@ struct ContentView: View {
                 ForEach (core_driver.core.getListOTP()) { c in
                     CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                 }
+                .onDelete(perform: delete)
             }
             .navigationBarTitle("Open 2FA")
+            .navigationBarItems(leading: EditButton(),
+                                trailing:
+                                    Button(action: {  }, label: { Text("Add") })
+                                )
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    func delete(at offset: IndexSet) {
+        //some
     }
 }
 

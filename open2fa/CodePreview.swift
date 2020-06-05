@@ -41,7 +41,6 @@ struct CodePreview: View {
             Spacer()
             Text(codeSingle)
         }
-    .padding()
     }
 }
 
