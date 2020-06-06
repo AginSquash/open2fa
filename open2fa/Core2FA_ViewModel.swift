@@ -11,6 +11,7 @@ import core_open2fa
 
 class Core2FA_ViewModel: ObservableObject
 {
+    
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
     
@@ -42,17 +43,23 @@ class Core2FA_ViewModel: ObservableObject
         
     }
     
-    func deleteService(uuid: UUID) {
-        guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
-            fatalError("DeleteCode error")
+    func deleteService(uuid: [UUID]) {
+        for id in uuid {
+            guard self.core.DeleteCode(id: id) == .SUCCEFULL else {
+                fatalError("DeleteCode error")
+            }
+            //_ = core.getListOTP()
+            codes.removeAll(where: { $0.id == id } )
         }
-        self.codes.removeAll(where: { $0.id == uuid } )
     }
     
     func DEBUG() {
         _ = core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
         _ = core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
         _ = core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test4", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test5", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test6", code: "q4qghrcn2c42bgbz")
     }
     
     func addService(name: String, code: String) -> String? {

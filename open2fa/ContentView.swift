@@ -15,7 +15,8 @@ struct ContentView: View {
     @State private var showSheet = false
     
     @State private var isDeleteMode = false
-    @State private var chosenForDelete = 0
+    @State private var chosenForDelete = [UUID]()
+    @State private var deleteName = String()
     
     var body: some View {
         NavigationView {
@@ -32,8 +33,10 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(isPresented: $isDeleteMode) {
-            Alert(title: Text("Are you sure want to delete \(self.core_driver.codes[self.chosenForDelete].name)?"), message: Text("This action is irreversible"),
-                  primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuid: self.core_driver.codes[self.chosenForDelete].id ) }), secondaryButton: .cancel())
+            Alert(title: Text("Are you sure want to delete \(self.deleteName)?"), message: Text("This action is irreversible"),
+                  primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuid: self.chosenForDelete )
+                      self.chosenForDelete = [UUID]() }),
+                  secondaryButton: .cancel())
         }
         .sheet(isPresented: $showSheet) {
             AddCodeView().environmentObject(self.core_driver)
@@ -42,7 +45,10 @@ struct ContentView: View {
     }
     
     func callAlert(at offset: IndexSet) {
-        self.chosenForDelete = offset.first!
+        self.deleteName = core_driver.codes[offset.first!].name
+        for index in offset {
+            self.chosenForDelete.append(self.core_driver.codes[index].id)
+        }
         self.isDeleteMode = true
     }
 }
