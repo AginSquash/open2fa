@@ -28,6 +28,11 @@ struct AddCodeView: View {
                 }
                 Section {
                     Button(action: {
+                        if self.name.isEmpty {
+                            self.error = "Name cannot be empty"
+                            return
+                        }
+                        
                         self.error = self.core.addService(name: self.name, code: self.code)
                         if self.error == nil {
                             self.presentationMode.wrappedValue.dismiss()
