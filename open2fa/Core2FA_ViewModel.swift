@@ -27,13 +27,13 @@ class Core2FA_ViewModel: ObservableObject
         let time = Int(df.string(from: date))!
         
         if Core2FA_ViewModel.needUpdate {
-            self.codes = core.getListOTP()
+            self.codes = self.core.getListOTP()
             Core2FA_ViewModel.needUpdate = false
         }
         
         //Need test! 
         if (time == 0 || time == 30) {
-            self.codes = core.getListOTP()
+            self.codes = self.core.getListOTP()
         }
         if time > 30 {
             timeRemaning = 30 - (time - 30)
@@ -43,14 +43,14 @@ class Core2FA_ViewModel: ObservableObject
         
     }
     
-    func deleteService(uuid: [UUID]) {
-        for id in uuid {
-            guard self.core.DeleteCode(id: id) == .SUCCEFULL else {
-                fatalError("DeleteCode error")
-            }
-            //_ = core.getListOTP()
-            codes.removeAll(where: { $0.id == id } )
+    func deleteService(uuids: [UUID]) {
+        for uuid in uuids {
+                guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
+                    fatalError("DeleteCode error")
+                }
+                self.codes.removeAll(where: { $0.id == uuid } )
         }
+        
     }
     
     func DEBUG() {

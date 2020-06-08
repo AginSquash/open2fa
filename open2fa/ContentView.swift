@@ -34,7 +34,7 @@ struct ContentView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(isPresented: $isDeleteMode) {
             Alert(title: Text("Are you sure want to delete \(self.deleteName)?"), message: Text("This action is irreversible"),
-                  primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuid: self.chosenForDelete )
+                  primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuids: self.chosenForDelete )
                       self.chosenForDelete = [UUID]() }),
                   secondaryButton: .cancel())
         }
