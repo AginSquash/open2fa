@@ -13,7 +13,6 @@ struct ContentView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var showSheet = false
-    
     @State private var isActive = false
     
     var body: some View {
@@ -24,7 +23,8 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Open 2FA")
-            .navigationBarItems(leading: EditButton(),
+            .navigationBarItems(leading:
+                NavigationLink(destination: PreferencesView(), label: { Text("Preferences") }),
                                 trailing:
                                     Button(action: { self.showSheet = true }, label: { Text("Add") }) )
         }

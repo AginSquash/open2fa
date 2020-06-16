@@ -15,7 +15,7 @@ struct PreferencesView: View {
     @State private var chosenForDelete: code? = nil
     
     var body: some View {
-        NavigationView {
+        //NavigationView {
             List {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: AddCodeView(), label: { Text("Import") })
@@ -32,7 +32,7 @@ struct PreferencesView: View {
                 }
             }
             .navigationBarTitle("Preferences", displayMode: .inline)
-        }
+        //}
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(item: $chosenForDelete) { codeDelete in
             Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"), message: Text("This action is irreversible"),
