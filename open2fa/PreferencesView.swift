@@ -15,13 +15,12 @@ struct PreferencesView: View {
     @State private var chosenForDelete: code? = nil
     
     var body: some View {
-        //NavigationView {
             List {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: AddCodeView(), label: { Text("Import") })
                     NavigationLink(destination: AddCodeView(), label: { Text("Export") })
                 }
-                Section(header: Text("Edit")) {
+                Section(header: Text("Delete")) {
                     ForEach (core_driver.codes) { c in
                         HStack {
                             Text(c.name)
@@ -32,19 +31,17 @@ struct PreferencesView: View {
                 }
             }
             .navigationBarTitle("Preferences", displayMode: .inline)
-        //}
-        .navigationViewStyle(StackNavigationViewStyle())
-        .alert(item: $chosenForDelete) { codeDelete in
-            Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"), message: Text("This action is irreversible"),
-                  primaryButton: .destructive(Text("Delete"), action: {
-                    self.core_driver.deleteService(uuid: codeDelete.id )
-                      self.chosenForDelete = nil }),
-                  secondaryButton: .cancel())
-        }
+            .navigationViewStyle(StackNavigationViewStyle())
+            .alert(item: $chosenForDelete) { codeDelete in
+                Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"), message: Text("This action is irreversible"),
+                      primaryButton: .destructive(Text("Delete"), action: {
+                        self.core_driver.deleteService(uuid: codeDelete.id )
+                          self.chosenForDelete = nil }),
+                      secondaryButton: .cancel())
+            }
     }
     
     func callAlert(at offset: IndexSet) {
-        
         self.chosenForDelete = core_driver.codes[offset.first!]
     }
     
