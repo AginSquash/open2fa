@@ -43,14 +43,11 @@ class Core2FA_ViewModel: ObservableObject
         
     }
     
-    func deleteService(uuids: [UUID]) {
-        for uuid in uuids {
-                guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
-                    fatalError("DeleteCode error")
-                }
-                self.codes.removeAll(where: { $0.id == uuid } )
+    func deleteService(uuid: UUID) {
+        guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
+            fatalError("DeleteCode error")
         }
-        
+        self.codes.removeAll(where: { $0.id == uuid } )
     }
     
     func DEBUG() {

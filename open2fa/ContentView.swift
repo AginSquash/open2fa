@@ -14,17 +14,14 @@ struct ContentView: View {
     
     @State private var showSheet = false
     
-    @State private var isDeleteMode = false
-    @State private var chosenForDelete = [UUID]()
-    @State private var deleteName = String()
+    @State private var isActive = false
     
     var body: some View {
         NavigationView {
             List {
                 ForEach (core_driver.codes) { c in
-                    CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                     CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                 }
-                .onDelete(perform: callAlert)
             }
             .navigationBarTitle("Open 2FA")
             .navigationBarItems(leading: EditButton(),
@@ -32,24 +29,10 @@ struct ContentView: View {
                                     Button(action: { self.showSheet = true }, label: { Text("Add") }) )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .alert(isPresented: $isDeleteMode) {
-            Alert(title: Text("Are you sure want to delete \(self.deleteName)?"), message: Text("This action is irreversible"),
-                  primaryButton: .destructive(Text("Delete"), action: { self.core_driver.deleteService(uuids: self.chosenForDelete )
-                      self.chosenForDelete = [UUID]() }),
-                  secondaryButton: .cancel())
-        }
         .sheet(isPresented: $showSheet) {
             AddCodeView().environmentObject(self.core_driver)
         }
     
-    }
-    
-    func callAlert(at offset: IndexSet) {
-        self.deleteName = core_driver.codes[offset.first!].name
-        for index in offset {
-            self.chosenForDelete.append(self.core_driver.codes[index].id)
-        }
-        self.isDeleteMode = true
     }
 }
 
