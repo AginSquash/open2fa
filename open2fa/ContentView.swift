@@ -14,7 +14,6 @@ struct ContentView: View {
     
     @State private var showSheet = false
     @State private var isActive = false
-    
     var body: some View {
         NavigationView {
             List {
@@ -32,7 +31,6 @@ struct ContentView: View {
         .sheet(isPresented: $showSheet) {
             AddCodeView().environmentObject(self.core_driver)
         }
-    
     }
 }
 
