@@ -9,12 +9,22 @@
 import SwiftUI
 import LocalAuthentication
  
+enum errorTypeEnum {
+    case passwordIncorrect
+    case thisFileNotExist
+}
+struct errorType: Identifiable {
+    let id = UUID()
+    let error: errorTypeEnum
+}
+
 struct PasswordEnterView: View {
     
     @State var isUnlocked = false
     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file")
     @State private var pass = "pass"
     @State private var enteredPassword = ""
+    @State private var errorDiscription: errorType? = nil
     
     var body: some View {
         NavigationView {
@@ -36,6 +46,8 @@ struct PasswordEnterView: View {
                         Text("Unlock").onTapGesture {
                             if self.enteredPassword == "pass" {
                                 self.isUnlocked = true
+                            } else {
+                                self.errorDiscription = errorType(error: .passwordIncorrect)
                             }
                         }.padding(.top)
                 })
@@ -45,6 +57,13 @@ struct PasswordEnterView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
+        .alert(item: $errorDiscription) { error in
+            if error.error == .passwordIncorrect {
+                //need handler
+            }
+            
+            return Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
+        }
 
     }
     
