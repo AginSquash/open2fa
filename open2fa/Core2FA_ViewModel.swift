@@ -82,4 +82,8 @@ class Core2FA_ViewModel: ObservableObject
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
+    static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
+        return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password) == .SUCCEFULL
+    }
+    
 }

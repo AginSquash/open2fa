@@ -8,7 +8,7 @@
 
 import SwiftUI
 import LocalAuthentication
- 
+
 enum errorTypeEnum {
     case passwordIncorrect
     case thisFileNotExist
@@ -44,7 +44,7 @@ struct PasswordEnterView: View {
                     isActive: self.$isUnlocked,
                     label: {
                         Text("Unlock").onTapGesture {
-                            if self.enteredPassword == "pass" {
+                            if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
                                 self.isUnlocked = true
                             } else {
                                 self.errorDiscription = errorType(error: .passwordIncorrect)
