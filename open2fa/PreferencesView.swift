@@ -17,8 +17,8 @@ struct PreferencesView: View {
     var body: some View {
             List {
                 Section(header: Text("Settings")) {
-                    NavigationLink(destination: AddCodeView(), label: { Text("Import") })
-                    NavigationLink(destination: AddCodeView(), label: { Text("Export") })
+                    NavigationLink(destination: ImportView(), label: { Text("Import") })
+                    NavigationLink(destination: ExportView(), label: { Text("Export") })
                 }
                 Section(header: Text("Delete")) {
                     ForEach (core_driver.codes) { c in
