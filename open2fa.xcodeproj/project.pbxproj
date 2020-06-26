@@ -17,7 +17,11 @@
 		CD87B4D6246F53B900E04D70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4D5246F53B900E04D70 /* Assets.xcassets */; };
 		CD87B4D9246F53B900E04D70 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */; };
 		CD87B4DC246F53B900E04D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */; };
+		CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D71B324A3B7BA00A2C133 /* ImportView.swift */; };
+		CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D71B524A3B7CE00A2C133 /* ExportView.swift */; };
+		CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */; };
 		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
+		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +37,10 @@
 		CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CD87B4DB246F53B900E04D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD87B4DD246F53B900E04D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD8D71B324A3B7BA00A2C133 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
+		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
+		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
+		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +78,11 @@
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
+				CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */,
+				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
 				CD104A302499897F005A8E47 /* PreferencesView.swift */,
+				CD8D71B324A3B7BA00A2C133 /* ImportView.swift */,
+				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
@@ -177,9 +189,13 @@
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
+				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
+				CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */,
+				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
+				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,17 +332,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -336,17 +355,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
