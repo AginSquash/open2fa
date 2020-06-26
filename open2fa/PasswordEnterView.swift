@@ -87,8 +87,6 @@ struct PasswordEnterView: View {
                             self.enteredPassword = pass
                             self.isUnlocked = true
                         } else {  }
-                        //self.enteredPassword = "pass"
-                        ///setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
                     }
                 }
             }
