@@ -22,7 +22,6 @@ struct PasswordEnterView: View {
     
     @State var isUnlocked = false
     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file")
-    @State private var pass = "pass"
     @State private var enteredPassword = ""
     @State private var errorDiscription: errorType? = nil
     
@@ -45,6 +44,12 @@ struct PasswordEnterView: View {
                     label: {
                         Text("Unlock").onTapGesture {
                             if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
+                                
+                                /// need add check for exist
+                                if getPasswordFromKeychain(name: self.url.absoluteString) == nil {
+                                    setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                }
+                                
                                 self.isUnlocked = true
                             } else {
                                 self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -78,8 +83,12 @@ struct PasswordEnterView: View {
                 
                 DispatchQueue.main.async {
                     if success {
-                        self.enteredPassword = "pass"
-                        self.isUnlocked = true
+                        if let pass = getPasswordFromKeychain(name: self.url.absoluteString) {
+                            self.enteredPassword = pass
+                            self.isUnlocked = true
+                        } else {  }
+                        //self.enteredPassword = "pass"
+                        ///setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
                     }
                 }
             }
