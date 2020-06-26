@@ -40,9 +40,9 @@ struct AddCodeView: View {
                     }, label: { Text("Save") } )
                 }
             }
-            .navigationBarTitle("Adding new service", displayMode: .inline)
         }
-         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarHidden(true)
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }

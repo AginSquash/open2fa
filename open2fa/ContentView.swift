@@ -22,15 +22,13 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Open 2FA")
-            .navigationBarItems(leading:
-                NavigationLink(destination: PreferencesView(), label: { Text("Preferences") }),
-                                trailing:
-                                    Button(action: { self.showSheet = true }, label: { Text("Add") }) )
+            .navigationBarItems(
+                leading:
+                    NavigationLink(destination: PreferencesView(), label: { Text("Preferences") }),
+                trailing:
+                    NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .sheet(isPresented: $showSheet) {
-            AddCodeView().environmentObject(self.core_driver)
-        }
     }
 }
 
