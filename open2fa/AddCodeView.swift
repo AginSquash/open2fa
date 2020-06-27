@@ -17,7 +17,7 @@ struct AddCodeView: View {
     @State private var name = String()
     @State private var code = String()
     @State private var error: String? = nil
-    @State private var showScaner = false
+    @State private var showScaner = true
 
     var body: some View {
         NavigationView {
@@ -29,6 +29,12 @@ struct AddCodeView: View {
                 Section(header: Text("Your secret code").font(.callout)) {
                     TextField("Code", text: $code)
                 }
+                
+                /*
+                Section(header: Text("Rescan")) {
+                    Button("Scan QR", action: { showScaner = true })
+                }
+                */
                 Section {
                     Button(action: {
                         if self.name.isEmpty {
@@ -41,10 +47,6 @@ struct AddCodeView: View {
                             self.presentationMode.wrappedValue.dismiss()
                         }
                     }, label: { Text("Save") } )
-                }
-                
-                Section {
-                    Button("Scan QR", action: { showScaner = true })
                 }
             }
             .navigationBarHidden(true)
@@ -76,8 +78,11 @@ struct AddCodeView: View {
         var parsed = code
         parsed = parsed.replacingOccurrences(of: "otpauth://totp/", with: "")
         parsed = parsed.replacingOccurrences(of: "otpauth://hotp/", with: "")
-        let index = parsed.firstIndex(of: "?")!
-        parsed.removeSubrange(index...)
+        let index = parsed.firstIndex(of: "?")
+        guard index != nil else {
+            return
+        }
+        parsed.removeSubrange(index!...)
         parsed = parsed.replacingOccurrences(of: ":", with: " ")
         
         if let url = URL(string: code) {
