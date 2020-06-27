@@ -8,6 +8,7 @@
 
 import SwiftUI
 import core_open2fa
+import CodeScanner
 
 struct AddCodeView: View {
     @EnvironmentObject var core: Core2FA_ViewModel
@@ -16,6 +17,8 @@ struct AddCodeView: View {
     @State private var name = String()
     @State private var code = String()
     @State private var error: String? = nil
+    @State private var showScaner = false
+
     var body: some View {
         NavigationView {
             Form {
@@ -39,6 +42,10 @@ struct AddCodeView: View {
                         }
                     }, label: { Text("Save") } )
                 }
+                
+                Section {
+                    Button("Scan QR", action: { showScaner = true })
+                }
             }
             .navigationBarHidden(true)
         }
@@ -46,6 +53,47 @@ struct AddCodeView: View {
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
+        .sheet(isPresented: $showScaner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "{some json}", completion: self.handleScanner)
+        }
+    }
+    
+    func handleScanner(result: Result<String, CodeScannerView.ScanError>) {
+        showScaner = false
+        switch result {
+        case .success(let code):
+            //print("OUTPUT \(code)") //min otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example
+            handleCode(code: code)  //max otpauth://totp/LABEL?secret=JBSWY3DPEHPK3PXP
+        case .failure(let error):
+            print("OUTPUT ", error.localizedDescription)
+        }
+    }
+    
+    func handleCode(code: String) {
+        
+        ///need test code with additions
+        
+        var parsed = code
+        parsed = parsed.replacingOccurrences(of: "otpauth://totp/", with: "")
+        parsed = parsed.replacingOccurrences(of: "otpauth://hotp/", with: "")
+        let index = parsed.firstIndex(of: "?")!
+        parsed.removeSubrange(index...)
+        parsed = parsed.replacingOccurrences(of: ":", with: " ")
+        
+        if let url = URL(string: code) {
+            var dict = [String:String]()
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            if let queryItems = components.queryItems {
+                for item in queryItems {
+                    dict[item.name] = item.value!
+                }
+            }
+            
+            self.code = dict["secret"] ?? "Error"
+            self.name = parsed
+            
+        } else { fatalError("QR code not a URL") }
+        
     }
 }
 
