@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "CodeScanner",
+        "repositoryURL": "https://github.com/twostraws/CodeScanner",
+        "state": {
+          "branch": null,
+          "revision": "9d902dec616bd70b1a2a1b1e6d821c10c392ba9f",
+          "version": "1.0.6"
+        }
+      },
+      {
         "package": "core_open2fa",
         "repositoryURL": "https://github.com/AginSquash/core-open2fa",
         "state": {

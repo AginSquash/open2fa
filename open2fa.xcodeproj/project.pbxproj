@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD01FFDA24A7E8510076D750 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = CD01FFD924A7E8510076D750 /* CodeScanner */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
@@ -48,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD01FFDA24A7E8510076D750 /* CodeScanner in Frameworks */,
 				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +129,7 @@
 			name = open2fa;
 			packageProductDependencies = (
 				CDC636F02471DC8400F10540 /* core_open2fa */,
+				CD01FFD924A7E8510076D750 /* CodeScanner */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -158,6 +161,7 @@
 			mainGroup = CD87B4C3246F53B800E04D70;
 			packageReferences = (
 				CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */,
+				CD01FFD824A7E8510076D750 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -338,7 +342,7 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -361,7 +365,7 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -398,6 +402,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD01FFD824A7E8510076D750 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
 		CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/core-open2fa";
@@ -409,6 +421,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD01FFD924A7E8510076D750 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD01FFD824A7E8510076D750 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
 		CDC636F02471DC8400F10540 /* core_open2fa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */;
