@@ -40,9 +40,9 @@ struct AddCodeView: View {
                     }, label: { Text("Save") } )
                 }
             }
+            .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .navigationBarHidden(true)
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
