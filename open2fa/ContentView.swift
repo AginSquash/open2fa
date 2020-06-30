@@ -24,7 +24,7 @@ struct ContentView: View {
             .navigationBarTitle("Open 2FA")
             .navigationBarItems(
                 leading:
-                    NavigationLink(destination: PreferencesView(), label: { Text("Preferences") }),
+                    NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
                 trailing:
                     NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
         }

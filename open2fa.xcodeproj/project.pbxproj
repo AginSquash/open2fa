@@ -27,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		CD6786FA24AB7F3C00422233 /* open2fa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = open2fa.entitlements; sourceTree = "<group>"; };
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
 		CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCodeView.swift; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		CD87B4CE246F53B800E04D70 /* open2fa */ = {
 			isa = PBXGroup;
 			children = (
+				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
@@ -336,6 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
@@ -343,6 +346,7 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -350,6 +354,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -359,6 +364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
@@ -366,6 +372,7 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -373,6 +380,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -21,7 +21,7 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @State var isUnlocked = false
-    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file2") //test_file
+    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file6") //test_file
     @State private var enteredPassword = ""
     @State private var errorDiscription: errorType? = nil
     @State private var isFirstRun = false
