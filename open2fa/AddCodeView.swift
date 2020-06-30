@@ -17,8 +17,11 @@ struct AddCodeView: View {
     @State private var name = String()
     @State private var code = String()
     @State private var error: String? = nil
+    #if targetEnvironment(macCatalyst)
+    @State private var showScaner = false
+    #else
     @State private var showScaner = true
-
+    #endif
     var body: some View {
         NavigationView {
             Form {
@@ -30,11 +33,6 @@ struct AddCodeView: View {
                     TextField("Code", text: $code)
                 }
                 
-                /*
-                Section(header: Text("Rescan")) {
-                    Button("Scan QR", action: { showScaner = true })
-                }
-                */
                 Section {
                     Button(action: {
                         if self.name.isEmpty {
