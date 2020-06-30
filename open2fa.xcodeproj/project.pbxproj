@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD01FFDA24A7E8510076D750 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = CD01FFD924A7E8510076D750 /* CodeScanner */; };
+		CD01FFDA24A7E8510076D750 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = CD01FFD924A7E8510076D750 /* CodeScanner */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };

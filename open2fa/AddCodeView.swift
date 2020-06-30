@@ -8,7 +8,9 @@
 
 import SwiftUI
 import core_open2fa
+#if os(iOS)
 import CodeScanner
+#endif
 
 struct AddCodeView: View {
     @EnvironmentObject var core: Core2FA_ViewModel
@@ -54,7 +56,9 @@ struct AddCodeView: View {
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
         .sheet(isPresented: $showScaner) {
+            #if os(iOS)
             CodeScannerView(codeTypes: [.qr], simulatedData: "{some json}", completion: self.handleScanner)
+            #endif
         }
     }
     
