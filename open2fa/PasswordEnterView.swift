@@ -32,7 +32,7 @@ struct PasswordEnterView: View {
             VStack {
                 Group {
                     if isFirstRun {
-                        Text("For creating new 2FA create a password")
+                        Text("For start using 2FA, create a password")
                     } else {
                         Text("Please, enter your password")
                     }
