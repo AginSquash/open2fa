@@ -21,16 +21,21 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @State var isUnlocked = false
-    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file")
+    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file2") //test_file
     @State private var enteredPassword = ""
     @State private var errorDiscription: errorType? = nil
+    @State private var isFirstRun = false
     
     var body: some View {
         NavigationView {
             
             VStack {
                 Group {
-                    Text("Please, enter your password:")
+                    if isFirstRun {
+                        Text("For creating new 2FA create a password")
+                    } else {
+                        Text("Please, enter your password")
+                    }
                     SecureField("Password", text: $enteredPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }.padding(.horizontal)
@@ -43,6 +48,15 @@ struct PasswordEnterView: View {
                     isActive: self.$isUnlocked,
                     label: {
                         Text("Unlock").onTapGesture {
+                            
+                            if isFirstRun {
+                                _ = Core2FA_ViewModel(fileURL: url, pass: self.enteredPassword)
+                                UserDefaults.standard.set("true", forKey: url.absoluteString)
+                                setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                self.isUnlocked = true
+                                return
+                            }
+                            
                             if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
                                 
                                 /// need add check for exist
@@ -73,6 +87,10 @@ struct PasswordEnterView: View {
     }
     
     func auth() {
+        if CheckIsFristRun() {
+            self.isFirstRun = true
+            return
+        }
         let context = LAContext()
         var error: NSError?
         
@@ -90,6 +108,14 @@ struct PasswordEnterView: View {
                     }
                 }
             }
+        }
+    }
+    
+    func CheckIsFristRun() -> Bool {
+        if UserDefaults.standard.string(forKey: url.absoluteString) == nil {
+            return true
+        } else {
+            return false
         }
     }
 }
