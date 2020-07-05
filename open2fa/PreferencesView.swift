@@ -26,6 +26,11 @@ struct PreferencesView: View {
                             Text(c.name)
                             Text("created on " + self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
+                            #if targetEnvironment(macCatalyst)
+                            Button(action: { self.chosenForDelete = c }, label: {
+                                Image(systemName: "trash")
+                            })
+                            #endif
                         }
                     }.onDelete(perform: callAlert)
                 }

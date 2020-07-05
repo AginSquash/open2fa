@@ -14,7 +14,10 @@ struct CodePreview: View {
     let timeRemaning: Int
     
     var codeSingle: String {
-        var old_codeSingle = code.codeSingle
+        guard code.codeSingle != nil else {
+            return "Incorrect password"
+        }
+        var old_codeSingle = code.codeSingle!
         var new_codeSingle = String()
         for _ in 0..<3 {
             new_codeSingle.append( old_codeSingle.removeFirst() )

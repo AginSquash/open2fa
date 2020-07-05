@@ -49,9 +49,9 @@ struct PasswordEnterView: View {
                     label: {
                         Text("Unlock").onTapGesture {
                             
-                            if isFirstRun {
-                                _ = Core2FA_ViewModel(fileURL: url, pass: self.enteredPassword)
-                                UserDefaults.standard.set("true", forKey: url.absoluteString)
+                            if self.isFirstRun {
+                                _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
+                                UserDefaults.standard.set("true", forKey: self.url.absoluteString)
                                 setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
                                 self.isUnlocked = true
                                 return
