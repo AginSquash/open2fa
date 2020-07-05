@@ -13,7 +13,6 @@ struct PreferencesView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var chosenForDelete: code? = nil
-    
     var body: some View {
             List {
                 Section(header: Text("Settings")) {
@@ -27,8 +26,12 @@ struct PreferencesView: View {
                             Text("created on " + self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
                             #if targetEnvironment(macCatalyst)
-                            Button(action: { self.chosenForDelete = c }, label: {
+                            Spacer()
+                            Button(action: {
+                                self.chosenForDelete = c
+                            }, label: {
                                 Image(systemName: "trash")
+                                    .foregroundColor(.red)
                             })
                             #endif
                         }
