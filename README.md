@@ -12,7 +12,7 @@ Open2FA is a simple, open source two-factor authentication application written u
 - All your codes are stored in an encrypted file (AES-256) 🔐
 - Codes can be added by QR scanning or manually  📷
 - FaceID & TouchID support 👨‍🦱
-- Your codes are not stored in iCloud ☁️
+- Your codes are not stored in iCloud, all works locally 📱
 
 ### Screenshots
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
