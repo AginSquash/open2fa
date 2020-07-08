@@ -15,11 +15,11 @@ Open2FA is a simple, open source two-factor authentication application written u
 - Your codes are not stored in iCloud ☁️
 
 ### Screenshots
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1.png?raw=true" width="250" alt="Screenshot of the Login screen" /> 
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2.png?raw=true" width="250" alt="Screenshot of the token list" /> 
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot3.png?raw=true" width="250" alt="Screenshot of the edit list" />  &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot3.png?raw=true" width="250" alt="Screenshot of the edit list" />  
 
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot4.png?raw=true" width="550" alt="Screenshot of the Authenticator token list" /> 
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot4.png?raw=true" width="550" alt="Screenshot of the macOS version" /> 
 
 
 ## Getting Started
