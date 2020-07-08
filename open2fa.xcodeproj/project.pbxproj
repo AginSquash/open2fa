@@ -351,8 +351,8 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -379,8 +379,8 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
