@@ -9,6 +9,8 @@
 
 Open2FA is a simple, open source two-factor authentication application written using SwiftUI. Two-step verification helps you protect your accounts, even if attackers have your password.
 
+**Attention! This project is under development and needs testing**
+
 - All your codes are stored in an encrypted file (AES-256) 🔐
 - Codes can be added by QR scanning or manually  📷
 - FaceID & TouchID support 👨‍🦱
