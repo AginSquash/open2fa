@@ -10,6 +10,8 @@ import SwiftUI
 import core_open2fa
 
 struct CodePreview: View {
+    @State private var isCopied = false
+    
     let code: code
     let timeRemaning: Int
     
@@ -37,12 +39,24 @@ struct CodePreview: View {
     
     var body: some View {
         HStack {
-            Text(timeRemaningWrapped)
-                .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
-            Text(code.name)
-                .padding(.leading)
-            Spacer()
-            Text(codeSingle)
+            if isCopied {
+                Spacer()
+                Text("Copied!")
+                Spacer()
+            } else {
+                Text(timeRemaningWrapped)
+                    .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
+                Text(code.name)
+                    .padding(.leading)
+                Spacer()
+                Text(codeSingle)
+            }
+        }.onTapGesture {
+            UIPasteboard.general.string = codeSingle
+            withAnimation(.easeIn(duration: 0.15), { self.isCopied = true })
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+                withAnimation(.easeIn(duration: 0.15), { self.isCopied = false })
+            })
         }
     }
 }
