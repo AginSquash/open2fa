@@ -9,6 +9,7 @@
 import SwiftUI
 import core_open2fa
 #if os(iOS)
+import AVFoundation
 import CodeScanner
 #endif
 
@@ -19,11 +20,8 @@ struct AddCodeView: View {
     @State private var name = String()
     @State private var code = String()
     @State private var error: String? = nil
-    #if targetEnvironment(macCatalyst)
+    //#if targetEnvironment(macCatalyst)
     @State private var showScaner = false
-    #else
-    @State private var showScaner = true
-    #endif
     var body: some View {
         NavigationView {
             Form {
@@ -51,15 +49,34 @@ struct AddCodeView: View {
             }
             .navigationBarHidden(true)
         }
+        .onAppear {
+            startup()
+        }
+    
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
         .sheet(isPresented: $showScaner) {
             #if os(iOS)
+            NavigationView {
             CodeScannerView(codeTypes: [.qr], simulatedData: "{some json}", completion: self.handleScanner)
+                .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
+                .navigationBarTitle("Scan QR code", displayMode: .inline)
+            }
             #endif
         }
+    }
+    
+    func startup() {
+        #if os(iOS)
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .denied || status == .restricted {
+            self.showScaner = false
+        } else {
+            self.showScaner = true
+        }
+        #endif
     }
     
     func handleScanner(result: Result<String, CodeScannerView.ScanError>) {
