@@ -1,5 +1,5 @@
-# Open2FA
-# <img src="https://user-images.githubusercontent.com/19360256/34930442-5ed005d4-fa04-11e7-8aea-44179368fcde.png" alt="Logo" width="36" height="36"> SwiftOTP
+
+# <img src="https://github.com/AginSquash/open2fa/blob/master/open2fa_logo.png?raw=true" alt="Logo" width="40" height="40">  Open2FA
 Core-open2fa + SwiftUI = ❤️
 
 ### Two-factor authentication app for iOS and macOS
