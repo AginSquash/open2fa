@@ -23,17 +23,16 @@ struct PreferencesView: View {
                     ForEach (core_driver.codes) { c in
                         HStack {
                             Text(c.name)
+                            Spacer()
                             Text("added " + self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
-                            //#if targetEnvironment(macCatalyst)
-                            Spacer()
+                                .padding(.trailing, 10)
                             Button(action: {
                                 self.chosenForDelete = c
                             }, label: {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
                             })
-                            //#endif
                         }
                     }.onDelete(perform: callAlert)
                 }

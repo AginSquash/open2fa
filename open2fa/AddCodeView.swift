@@ -69,6 +69,9 @@ struct AddCodeView: View {
     }
     
     func startup() {
+        #if targetEnvironment(macCatalyst)
+        return 
+        #endif
         #if os(iOS)
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .denied || status == .restricted {
