@@ -26,7 +26,7 @@ Open2FA is a simple, open source two-factor authentication application written u
  1. Download the latest version of the source code
  > git clone https://github.com/AginSquash/open2fa.git
  2. Go to **open2fa** folder and open the **open2fa.xcodeproj** file.
- 3. Wait until XCode downloads all dependencies and then run project.  
+ 3. Wait until xcode downloads all dependencies and then run project.  
 
 
 ## Dependencies
