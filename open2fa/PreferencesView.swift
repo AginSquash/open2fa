@@ -23,9 +23,9 @@ struct PreferencesView: View {
                     ForEach (core_driver.codes) { c in
                         HStack {
                             Text(c.name)
-                            Text("created on " + self.getWrappedDate(date: c.date))
+                            Text("added " + self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
-                            #if targetEnvironment(macCatalyst)
+                            //#if targetEnvironment(macCatalyst)
                             Spacer()
                             Button(action: {
                                 self.chosenForDelete = c
@@ -33,7 +33,7 @@ struct PreferencesView: View {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
                             })
-                            #endif
+                            //#endif
                         }
                     }.onDelete(perform: callAlert)
                 }
@@ -55,7 +55,7 @@ struct PreferencesView: View {
     
     func getWrappedDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     
