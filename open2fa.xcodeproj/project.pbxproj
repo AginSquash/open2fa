@@ -42,7 +42,6 @@
 		CD8D71B324A3B7BA00A2C133 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
-		CDB6860124B2068B007F0881 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,7 +159,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 			);
 			mainGroup = CD87B4C3246F53B800E04D70;
 			packageReferences = (
@@ -215,7 +213,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				CD87B4DB246F53B900E04D70 /* Base */,
-				CDB6860124B2068B007F0881 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -351,7 +348,7 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -379,7 +376,7 @@
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
