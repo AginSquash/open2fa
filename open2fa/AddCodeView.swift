@@ -50,7 +50,7 @@ struct AddCodeView: View {
             .navigationBarHidden(true)
         }
         .onAppear {
-            startup()
+            self.startup()
         }
     
         .navigationViewStyle(StackNavigationViewStyle())

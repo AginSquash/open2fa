@@ -12,6 +12,7 @@ import LocalAuthentication
 enum errorTypeEnum {
     case passwordIncorrect
     case thisFileNotExist
+    case passwordDontMatch
 }
 struct errorType: Identifiable {
     let id = UUID()
@@ -23,6 +24,7 @@ struct PasswordEnterView: View {
     @State var isUnlocked = false
     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file6") //test_file
     @State private var enteredPassword = ""
+    @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
     @State private var isFirstRun = false
     
@@ -33,11 +35,17 @@ struct PasswordEnterView: View {
                 Group {
                     if isFirstRun {
                         Text("For start using 2FA, create a password")
+                        SecureField("Please create password", text: $enteredPassword)
+                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                             .padding(.top)
+                        SecureField("Re-enter password", text: $enteredPasswordCHECK)
+                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.bottom)
                     } else {
                         Text("Please, enter your password")
+                        SecureField("Password", text: $enteredPassword)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
-                    SecureField("Password", text: $enteredPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                 }.padding(.horizontal)
                 
                 NavigationLink(
@@ -47,9 +55,13 @@ struct PasswordEnterView: View {
                             .navigationBarHidden(true),
                     isActive: self.$isUnlocked,
                     label: {
-                        Text("Unlock").onTapGesture {
+                        Text( isFirstRun ? "Create" : "Unlock").onTapGesture {
                             
                             if self.isFirstRun {
+                                guard self.enteredPassword == self.enteredPasswordCHECK else {
+                                    self.errorDiscription = errorType(error: .passwordDontMatch)
+                                    return
+                                }
                                 _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
                                 UserDefaults.standard.set("true", forKey: self.url.absoluteString)
                                 setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
@@ -79,6 +91,10 @@ struct PasswordEnterView: View {
         .alert(item: $errorDiscription) { error in
             if error.error == .passwordIncorrect {
                 //need handler
+            }
+            
+            if error.error == .passwordDontMatch {
+                return Alert(title: Text("Error"), message: Text("Passwords don't match"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = ""; self.enteredPasswordCHECK = "" }))
             }
             
             return Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
