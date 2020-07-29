@@ -17,7 +17,6 @@ struct ContentView: View {
     @State private var rect: CGRect = CGRect()
     
     var body: some View {
-        GeometryReader { geo in
         NavigationView {
             ZStack {
                 List {
@@ -42,7 +41,6 @@ struct ContentView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        }
     }
 }
 
