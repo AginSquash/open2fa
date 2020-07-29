@@ -109,8 +109,9 @@ struct PasswordEnterView: View {
                                 if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
                                     
                                     /// need add check for exist
-                                    if getPasswordFromKeychain(name: self.baseURL.absoluteString) == nil {
-                                        setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
+                                    if getPasswordFromKeychain(name: self.baseURL.absoluteString) != enteredPassword {
+                                        //setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
+                                        errorDiscription = errorType(error: .passwordIncorrect)
                                     }
                                     
                                     self.isUnlocked = true

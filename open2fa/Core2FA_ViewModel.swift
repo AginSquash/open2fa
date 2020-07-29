@@ -103,10 +103,12 @@ class Core2FA_ViewModel: ObservableObject
         case .NO_CODES:
             _debugPrint("NO_CODES")
             break
+        case .SUCCEFULL:
+            break
         default:
-            _debugPrint("def")
+            _debugPrint("no one")
         }
-        return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password) == .SUCCEFULL
+        return passcheck == .SUCCEFULL || passcheck == .NO_CODES
     }
     
 }
