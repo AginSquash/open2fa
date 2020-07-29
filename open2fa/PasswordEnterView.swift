@@ -22,7 +22,7 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @State var isUnlocked = false
-    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file
+    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file 
     @State private var enteredPassword = ""
     @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
