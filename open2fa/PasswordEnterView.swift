@@ -21,6 +21,8 @@ struct errorType: Identifiable {
 
 struct PasswordEnterView: View {
     
+    @ObservedObject private var keyboard = KeyboardResponder()
+    
     @State var isUnlocked = false
     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file 
     @State private var enteredPassword = ""
@@ -58,13 +60,14 @@ struct PasswordEnterView: View {
                             .navigationBarHidden(true),
                     isActive: self.$isUnlocked,
                     label: {
-                        Text( isFirstRun ? "Create" : "Unlock").onTapGesture {
-                            
+                        Button(action: {
                             if self.isFirstRun {
+                                
                                 guard self.enteredPassword == self.enteredPasswordCHECK else {
                                     self.errorDiscription = errorType(error: .passwordDontMatch)
                                     return
                                 }
+                                
                                 _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
                                 UserDefaults.standard.set(true, forKey: self.url.absoluteString)
                                 setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
@@ -83,11 +86,17 @@ struct PasswordEnterView: View {
                             } else {
                                 self.errorDiscription = errorType(error: .passwordIncorrect)
                             }
-                        }.padding(.top)
-                })
+                        }, label: {
+                            Text( isFirstRun ? "Create" : "Unlock")
+                        })
+                    })
+                    .disabled( (enteredPassword != enteredPasswordCHECK ) || ( enteredPassword.isEmpty ) )
             }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
+            .padding(.bottom, keyboard.currentHeight * 0.5)
+            .edgesIgnoringSafeArea(.bottom)
+            .animation(.easeOut(duration: 0.16))
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
