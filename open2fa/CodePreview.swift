@@ -51,7 +51,9 @@ struct CodePreview: View {
                 Spacer()
                 Text(codeSingle)
             }
-        }.onTapGesture {
+        }
+        //.font(.title2)
+        .onTapGesture {
             UIPasteboard.general.string = self.codeSingle
             withAnimation(.easeIn(duration: 0.15), { self.isCopied = true })
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {

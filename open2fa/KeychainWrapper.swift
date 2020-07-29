@@ -24,7 +24,7 @@ func getPasswordFromKeychain(name: String) -> String? {
     var item: CFTypeRef?
     let status = SecItemCopyMatching(query as CFDictionary, &item)
     guard status != errSecItemNotFound else {
-        print("No password")
+        debugPrint("No password")
         return nil
     }
     guard status == errSecSuccess else { fatalError("ERROR UNHANDLER") }
@@ -49,5 +49,5 @@ func setPasswordKeychain(name: String, password: String) {
     
     let status = SecItemAdd(query as CFDictionary, nil)
     guard status == errSecSuccess else { fatalError("ERROR \(status)") }
-    print("SAVED")
+    debugPrint("SAVED")
 }

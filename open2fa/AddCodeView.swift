@@ -89,7 +89,7 @@ struct AddCodeView: View {
             //print("OUTPUT \(code)") //min otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example
             handleCode(code: code)  //max otpauth://totp/LABEL?secret=JBSWY3DPEHPK3PXP
         case .failure(let error):
-            print("OUTPUT ", error.localizedDescription)
+            debugPrint("OUTPUT ", error.localizedDescription)
         }
     }
     

@@ -14,7 +14,6 @@ struct ContentView: View {
     
     @State private var showSheet = false
     @State private var isActive = false
-    @State private var rect: CGRect = CGRect()
     
     var body: some View {
         NavigationView {
@@ -47,7 +46,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file56"), pass: "pass")
+        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
         //core_driver.DEBUG()
         

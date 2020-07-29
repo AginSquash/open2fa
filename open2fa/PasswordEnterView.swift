@@ -9,6 +9,10 @@
 import SwiftUI
 import LocalAuthentication
 
+func debugPrint(_ obj: Any) {
+    print("DEBUG: \(obj)")
+}
+
 enum errorTypeEnum {
     case passwordIncorrect
     case thisFileNotExist
@@ -24,11 +28,15 @@ struct PasswordEnterView: View {
     @ObservedObject private var keyboard = KeyboardResponder()
     
     @State var isUnlocked = false
-    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file 
+    let baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file
+    
+    @AppStorage("fileURL") var fileURL: String = ""
+    
     @State private var enteredPassword = ""
     @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
     @State private var isFirstRun = false
+    
     
     var body: some View {
         NavigationView {
@@ -71,7 +79,7 @@ struct PasswordEnterView: View {
                     
                     NavigationLink(
                         destination:
-                            ContentView().environmentObject(Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword))
+                            ContentView().environmentObject(Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword))
                                 .navigationBarTitle("")
                                 .navigationBarHidden(true),
                         isActive: self.$isUnlocked,
@@ -79,23 +87,30 @@ struct PasswordEnterView: View {
                             Button(action: {
                                 if self.isFirstRun {
                                     
-                                    guard self.enteredPassword == self.enteredPasswordCHECK else {
-                                        self.errorDiscription = errorType(error: .passwordDontMatch)
-                                        return
+                                    _ = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
+                                    fileURL = baseURL.absoluteString
+                                    setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
+                                    
+                                    let context = LAContext()
+                                    var error: NSError?
+                                    
+                                    if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                                        let reason = "Please authenticate to unlock your codes"
+                                        
+                                        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+                                            
+                                        }
                                     }
                                     
-                                    _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
-                                    UserDefaults.standard.set(true, forKey: self.url.absoluteString)
-                                    setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
                                     self.isUnlocked = true
                                     return
                                 }
                                 
-                                if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
+                                if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
                                     
                                     /// need add check for exist
-                                    if getPasswordFromKeychain(name: self.url.absoluteString) == nil {
-                                        setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                    if getPasswordFromKeychain(name: self.baseURL.absoluteString) == nil {
+                                        setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
                                     }
                                     
                                     self.isUnlocked = true
@@ -106,11 +121,9 @@ struct PasswordEnterView: View {
                                 Text( isFirstRun ? "Create" : "Unlock")
                             })
                         })
-                        .disabled( (enteredPassword != enteredPasswordCHECK ) || ( enteredPassword.isEmpty ) )
+                        .disabled( (enteredPassword != enteredPasswordCHECK && isFirstRun) || ( enteredPassword.isEmpty ) )
                 }
                 .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
-                //.edgesIgnoringSafeArea(.bottom)
-                //.animation(.easeOut(duration: 0.16))
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
             }
@@ -136,8 +149,10 @@ struct PasswordEnterView: View {
             self.isFirstRun = true
             return
         }
+        
         let context = LAContext()
         var error: NSError?
+
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Please authenticate to unlock your codes"
@@ -146,10 +161,11 @@ struct PasswordEnterView: View {
                 
                 DispatchQueue.main.async {
                     if success {
-                        if let pass = getPasswordFromKeychain(name: self.url.absoluteString) {
+                        if let pass = getPasswordFromKeychain(name: self.baseURL.absoluteString) {
+                            debugPrint("pass: \(pass)")
                             self.enteredPassword = pass
                             self.isUnlocked = true
-                        } else {  }
+                        } else { return }
                     }
                 }
             }
@@ -157,11 +173,7 @@ struct PasswordEnterView: View {
     }
     
     func CheckIsFristRun() -> Bool {
-        if UserDefaults.standard.string(forKey: url.absoluteString) == nil {
-            return true
-        } else {
-            return false
-        }
+        return fileURL == ""
     }
     
     func GetAppIcon() -> Image? {
