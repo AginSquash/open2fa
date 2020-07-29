@@ -33,70 +33,87 @@ struct PasswordEnterView: View {
     var body: some View {
         NavigationView {
             
-            VStack {
-                Group {
-                    if isFirstRun {
-                        Text("For start using 2FA, create a password")
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .layoutPriority(1)
-                        SecureField("Please create password", text: $enteredPassword)
-                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                             .padding(.top)
-                        SecureField("Re-enter password", text: $enteredPasswordCHECK)
-                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.bottom)
-                    } else {
-                        Text("Please, enter your password")
-                        SecureField("Password", text: $enteredPassword)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+            ZStack {
+                VStack(alignment: .trailing, spacing: 0) {
+                    HStack {
+                        GetAppIcon()
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        VStack {
+                            Text("Open2FA")
+                            .font(.title)
+                            Text("by Vlad Vrublevsky")
+                                .foregroundColor(.secondary)
+                                .font(.footnote)
+                        }
                     }
-                }.padding(.horizontal)
+                    Spacer()
+                }.padding(.top, 50)
                 
-                NavigationLink(
-                    destination:
-                        ContentView().environmentObject(Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword))
-                            .navigationBarTitle("")
-                            .navigationBarHidden(true),
-                    isActive: self.$isUnlocked,
-                    label: {
-                        Button(action: {
-                            if self.isFirstRun {
-                                
-                                guard self.enteredPassword == self.enteredPasswordCHECK else {
-                                    self.errorDiscription = errorType(error: .passwordDontMatch)
+                VStack{
+                    Group {
+                        if isFirstRun {
+                            Text("For start using 2FA, create a password")
+                                .multilineTextAlignment(.center)
+                                .lineLimit(2)
+                                .layoutPriority(1)
+                            SecureField("Please create password", text: $enteredPassword)
+                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                 .padding(.top)
+                            SecureField("Re-enter password", text: $enteredPasswordCHECK)
+                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding(.bottom)
+                        } else {
+                            Text("Please, enter your password")
+                            SecureField("Password", text: $enteredPassword)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                    }.padding(.horizontal)
+                    
+                    NavigationLink(
+                        destination:
+                            ContentView().environmentObject(Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword))
+                                .navigationBarTitle("")
+                                .navigationBarHidden(true),
+                        isActive: self.$isUnlocked,
+                        label: {
+                            Button(action: {
+                                if self.isFirstRun {
+                                    
+                                    guard self.enteredPassword == self.enteredPasswordCHECK else {
+                                        self.errorDiscription = errorType(error: .passwordDontMatch)
+                                        return
+                                    }
+                                    
+                                    _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
+                                    UserDefaults.standard.set(true, forKey: self.url.absoluteString)
+                                    setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                    self.isUnlocked = true
                                     return
                                 }
                                 
-                                _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
-                                UserDefaults.standard.set(true, forKey: self.url.absoluteString)
-                                setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
-                                self.isUnlocked = true
-                                return
-                            }
-                            
-                            if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
-                                
-                                /// need add check for exist
-                                if getPasswordFromKeychain(name: self.url.absoluteString) == nil {
-                                    setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.url, password: self.enteredPassword) {
+                                    
+                                    /// need add check for exist
+                                    if getPasswordFromKeychain(name: self.url.absoluteString) == nil {
+                                        setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
+                                    }
+                                    
+                                    self.isUnlocked = true
+                                } else {
+                                    self.errorDiscription = errorType(error: .passwordIncorrect)
                                 }
-                                
-                                self.isUnlocked = true
-                            } else {
-                                self.errorDiscription = errorType(error: .passwordIncorrect)
-                            }
-                        }, label: {
-                            Text( isFirstRun ? "Create" : "Unlock")
+                            }, label: {
+                                Text( isFirstRun ? "Create" : "Unlock")
+                            })
                         })
-                    })
-                    .disabled( (enteredPassword != enteredPasswordCHECK ) || ( enteredPassword.isEmpty ) )
+                        .disabled( (enteredPassword != enteredPasswordCHECK ) || ( enteredPassword.isEmpty ) )
+                }
+                .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
+                //.edgesIgnoringSafeArea(.bottom)
+                //.animation(.easeOut(duration: 0.16))
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
             }
-            .padding(.bottom, keyboard.currentHeight * 0.5)
-            .edgesIgnoringSafeArea(.bottom)
-            .animation(.easeOut(duration: 0.16))
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
@@ -147,11 +164,25 @@ struct PasswordEnterView: View {
         }
     }
     
+    func GetAppIcon() -> Image? {
+        guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String:Any],
+        let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String:Any],
+        let iconFiles = primaryIconsDictionary["CFBundleIconFiles"] as? [String],
+        let lastIcon = iconFiles.last else { return nil }
+        let uiIcon = UIImage(named: lastIcon)!
+        return Image(uiImage: uiIcon)
+
+    }
+    
 }
 
 
 struct PasswordEnterView_Previews: PreviewProvider {
     static var previews: some View {
-        return PasswordEnterView()
+        return Group {
+            PasswordEnterView()
+            PasswordEnterView()
+                .previewDevice("iPhone SE (2nd generation)")
+        }
     }
 }
