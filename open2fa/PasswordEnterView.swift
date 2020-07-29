@@ -35,6 +35,9 @@ struct PasswordEnterView: View {
                 Group {
                     if isFirstRun {
                         Text("For start using 2FA, create a password")
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .layoutPriority(1)
                         SecureField("Please create password", text: $enteredPassword)
                              .textFieldStyle(RoundedBorderTextFieldStyle())
                              .padding(.top)
@@ -63,7 +66,7 @@ struct PasswordEnterView: View {
                                     return
                                 }
                                 _ = Core2FA_ViewModel(fileURL: self.url, pass: self.enteredPassword)
-                                UserDefaults.standard.set("true", forKey: self.url.absoluteString)
+                                UserDefaults.standard.set(true, forKey: self.url.absoluteString)
                                 setPasswordKeychain(name: self.url.absoluteString, password: self.enteredPassword)
                                 self.isUnlocked = true
                                 return
@@ -89,8 +92,8 @@ struct PasswordEnterView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
         .alert(item: $errorDiscription) { error in
-            if error.error == .passwordIncorrect {
-                //need handler
+            if error.error == .thisFileNotExist {
+                return Alert(title: Text("Error"), message: Text("File not exists"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
             }
             
             if error.error == .passwordDontMatch {
@@ -134,6 +137,7 @@ struct PasswordEnterView: View {
             return false
         }
     }
+    
 }
 
 

@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  open2fa
+
+  Created by Vlad Vrublevsky on 29.07.2020.
+  Copyright © 2020 Vlad Vrublevsky. All rights reserved.
+*/
+"For start using 2FA, create a password" = "Для начала использования 2FA, придумайте пароль";
+"Create" = "Создать";
+"Unlock" = "Разблокировать";
