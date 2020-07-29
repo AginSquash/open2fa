@@ -36,6 +36,7 @@ struct ContentView: View {
                         .multilineTextAlignment(.center)
                         .font(.title)
                         .foregroundColor(.secondary)
+                        .padding()
                 }
                 
             }
@@ -46,9 +47,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file56"), pass: "pass")
 
-        core_driver.DEBUG()
+        //core_driver.DEBUG()
         
         return ContentView().environmentObject(core_driver)
     }
