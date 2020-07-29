@@ -35,6 +35,9 @@ struct PasswordEnterView: View {
                 Group {
                     if isFirstRun {
                         Text("For start using 2FA, create a password")
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .layoutPriority(1)
                         SecureField("Please create password", text: $enteredPassword)
                              .textFieldStyle(RoundedBorderTextFieldStyle())
                              .padding(.top)
