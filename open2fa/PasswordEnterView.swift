@@ -9,7 +9,7 @@
 import SwiftUI
 import LocalAuthentication
 
-func debugPrint(_ obj: Any) {
+func _debugPrint(_ obj: Any) {
     print("DEBUG: \(obj)")
 }
 
@@ -162,7 +162,7 @@ struct PasswordEnterView: View {
                 DispatchQueue.main.async {
                     if success {
                         if let pass = getPasswordFromKeychain(name: self.baseURL.absoluteString) {
-                            debugPrint("pass: \(pass)")
+                            _debugPrint("pass: \(pass)")
                             self.enteredPassword = pass
                             self.isUnlocked = true
                         } else { return }

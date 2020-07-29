@@ -52,7 +52,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - 6b8f5abcaec661f6"
+                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - e34eb48014bc7b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -67,7 +67,7 @@
                   offsetFromSymbolStart = "268">
                </Location>
                <Location
-                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - fbb4e90985343015"
+                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - 90d8fd01abe6ed98"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"

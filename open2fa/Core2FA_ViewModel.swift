@@ -86,6 +86,26 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
+        let passcheck = CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
+        switch passcheck {
+        case .PASS_INCORRECT:
+            _debugPrint("PASS_INCORRECT")
+            break
+        case .FILE_NOT_EXIST:
+            _debugPrint("FILE_NOT_EXIST")
+            break
+        case .CANNOT_DECODE:
+            _debugPrint("CANNOT_DECODE")
+            break
+        case .FILE_UNVIABLE:
+            _debugPrint("FILE_UNVIABLE")
+            break
+        case .NO_CODES:
+            _debugPrint("NO_CODES")
+            break
+        default:
+            _debugPrint("def")
+        }
         return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password) == .SUCCEFULL
     }
     
