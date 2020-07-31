@@ -79,7 +79,7 @@ struct PasswordEnterView: View {
                     
                     NavigationLink(
                         destination:
-                            ContentView(core: self.$core_driver)//.environmentObject(Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword))
+                            ContentView().environmentObject(core_driver)
                                 .navigationBarTitle("")
                                 .navigationBarHidden(true),
                         isActive: self.$isUnlocked,
@@ -101,7 +101,7 @@ struct PasswordEnterView: View {
                                             
                                         }
                                     }
-                                    self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
+                                    self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                     self.isUnlocked = true
                                     return
                                 }
@@ -115,7 +115,7 @@ struct PasswordEnterView: View {
                                         
                                     }
                                     
-                                    self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
+                                    self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                     self.isUnlocked = true
                                 } else {
                                     self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -168,7 +168,7 @@ struct PasswordEnterView: View {
                             _debugPrint("pass: \(pass)")
                             self.enteredPassword = pass
                             
-                            self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
+                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword) 
                             self.isUnlocked = true
                         } else { return }
                     }

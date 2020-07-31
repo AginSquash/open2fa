@@ -10,7 +10,7 @@ import SwiftUI
 import core_open2fa
 
 struct ContentView: View {
-    @Binding var core_driver: Core2FA_ViewModel
+    @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var showSheet = false
     @State private var isActive = false
@@ -42,9 +42,6 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-    init(core: Binding<Core2FA_ViewModel>) {
-        self._core_driver = core
-    }
     
 }
 
@@ -54,6 +51,6 @@ struct ContentView_Previews: PreviewProvider {
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file")
         //core_driver.DEBUG()
         
-        return ContentView(core: .constant(core_driver))//.environmentObject(core_driver)
+        return ContentView().environmentObject(core_driver)
     }
 }
