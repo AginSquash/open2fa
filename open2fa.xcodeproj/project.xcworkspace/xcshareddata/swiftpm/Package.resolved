@@ -14,9 +14,9 @@
         "package": "core_open2fa",
         "repositoryURL": "https://github.com/AginSquash/core-open2fa",
         "state": {
-          "branch": "update-2.0",
-          "revision": "7448d1a30a0f4ccaa34821f35596c3d0d1853f8a",
-          "version": null
+          "branch": null,
+          "revision": "2a9ca4085e5e340f2aa695dc0ee212238a7d4716",
+          "version": "2.0.2"
         }
       },
       {
