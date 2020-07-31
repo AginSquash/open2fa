@@ -6,7 +6,8 @@ Currently, this project is being actively developed, so there may be serious err
 
 | Version | Supported          |
 | ------- | ------------------ |
-|   all   | :white_check_mark: |
+|   0.9   | :white_check_mark: |
+|  < 0.9  |         ❌        |
 
 ## Reporting a Vulnerability
 
