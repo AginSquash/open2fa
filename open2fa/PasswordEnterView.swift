@@ -26,16 +26,20 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @ObservedObject private var keyboard = KeyboardResponder()
-    
+
     @State var isUnlocked = false
-    let baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa") //test_file
-    
-    @AppStorage("fileURL") var fileURL: String = ""
+    let fileName = "encrypted.o2fa"
+    var baseURL: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
+    }
+    @AppStorage("isFirstRun") var storageFirstRun: String = ""
     
     @State private var enteredPassword = ""
     @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
-    @State private var isFirstRun = false
+    private var isFirstRun: Bool {
+        return storageFirstRun == ""
+    }
     @State private var core_driver = Core2FA_ViewModel()
     
     var body: some View {
@@ -86,22 +90,11 @@ struct PasswordEnterView: View {
                         label: {
                             Button(action: {
                                 if self.isFirstRun {
+                                    storageFirstRun = baseURL.absoluteString
+                                    setPasswordKeychain(name: fileName, password: self.enteredPassword)
                                     
-                                    _ = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
-                                    fileURL = baseURL.absoluteString
-                                    setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
-                                    
-                                    let context = LAContext()
-                                    var error: NSError?
-                                    
-                                    if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                                        let reason = "Please authenticate to unlock your codes"
-                                        
-                                        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                                            
-                                        }
-                                    }
                                     self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                                    _debugPrint(baseURL)
                                     self.isUnlocked = true
                                     return
                                 }
@@ -109,13 +102,12 @@ struct PasswordEnterView: View {
                                 if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
                                     
                                     /// need add check for exist
-                                    if getPasswordFromKeychain(name: self.baseURL.absoluteString) != enteredPassword {
-                                        setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
-                                        //errorDiscription = errorType(error: .passwordIncorrect)
-                                        
+                                    if getPasswordFromKeychain(name: fileName) != enteredPassword {
+                                        setPasswordKeychain(name: fileName, password: self.enteredPassword)
                                     }
                                     
                                     self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                                    _debugPrint(baseURL)
                                     self.isUnlocked = true
                                 } else {
                                     self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -148,8 +140,7 @@ struct PasswordEnterView: View {
     }
     
     func auth() {
-        if CheckIsFristRun() {
-            self.isFirstRun = true
+        guard isFirstRun == false else {
             return
         }
         
@@ -164,8 +155,7 @@ struct PasswordEnterView: View {
                 
                 DispatchQueue.main.async {
                     if success {
-                        if let pass = getPasswordFromKeychain(name: self.baseURL.absoluteString) {
-                            _debugPrint("pass: \(pass)")
+                        if let pass = getPasswordFromKeychain(name: fileName) {
                             self.enteredPassword = pass
                             
                             self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword) 
@@ -175,10 +165,6 @@ struct PasswordEnterView: View {
                 }
             }
         }
-    }
-    
-    func CheckIsFristRun() -> Bool {
-        return fileURL == ""
     }
     
     func GetAppIcon() -> Image? {
