@@ -28,19 +28,25 @@ struct PasswordEnterView: View {
     @ObservedObject private var keyboard = KeyboardResponder()
 
     @State var isUnlocked = false
+    
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
     }
+    
+    @State private var core_driver = Core2FA_ViewModel()
+    
+    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
+    private var isFirstRun: Bool {
+        return storageFirstRun == ""
+    }
+    
     
     @State private var enteredPassword = ""
     @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
-    private var isFirstRun: Bool {
-        return storageFirstRun == ""
-    }
-    @State private var core_driver = Core2FA_ViewModel()
+    @State private var isEnableLocalKeyChain: Bool = true
     
     var body: some View {
         NavigationView {
@@ -74,6 +80,17 @@ struct PasswordEnterView: View {
                             SecureField("Re-enter password", text: $enteredPasswordCHECK)
                                  .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .padding(.bottom)
+                            
+                            VStack {
+                                Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                                
+                                if isEnableLocalKeyChain == false {
+                                    Text("FaceID and TouchID will be not available")
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .padding(.bottom, 30)
+                            
                         } else {
                             Text("Please, enter your password")
                             SecureField("Password", text: $enteredPassword)
@@ -91,7 +108,12 @@ struct PasswordEnterView: View {
                             Button(action: {
                                 if self.isFirstRun {
                                     storageFirstRun = baseURL.absoluteString
-                                    setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                    if isEnableLocalKeyChain {
+                                        storageLocalKeyChain = "true"
+                                        setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                    } else {
+                                        storageLocalKeyChain = "false"
+                                    }
                                     
                                     self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                     _debugPrint(baseURL)
@@ -102,8 +124,10 @@ struct PasswordEnterView: View {
                                 if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
                                     
                                     /// need add check for exist
-                                    if getPasswordFromKeychain(name: fileName) != enteredPassword {
-                                        setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                    if storageLocalKeyChain == "true" {
+                                        if getPasswordFromKeychain(name: fileName) != enteredPassword {
+                                            setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                        }
                                     }
                                     
                                     self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
@@ -141,6 +165,10 @@ struct PasswordEnterView: View {
     
     func auth() {
         guard isFirstRun == false else {
+            return
+        }
+        
+        guard storageLocalKeyChain == "true" else {
             return
         }
         
