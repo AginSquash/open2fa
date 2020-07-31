@@ -36,7 +36,7 @@ struct PasswordEnterView: View {
     @State private var enteredPasswordCHECK = ""
     @State private var errorDiscription: errorType? = nil
     @State private var isFirstRun = false
-    
+    @State private var core_driver = Core2FA_ViewModel()
     
     var body: some View {
         NavigationView {
@@ -79,7 +79,7 @@ struct PasswordEnterView: View {
                     
                     NavigationLink(
                         destination:
-                            ContentView().environmentObject(Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword))
+                            ContentView(core: self.$core_driver)//.environmentObject(Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword))
                                 .navigationBarTitle("")
                                 .navigationBarHidden(true),
                         isActive: self.$isUnlocked,
@@ -101,7 +101,7 @@ struct PasswordEnterView: View {
                                             
                                         }
                                     }
-                                    
+                                    self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
                                     self.isUnlocked = true
                                     return
                                 }
@@ -110,10 +110,12 @@ struct PasswordEnterView: View {
                                     
                                     /// need add check for exist
                                     if getPasswordFromKeychain(name: self.baseURL.absoluteString) != enteredPassword {
-                                        //setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
-                                        errorDiscription = errorType(error: .passwordIncorrect)
+                                        setPasswordKeychain(name: self.baseURL.absoluteString, password: self.enteredPassword)
+                                        //errorDiscription = errorType(error: .passwordIncorrect)
+                                        
                                     }
                                     
+                                    self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
                                     self.isUnlocked = true
                                 } else {
                                     self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -165,6 +167,8 @@ struct PasswordEnterView: View {
                         if let pass = getPasswordFromKeychain(name: self.baseURL.absoluteString) {
                             _debugPrint("pass: \(pass)")
                             self.enteredPassword = pass
+                            
+                            self.core_driver = Core2FA_ViewModel(fileURL: self.baseURL, pass: self.enteredPassword)
                             self.isUnlocked = true
                         } else { return }
                     }

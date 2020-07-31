@@ -450,8 +450,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/core-open2fa";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = "update-2.0";
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
