@@ -8,6 +8,11 @@
 
 import SwiftUI
 
+struct passwordError: Identifiable {
+    let id = UUID()
+    var message: String
+}
+
 struct ExportView: View {
     
     @Environment(\.exportFiles) var exportAction
@@ -27,22 +32,49 @@ struct ExportView: View {
        return url.appendingPathComponent(fileName)
     }
     
+    @State private var passwordEntered = String()
+    @State private var error: passwordError? = nil
+    
     var body: some View {
-        VStack {
-            Button("Export") {
-                if FileManager.default.secureCopyItem(at: baseURL, to: dstURL) {
-                    exportAction(moving: dstURL) { result in
-                            switch result {
-                            case .success( _):
-                                return
-                            case .failure(let error):
-                                print("Oops: \(error.localizedDescription)")
-                            case .none:
-                                return
-                            }
-                        }
+        Form {
+            Section {
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("For your protection, we need to identify you. Please enter your password below.")
+                    Text("🔐 All your codes will remain encrypted with AES256")
                 }
+                SecureField("Password", text: $passwordEntered)
             }
+            Button(action: exportButton, label: {
+                Text("Yes, I understand that I still need to put this file in a safe place.")
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
+            })
+        }
+        .navigationBarTitle("Export", displayMode: .inline)
+        .alert(item: $error) { error in
+            Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("Ok")))
+        }
+    }
+    
+    func exportButton() {
+        
+        guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
+            error = passwordError(message: "You entered wrong password")
+            passwordEntered = String()
+            return
+        }
+        
+        if FileManager.default.secureCopyItem(at: baseURL, to: dstURL) {
+            exportAction(moving: dstURL) { result in
+                    switch result {
+                    case .success( _):
+                        return
+                    case .failure(let error):
+                        print("Oops: \(error.localizedDescription)")
+                    case .none:
+                        return
+                    }
+                }
         }
     }
 }
