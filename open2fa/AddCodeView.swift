@@ -20,8 +20,8 @@ struct AddCodeView: View {
     @State private var name = String()
     @State private var code = String()
     @State private var error: String? = nil
-    //#if targetEnvironment(macCatalyst)
     @State private var showScaner = false
+    
     var body: some View {
         NavigationView {
             Form {
@@ -64,6 +64,7 @@ struct AddCodeView: View {
                 .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
                 .navigationBarTitle("Scan QR code", displayMode: .inline)
             }
+            .highPriorityGesture(DragGesture())
             #endif
         }
     }
