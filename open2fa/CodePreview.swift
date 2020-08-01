@@ -44,15 +44,19 @@ struct CodePreview: View {
                 Text("Copied!")
                 Spacer()
             } else {
-                Text(timeRemaningWrapped)
-                    .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
-                Text(code.name)
-                    .padding(.leading)
-                Spacer()
-                Text(codeSingle)
+                ZStack {
+                    HStack {
+                        Text(timeRemaningWrapped)
+                            .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
+                        Text(code.name)
+                            .padding(.leading)
+                        Spacer()
+                        Text(codeSingle)
+                    }
+                }
             }
         }
-        //.font(.title2)
+        .contentShape(Rectangle())
         .onTapGesture {
             UIPasteboard.general.string = self.codeSingle
             withAnimation(.easeIn(duration: 0.15), { self.isCopied = true })
