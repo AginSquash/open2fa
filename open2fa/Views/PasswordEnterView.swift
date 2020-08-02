@@ -99,6 +99,7 @@ struct PasswordEnterView: View {
                                 
                             } else {
                                 Text("Please, enter your password")
+                                    .padding(.bottom, geo.size.height / 50 )
                                 SecureField("Password", text: $enteredPassword)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
