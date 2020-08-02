@@ -88,15 +88,9 @@
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
-				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
-				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
-				CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */,
+				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CDF4568924D1008A00A383C4 /* KeyboardResponder.swift */,
 				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
-				CD104A302499897F005A8E47 /* PreferencesView.swift */,
-				CD8D71B324A3B7BA00A2C133 /* ImportView.swift */,
-				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
-				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
@@ -113,6 +107,20 @@
 				CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CDB6AB8624D6E91E00F552E7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
+				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
+				CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */,
+				CD104A302499897F005A8E47 /* PreferencesView.swift */,
+				CD8D71B324A3B7BA00A2C133 /* ImportView.swift */,
+				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
+				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		CDC636EF2471DC8400F10540 /* Frameworks */ = {
