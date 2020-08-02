@@ -4,8 +4,8 @@
 ### Two-factor authentication app for iOS and macOS
 
 [![Latest Release](https://img.shields.io/github/v/release/AginSquash/open2fa)](https://github.com/AginSquash/open2fa/releases)
-![Platform](https://img.shields.io/badge/iOS-13.0%2B-orange)
-![Platform](https://img.shields.io/badge/macOS-10.15%2B-orange)
+![Platform](https://img.shields.io/badge/iOS-14.0%2B-orange)
+![Platform](https://img.shields.io/badge/macOS-11.0%2B-orange)
 
 Open2FA is a simple, open source two-factor authentication application written using SwiftUI. Two-step verification helps you protect your accounts, even if attackers have your password.
 
@@ -14,12 +14,13 @@ Open2FA is a simple, open source two-factor authentication application written u
 - All your codes are stored in an encrypted file (AES-256) 🔐
 - Codes can be added by QR scanning or manually  📷
 - FaceID & TouchID support 👨‍🦱
-- Your codes are not stored in iCloud, all works locally 📱
+- Import and export encrypted file with codes 📲
+- Your codes are not stored in iCloud, all works locally 👩‍💻
 
 ### Screenshots
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot3.png?raw=true" width="250" alt="Screenshot of the edit list" />  
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot6.png?raw=true" width="250" alt="Screenshot of the edit list" />
 
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot4.png?raw=true" width="550" alt="Screenshot of the macOS version" /> 
 
