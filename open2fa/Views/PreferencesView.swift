@@ -16,11 +16,10 @@ struct PreferencesView: View {
     var body: some View {
             List {
                 Section(header: Text("Settings")) {
-                    NavigationLink(destination: ImportView(), label: { Text("Import") })
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
                 }
                 Section(header: Text("Delete")) {
-                    ForEach (core_driver.codes) { c in
+                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                         HStack {
                             Text(c.name)
                             Spacer()

@@ -8,7 +8,7 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
-
+import core_open2fa
 struct IVResult: Identifiable {
     let id = UUID()
     var title: String
@@ -21,6 +21,7 @@ struct ImportView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
+    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
@@ -32,43 +33,36 @@ struct ImportView: View {
     @State private var enteredPassword = String()
     
     var body: some View {
-       //GeometryReader { geo in
-         //   ZStack {
-                //Form { }
-                VStack {
-                    Form {
-                        Section {
-                            Text("If you have already used Open2FA, please enter your password and select the file using button below.")
-                        }
-                        Section {
-                            SecureField("Password", text: $enteredPassword)
-                            VStack {
-                                Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
-                                
-                                if isEnableLocalKeyChain == false {
-                                    Text("FaceID and TouchID will be not available")
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
-                        Section {
-                            Button(action: ProccessImportAction, label: {
-                                Text("Import")
-                            })
-                        }
-                    }
-                    //.offset(y: geo.size.height / 2 - 100)
+            Form {
+                Section {
+                    Text("If you have already used Open2FA, please enter your password and select the file using button below.")
                 }
-            //}
-                .navigationBarTitle("Import", displayMode: .inline)
-            .alert(item: $result) { result in
-                Alert(title: Text(result.title), message: Text(result.message), dismissButton: .default(Text("Ok"), action: {
-                    if result.isSuccessful {
-                        self.presentationMode.wrappedValue.dismiss()
+                Section {
+                    SecureField("Password", text: $enteredPassword)
+                    VStack {
+                        Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                                
+                        if isEnableLocalKeyChain == false {
+                            Text("FaceID and TouchID will be not available")
+                                .foregroundColor(.secondary)
+                        }
                     }
-                }) )
+                }
+                Section {
+                    Button(action: ProccessImportAction, label: {
+                        Text("Import")
+                    })
+                    .disabled(enteredPassword.isEmpty)
+                }
+                .navigationBarTitle("Import", displayMode: .inline)
+                .alert(item: $result) { result in
+                    Alert(title: Text(result.title), message: Text(result.message), dismissButton: .default(Text("Ok"), action: {
+                        if result.isSuccessful {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }) )
+                }
             }
-        //}
     }
     
     func ProccessImportAction() {
@@ -78,8 +72,10 @@ struct ImportView: View {
             case .success(let url):
                 if url.startAccessingSecurityScopedResource() {
                     if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
-                        storageFirstRun = baseURL.absoluteString
-                        self.result = IVResult(title: "Imported!", message: "Your o2fa file was imported successfully!", isSuccessful: true)
+                        url.stopAccessingSecurityScopedResource()
+                        
+                        let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
+                        handleCheckResult(checkResult)
                     }
                     url.stopAccessingSecurityScopedResource()
                 } else {
@@ -93,6 +89,42 @@ struct ImportView: View {
             }
             return
         })
+    }
+    
+    func handleCheckResult(_ checkResult: FUNC_RESULT) {
+        var title = "Error"
+        var message = String()
+        switch checkResult {
+        case .PASS_INCORRECT:
+            message = "Entered password is incorrect"
+            break
+        case .FILE_NOT_EXIST:
+            message = "FILE_NOT_EXIST"
+            break
+        case .CANNOT_DECODE:
+            message = "File damaged"
+            break
+        case .FILE_UNVIABLE:
+            message = "File damaged"
+            break
+        case .SUCCEFULL:
+            title = "Imported!"
+            message =  "Your o2fa file was imported successfully!"
+            storageFirstRun = baseURL.absoluteString
+            if isEnableLocalKeyChain {
+                storageLocalKeyChain = "true"
+                setPasswordKeychain(name: fileName, password: self.enteredPassword)
+            } else {
+                storageLocalKeyChain = "false"
+            }
+            break
+        default:
+            _debugPrint("no one")
+        }
+        if title == "Error" {
+            try? FileManager.default.removeItem(atPath: baseURL.absoluteString)
+        }
+        self.result = IVResult(title: title, message: message, isSuccessful: title == "Error" ? false : true)
     }
 }
 

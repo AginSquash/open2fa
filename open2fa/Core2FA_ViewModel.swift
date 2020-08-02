@@ -125,4 +125,8 @@ class Core2FA_ViewModel: ObservableObject
         return passcheck == .SUCCEFULL || passcheck == .NO_CODES
     }
     
+    static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
+        return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
+    }
+    
 }

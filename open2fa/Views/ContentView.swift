@@ -19,7 +19,7 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 List {
-                    ForEach (core_driver.codes) { c in
+                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                          CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                     }
                 }
