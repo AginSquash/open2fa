@@ -42,6 +42,7 @@ All dependencies in this project are added through SPM. Links to them:
 This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
 Also i want to thank all the libraries developers and of course the wonderful SwiftUI community.
 
+
 ## License
 
 Copyright (C) 2020 Vladislav Vrublevsky <agins.main@gmail.com>
