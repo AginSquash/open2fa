@@ -70,6 +70,7 @@ struct PasswordEnterView: View {
                 VStack{
                     Group {
                         if isFirstRun {
+                            Spacer()
                             Text("For start using 2FA, create a password")
                                 .multilineTextAlignment(.center)
                                 .lineLimit(2)
@@ -91,8 +92,6 @@ struct PasswordEnterView: View {
                             }
                             .padding(.bottom, 30)
                             
-                            NavigationLink("Import", destination: ImportView())
-                                .padding(.all, 30)
                             
                         } else {
                             Text("Please, enter your password")
@@ -144,6 +143,17 @@ struct PasswordEnterView: View {
                             })
                         })
                         .disabled( (enteredPassword != enteredPasswordCHECK && isFirstRun) || ( enteredPassword.isEmpty ) )
+                    
+                    if isFirstRun {
+                        VStack {
+                            Spacer()
+                            Text("Already used Open2fa?")
+                            NavigationLink("Import", destination: ImportView())
+                                .padding(.bottom, 30)
+                        }
+                    }
+                    
+                    
                 }
                 .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
                 .navigationBarTitle("")
