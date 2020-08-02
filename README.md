@@ -18,9 +18,9 @@ Open2FA is a simple, open source two-factor authentication application written u
 - Your codes are not stored in iCloud, all works locally 👩‍💻
 
 ### Screenshots
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot6.png?raw=true" width="250" alt="Screenshot of the edit list" />
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1_0.95.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2_0.95.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot6_0.95.png?raw=true" width="250" alt="Screenshot of the edit list" />
 
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot4.png?raw=true" width="550" alt="Screenshot of the macOS version" /> 
 
@@ -41,6 +41,7 @@ All dependencies in this project are added through SPM. Links to them:
 ## Notes
 This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
 Also i want to thank all the libraries developers and of course the wonderful SwiftUI community.
+
 
 ## License
 
