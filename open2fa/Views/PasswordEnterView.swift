@@ -65,9 +65,11 @@ struct PasswordEnterView: View {
                                  }
                              }
                          }
-                        .padding(.top, geo.size.height / 10)
+                        .frame(height: geo.size.height / 10)
+                        .padding(.top, geo.size.height / 20)
                         .padding(.bottom, 10)
-                        
+
+                    
                         Group {
                             Spacer()
                             
@@ -76,12 +78,12 @@ struct PasswordEnterView: View {
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
                                     .layoutPriority(1)
+                                    .padding(.top, 5)
+                                    .padding(.bottom, geo.size.height / 50 )
                                 SecureField("Please create password", text: $enteredPassword)
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
-                                     .padding(.top)
                                 SecureField("Re-enter password", text: $enteredPasswordCHECK)
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding(.bottom)
                                 
                                 VStack {
                                     Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
@@ -92,7 +94,7 @@ struct PasswordEnterView: View {
                                     }
                                     
                                 }
-                                .padding(.bottom, geo.size.height / 10 )
+                                //.padding(.bottom, geo.size.height / 20 )
                                 
                                 
                             } else {
@@ -143,6 +145,7 @@ struct PasswordEnterView: View {
                                 }, label: {
                                     VStack {
                                         Text( isFirstRun ? "Create" : "Unlock")
+                                            .padding(.top, geo.size.height / 50 )
                                         Spacer()
                                     }
                                 })
@@ -155,21 +158,20 @@ struct PasswordEnterView: View {
                                 Spacer(minLength: 5)
                                 Text("Already used Open2fa?")
                                 NavigationLink("Import", destination: ImportView())
-                                    .padding(.bottom, geo.size.height / 10)
+                                    .padding(.bottom, geo.size.height / 15)
                             }
                         } else {
-                            VStack {
-                                Text("")
-                                    .padding(.bottom, geo.size.height / 10)
-                            }
+                            Spacer()
+                                .frame(height: geo.size.height / 10)
+                                .padding(.bottom, geo.size.height / 20)
                         }
                     }
-                    .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
                     .navigationBarTitle("")
                 .navigationBarHidden(true)
             }
     
         
+            .padding(.bottom, keyboard.currentHeight * 0.1) 
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
