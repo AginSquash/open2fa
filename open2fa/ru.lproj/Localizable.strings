@@ -6,6 +6,7 @@
   Copyright © 2020 Vlad Vrublevsky. All rights reserved.
 */
 
+/*
 // PasswordEnteredView
 "For start using 2FA, create a password" = "Для начала использования 2FA, придумайте пароль";
 "Create" = "Создать";
@@ -15,3 +16,4 @@
 // CodePreview
 "Copied!" = "Скопировано!";
 "Incorrect password" = "Неверный пароль";
+*/

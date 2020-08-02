@@ -29,25 +29,38 @@ struct ImportView: View {
 
     @State private var result: IVResult? = nil
     @State private var isEnableLocalKeyChain: Bool = true
-    
+    @State private var enteredPassword = String()
     
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                Form { }
+       //GeometryReader { geo in
+         //   ZStack {
+                //Form { }
                 VStack {
                     Form {
                         Section {
-                            Text("If you have already used Open2FA, you can import your file using the button below.")
+                            Text("If you have already used Open2FA, please enter your password and select the file using button below.")
+                        }
+                        Section {
+                            SecureField("Password", text: $enteredPassword)
+                            VStack {
+                                Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                                
+                                if isEnableLocalKeyChain == false {
+                                    Text("FaceID and TouchID will be not available")
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                        Section {
                             Button(action: ProccessImportAction, label: {
                                 Text("Import")
                             })
                         }
                     }
-                    .offset(y: geo.size.height / 2 - 100)
+                    //.offset(y: geo.size.height / 2 - 100)
                 }
-            }
-            .navigationBarTitle("Import", displayMode: .inline)
+            //}
+                .navigationBarTitle("Import", displayMode: .inline)
             .alert(item: $result) { result in
                 Alert(title: Text(result.title), message: Text(result.message), dismissButton: .default(Text("Ok"), action: {
                     if result.isSuccessful {
@@ -55,7 +68,7 @@ struct ImportView: View {
                     }
                 }) )
             }
-        }
+        //}
     }
     
     func ProccessImportAction() {
@@ -85,10 +98,7 @@ struct ImportView: View {
 
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
             ImportView()
-            ImportView()
-                .previewDevice("iPhone 8")
-        }
+        
     }
 }
