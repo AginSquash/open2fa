@@ -66,7 +66,7 @@ struct ImportView: View {
                 if url.startAccessingSecurityScopedResource() {
                     if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
                         storageFirstRun = baseURL.absoluteString
-                        self.result = IVResult(title: "Imported!", message: "Your o2fa-file successful imported!", isSuccessful: true)
+                        self.result = IVResult(title: "Imported!", message: "Your o2fa file was imported successfully!", isSuccessful: true)
                     }
                     url.stopAccessingSecurityScopedResource()
                 } else {
