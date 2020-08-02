@@ -94,8 +94,6 @@ struct PasswordEnterView: View {
                                     }
                                     
                                 }
-                                //.padding(.bottom, geo.size.height / 20 )
-                                
                                 
                             } else {
                                 Text("Please, enter your password")
