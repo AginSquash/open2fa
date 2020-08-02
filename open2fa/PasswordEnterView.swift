@@ -91,6 +91,9 @@ struct PasswordEnterView: View {
                             }
                             .padding(.bottom, 30)
                             
+                            NavigationLink("Import", destination: ImportView())
+                                .padding(.all, 30)
+                            
                         } else {
                             Text("Please, enter your password")
                             SecureField("Password", text: $enteredPassword)

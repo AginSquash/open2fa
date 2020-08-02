@@ -58,6 +58,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>We need  access to import file</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>We need  access to import file</string>
+	<key>NSFileProviderPresenceUsageDescription</key>
+	<string>We need  access to import file</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

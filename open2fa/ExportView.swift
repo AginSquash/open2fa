@@ -59,11 +59,12 @@ struct ExportView: View {
     func exportButton() {
         
         guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
-            error = passwordError(message: "You entered wrong password")
             passwordEntered = String()
+            error = passwordError(message: "You entered wrong password")
             return
         }
-        
+        passwordEntered = String()
+
         if FileManager.default.secureCopyItem(at: baseURL, to: dstURL) {
             exportAction(moving: dstURL) { result in
                     switch result {
@@ -88,7 +89,7 @@ extension FileManager {
             }
             try FileManager.default.copyItem(at: srcURL, to: dstURL)
         } catch (let error) {
-            print("Cannot copy item at \(srcURL) to \(dstURL): \(error)")
+            print("DEBUG: Cannot copy item at \(srcURL) to \(dstURL): \(error)")
             return false
         }
         return true
