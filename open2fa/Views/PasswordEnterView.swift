@@ -50,115 +50,126 @@ struct PasswordEnterView: View {
     
     var body: some View {
         NavigationView {
-            
-            ZStack {
-                VStack(alignment: .trailing, spacing: 0) {
-                    HStack {
-                        GetAppIcon()
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        VStack {
-                            Text("Open2FA")
-                            .font(.title)
-                            Text("by Vlad Vrublevsky")
-                                .foregroundColor(.secondary)
-                                .font(.footnote)
-                        }
-                    }
-                    Spacer()
-                }.padding(.top, 50)
-                
-                VStack{
-                    Group {
-                        if isFirstRun {
+            GeometryReader { geo in
+                VStack {
+                        VStack(alignment: .trailing, spacing: 0) {
+                             HStack {
+                                 GetAppIcon()
+                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                 VStack {
+                                     Text("Open2FA")
+                                     .font(.title)
+                                     Text("by Vlad Vrublevsky")
+                                         .foregroundColor(.secondary)
+                                         .font(.footnote)
+                                 }
+                             }
+                         }
+                        .padding(.top, geo.size.height / 10)
+                        .padding(.bottom, 10)
+                        
+                        Group {
                             Spacer()
-                            Text("For start using 2FA, create a password")
-                                .multilineTextAlignment(.center)
-                                .lineLimit(2)
-                                .layoutPriority(1)
-                            SecureField("Please create password", text: $enteredPassword)
-                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                 .padding(.top)
-                            SecureField("Re-enter password", text: $enteredPasswordCHECK)
-                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding(.bottom)
                             
-                            VStack {
-                                Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                            if isFirstRun {
+                                Text("For start using 2FA, create a password")
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(2)
+                                    .layoutPriority(1)
+                                SecureField("Please create password", text: $enteredPassword)
+                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                     .padding(.top)
+                                SecureField("Re-enter password", text: $enteredPasswordCHECK)
+                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding(.bottom)
                                 
-                                if isEnableLocalKeyChain == false {
-                                    Text("FaceID and TouchID will be not available")
-                                        .foregroundColor(.secondary)
+                                VStack {
+                                    Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                                    
+                                    if isEnableLocalKeyChain == false {
+                                        Text("FaceID and TouchID will be not available")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    
                                 }
+                                .padding(.bottom, geo.size.height / 10 )
+                                
+                                
+                            } else {
+                                Text("Please, enter your password")
+                                SecureField("Password", text: $enteredPassword)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
-                            .padding(.bottom, 30)
-                            
-                            
-                        } else {
-                            Text("Please, enter your password")
-                            SecureField("Password", text: $enteredPassword)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                        }
-                    }.padding(.horizontal)
-                    
-                    NavigationLink(
-                        destination:
-                            ContentView().environmentObject(core_driver)
-                                .navigationBarTitle("")
-                                .navigationBarHidden(true),
-                        isActive: self.$isUnlocked,
-                        label: {
-                            Button(action: {
-                                if self.isFirstRun {
-                                    storageFirstRun = baseURL.absoluteString
-                                    if isEnableLocalKeyChain {
-                                        storageLocalKeyChain = "true"
-                                        setPasswordKeychain(name: fileName, password: self.enteredPassword)
-                                    } else {
-                                        storageLocalKeyChain = "false"
-                                    }
-                                    
-                                    self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
-                                    _debugPrint(baseURL)
-                                    self.isUnlocked = true
-                                    return
-                                }
-                                
-                                if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
-                                    
-                                    /// need add check for exist
-                                    if storageLocalKeyChain == "true" {
-                                        if getPasswordFromKeychain(name: fileName) != enteredPassword {
+                        }.padding(.horizontal)
+                        
+                        NavigationLink(
+                            destination:
+                                ContentView().environmentObject(core_driver)
+                                    .navigationBarTitle("")
+                                    .navigationBarHidden(true),
+                            isActive: self.$isUnlocked,
+                            label: {
+                                Button(action: {
+                                    if self.isFirstRun {
+                                        storageFirstRun = baseURL.absoluteString
+                                        if isEnableLocalKeyChain {
+                                            storageLocalKeyChain = "true"
                                             setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                        } else {
+                                            storageLocalKeyChain = "false"
                                         }
+                                        
+                                        self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                                        _debugPrint(baseURL)
+                                        self.isUnlocked = true
+                                        return
                                     }
                                     
-                                    self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
-                                    _debugPrint(baseURL)
-                                    self.isUnlocked = true
-                                } else {
-                                    self.errorDiscription = errorType(error: .passwordIncorrect)
-                                }
-                            }, label: {
-                                Text( isFirstRun ? "Create" : "Unlock")
+                                    if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
+                                        
+                                        /// need add check for exist
+                                        if storageLocalKeyChain == "true" {
+                                            if getPasswordFromKeychain(name: fileName) != enteredPassword {
+                                                setPasswordKeychain(name: fileName, password: self.enteredPassword)
+                                            }
+                                        }
+                                        
+                                        self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                                        _debugPrint(baseURL)
+                                        self.isUnlocked = true
+                                    } else {
+                                        self.errorDiscription = errorType(error: .passwordIncorrect)
+                                    }
+                                }, label: {
+                                    VStack {
+                                        Text( isFirstRun ? "Create" : "Unlock")
+                                        Spacer()
+                                    }
+                                })
                             })
-                        })
-                        .disabled( (enteredPassword != enteredPasswordCHECK && isFirstRun) || ( enteredPassword.isEmpty ) )
-                    
-                    if isFirstRun {
-                        VStack {
-                            Spacer()
-                            Text("Already used Open2fa?")
-                            NavigationLink("Import", destination: ImportView())
-                                .padding(.bottom, 30)
+                            .disabled( (enteredPassword != enteredPasswordCHECK && isFirstRun) || ( enteredPassword.isEmpty ) )
+                        
+                        
+                        if isFirstRun {
+                            VStack {
+                                Spacer(minLength: 5)
+                                Text("Already used Open2fa?")
+                                NavigationLink("Import", destination: ImportView())
+                                    .padding(.bottom, geo.size.height / 10)
+                            }
+                        } else {
+                            VStack {
+                                Text("")
+                                    .padding(.bottom, geo.size.height / 10)
+                            }
                         }
                     }
-                    
-                    
-                }
-                .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
-                .navigationBarTitle("")
+                    .padding(.top, keyboard.currentHeight * 0.5) //yep we need to use 'top'. it's bug in SwiftUI?
+                    .navigationBarTitle("")
                 .navigationBarHidden(true)
             }
+    
+        
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
@@ -223,10 +234,11 @@ struct PasswordEnterView: View {
 
 struct PasswordEnterView_Previews: PreviewProvider {
     static var previews: some View {
-        return Group {
+        Group {
             PasswordEnterView()
+                .previewDevice("iPhone 11")
             PasswordEnterView()
-                .previewDevice("iPhone SE (2nd generation)")
+                .previewDevice("iPhone 8")
         }
     }
 }
