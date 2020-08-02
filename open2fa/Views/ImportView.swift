@@ -76,8 +76,6 @@ struct ImportView: View {
                         
                         let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
                         handleCheckResult(checkResult)
-                        //storageFirstRun = baseURL.absoluteString
-                        //self.result = IVResult(title: "Imported!", message: "Your o2fa file was imported successfully!", isSuccessful: true)
                     }
                     url.stopAccessingSecurityScopedResource()
                 } else {
@@ -98,16 +96,16 @@ struct ImportView: View {
         var message = String()
         switch checkResult {
         case .PASS_INCORRECT:
-            message = "PASS_INCORRECT"
+            message = "Entered password is incorrect"
             break
         case .FILE_NOT_EXIST:
             message = "FILE_NOT_EXIST"
             break
         case .CANNOT_DECODE:
-            message = "CANNOT_DECODE"
+            message = "File damaged"
             break
         case .FILE_UNVIABLE:
-            message = "FILE_UNVIABLE"
+            message = "File damaged"
             break
         case .SUCCEFULL:
             title = "Imported!"
