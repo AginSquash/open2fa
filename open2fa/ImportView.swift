@@ -9,17 +9,41 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+struct IVResult: Identifiable {
+    let id = UUID()
+    var title: String
+    var Message: String
+}
+
 struct ImportView: View {
     @Environment(\.importFiles) var importAction
     
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! .appendingPathComponent(fileName)
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
     }
     
+    @State private var isSuccessful: Bool? = nil
+    @State private var error: IVResult? = nil
+    
     var body: some View {
-        Text("Import view")
-            .onTapGesture(count: 1, perform:ProccessImportAction)
+        GeometryReader { geo in
+            ZStack {
+                Form { }
+                VStack {
+                    Form {
+                        Section {
+                            Text("If you have already used Open2FA, you can import your file using the button below.")
+                            Button(action: ProccessImportAction, label: {
+                                Text("Import")
+                            })
+                        }
+                    }
+                    .offset(y: geo.size.height / 2 - 100)
+                }
+            }
+            .navigationBarTitle("Import", displayMode: .inline)
+        }
     }
     
     func ProccessImportAction() {
@@ -27,20 +51,12 @@ struct ImportView: View {
         importAction(singleOfType: [type], completion: { (result: Result<URL, Error>?) in
             switch result {
             case .success(let url):
-                url.startAccessingSecurityScopedResource()
-                print("DEBUG: \(url)")
-                print("DEBUG: absoluteURL    \(url.absoluteURL)")
-                print("DEBUG: absoluteString \(url.absoluteString)")
-                print("DEBUG: path           \(url.path)")
-                print("DEBUG: isReadableFile \(FileManager.default.isReadableFile(atPath: url.path))")
-                
-                //let data: Data
-                
-                //data = try! Data(contentsOf: URL(string: url.path)!)
-                //try! data.write(to: baseURL.absoluteURL, options: .atomic)
-                print("DEBUG:  \(FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL))")
-                print("DEBUG: Copyed!")
-                url.stopAccessingSecurityScopedResource()
+                if url.startAccessingSecurityScopedResource() {
+                    if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
+                        
+                    }
+                    url.stopAccessingSecurityScopedResource()
+                }
             case .failure(let error):
                 print("DEBUG: \(error.localizedDescription)")
             case .none:
@@ -53,6 +69,10 @@ struct ImportView: View {
 
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportView()
+        Group {
+            ImportView()
+            ImportView()
+                .previewDevice("iPhone 8")
+        }
     }
 }
