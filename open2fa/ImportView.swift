@@ -12,19 +12,24 @@ import UniformTypeIdentifiers
 struct IVResult: Identifiable {
     let id = UUID()
     var title: String
-    var Message: String
+    var message: String
+    var isSuccessful: Bool
 }
 
 struct ImportView: View {
     @Environment(\.importFiles) var importAction
+    @Environment(\.presentationMode) var presentationMode
+    
+    @AppStorage("isFirstRun") var storageFirstRun: String = ""
     
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
     }
+
+    @State private var result: IVResult? = nil
+    @State private var isEnableLocalKeyChain: Bool = true
     
-    @State private var isSuccessful: Bool? = nil
-    @State private var error: IVResult? = nil
     
     var body: some View {
         GeometryReader { geo in
@@ -43,6 +48,13 @@ struct ImportView: View {
                 }
             }
             .navigationBarTitle("Import", displayMode: .inline)
+            .alert(item: $result) { result in
+                Alert(title: Text(result.title), message: Text(result.message), dismissButton: .default(Text("Ok"), action: {
+                    if result.isSuccessful {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }) )
+            }
         }
     }
     
@@ -53,12 +65,16 @@ struct ImportView: View {
             case .success(let url):
                 if url.startAccessingSecurityScopedResource() {
                     if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
-                        
+                        storageFirstRun = baseURL.absoluteString
+                        self.result = IVResult(title: "Imported!", message: "Your o2fa-file successful imported!", isSuccessful: true)
                     }
                     url.stopAccessingSecurityScopedResource()
+                } else {
+                    self.result = IVResult(title: "Error", message: "Unhandled error", isSuccessful: false)
                 }
             case .failure(let error):
                 print("DEBUG: \(error.localizedDescription)")
+                self.result = IVResult(title: "Error", message: error.localizedDescription, isSuccessful: false)
             case .none:
                 return
             }
