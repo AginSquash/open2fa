@@ -26,8 +26,14 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need use camera for scan QR codes</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>We need  access to import file</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Please authenticate yourself to unlock your codes</string>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>We need  access to import file</string>
+	<key>NSFileProviderPresenceUsageDescription</key>
+	<string>We need  access to import file</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -58,12 +64,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSFileProviderDomainUsageDescription</key>
-	<string>We need  access to import file</string>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>We need  access to import file</string>
-	<key>NSFileProviderPresenceUsageDescription</key>
-	<string>We need  access to import file</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,0 +1,8 @@
+language: swift  
+osx_image: xcode12 
+xcode_project: open2fa.xcodeproj
+xcode_scheme: open2fa
+
+script:
+  - xcodebuild -project open2fa.xcodeproj -scheme open2fa -destination "platform=iOS Simulator,OS=14.0,name=iPhone 11" -sdk iphonesimulator CODE_SIGNING_REQUIRED=NO
+  
