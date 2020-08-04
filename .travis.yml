@@ -1,0 +1,5 @@
+language: swift  
+osx_image: xcode12 
+xcode_project: open2fa.xcodeproj
+xcode_scheme: open2fa
+xcode_sdk: iphonesimulator14.0
