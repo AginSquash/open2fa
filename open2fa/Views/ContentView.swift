@@ -18,6 +18,16 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                
+                NavigationLink(
+                    destination: PasswordEnterView().environmentObject(core_driver)
+                        //.navigationBarTitle("")
+                        .navigationBarHidden(true),
+                    isActive: core_driver.isLockedBind,
+                    label: {
+                        Text("")
+                    })
+                
                 List {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                          CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
@@ -41,6 +51,7 @@ struct ContentView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+
     }
     
 }

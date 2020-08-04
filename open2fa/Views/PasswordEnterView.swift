@@ -25,6 +25,8 @@ struct errorType: Identifiable {
 
 struct PasswordEnterView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @ObservedObject private var keyboard = KeyboardResponder()
 
     @State var isUnlocked = false
@@ -111,6 +113,9 @@ struct PasswordEnterView: View {
                             isActive: self.$isUnlocked,
                             label: {
                                 Button(action: {
+                                    
+                                   
+                                    
                                     if self.isFirstRun {
                                         storageFirstRun = baseURL.absoluteString
                                         if isEnableLocalKeyChain {
@@ -122,6 +127,8 @@ struct PasswordEnterView: View {
                                         
                                         self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                         _debugPrint(baseURL)
+                                        
+                                        Core2FA_ViewModel.isLocked = false
                                         self.isUnlocked = true
                                         return
                                     }
@@ -137,6 +144,16 @@ struct PasswordEnterView: View {
                                         
                                         self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                         _debugPrint(baseURL)
+                                        
+                                        if Core2FA_ViewModel.isLocked == true {
+                                            Core2FA_ViewModel.isLocked = false
+                                            
+                                            self.presentationMode.wrappedValue.dismiss()
+                                            
+                                            print("DEBUG: needUpdate == true")
+                                            return
+                                        }
+                                        
                                         self.isUnlocked = true
                                     } else {
                                         self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -197,6 +214,10 @@ struct PasswordEnterView: View {
             return
         }
         
+        guard Core2FA_ViewModel.needUpdate == true else {
+            return
+        }
+        
         let context = LAContext()
         var error: NSError?
 
@@ -211,7 +232,9 @@ struct PasswordEnterView: View {
                         if let pass = getPasswordFromKeychain(name: fileName) {
                             self.enteredPassword = pass
                             
-                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword) 
+                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                            
+                            Core2FA_ViewModel.isLocked = false
                             self.isUnlocked = true
                         } else { return }
                     }
