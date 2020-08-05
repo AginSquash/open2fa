@@ -26,7 +26,8 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @Environment(\.presentationMode) var presentationMode
-
+    @EnvironmentObject var core_driver: Core2FA_ViewModel 
+    
     @State var isUnlocked = false
     
     let fileName = "encrypted.o2fa"
@@ -34,7 +35,7 @@ struct PasswordEnterView: View {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
     }
     
-    @State private var core_driver = Core2FA_ViewModel()
+    //@State private var core_driver = Core2FA_ViewModel()
     
     @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
@@ -147,7 +148,7 @@ struct PasswordEnterView: View {
                                             
                                             self.presentationMode.wrappedValue.dismiss()
                                             
-                                            print("DEBUG: needUpdate == true")
+                                            //print("DEBUG: needUpdate == true")
                                             return
                                         }
                                         

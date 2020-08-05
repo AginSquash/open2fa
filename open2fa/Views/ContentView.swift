@@ -10,6 +10,7 @@ import SwiftUI
 import core_open2fa
 
 struct ContentView: View {
+    
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var showSheet = false
