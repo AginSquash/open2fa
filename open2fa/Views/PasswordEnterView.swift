@@ -50,6 +50,9 @@ struct PasswordEnterView: View {
     @State private var errorDiscription: errorType? = nil
     @State private var isEnableLocalKeyChain: Bool = true
     
+    @State private var height = CGFloat(10)
+    //@State private var height = Binding<CGFloat>(get: { heightS }, set: { value in withAnimation { heightS = value } } )
+    
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -70,7 +73,7 @@ struct PasswordEnterView: View {
                         .frame(height: geo.size.height / 10)
                         .padding(.top, geo.size.height / 20)
                         .padding(.bottom, 10)
-
+                        .onAppear { withAnimation { self.height = geo.size.height } }
                     
                         Group {
                             Spacer()
