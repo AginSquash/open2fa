@@ -113,9 +113,7 @@ struct PasswordEnterView: View {
                             isActive: self.$isUnlocked,
                             label: {
                                 Button(action: {
-                                    
-                                   
-                                    
+    
                                     if self.isFirstRun {
                                         storageFirstRun = baseURL.absoluteString
                                         if isEnableLocalKeyChain {
@@ -128,7 +126,7 @@ struct PasswordEnterView: View {
                                         self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                         _debugPrint(baseURL)
                                         
-                                        Core2FA_ViewModel.isLocked = false
+                                        Core2FA_ViewModel.isLockedByBackground = false
                                         self.isUnlocked = true
                                         return
                                     }
@@ -145,8 +143,8 @@ struct PasswordEnterView: View {
                                         self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                         _debugPrint(baseURL)
                                         
-                                        if Core2FA_ViewModel.isLocked == true {
-                                            Core2FA_ViewModel.isLocked = false
+                                        if Core2FA_ViewModel.isLockedByBackground == true {
+                                            Core2FA_ViewModel.isLockedByBackground = false
                                             
                                             self.presentationMode.wrappedValue.dismiss()
                                             
@@ -187,7 +185,7 @@ struct PasswordEnterView: View {
             }
     
         
-            .padding(.bottom, keyboard.currentHeight * 0.1) 
+            .padding(.bottom, keyboard.currentHeight * 0.1)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
@@ -206,6 +204,11 @@ struct PasswordEnterView: View {
     }
     
     func auth() {
+        
+        guard Core2FA_ViewModel.isLockedByBackground == false else {
+            return
+        }
+        
         guard isFirstRun == false else {
             return
         }
@@ -214,9 +217,6 @@ struct PasswordEnterView: View {
             return
         }
         
-        guard Core2FA_ViewModel.needUpdate == true else {
-            return
-        }
         
         let context = LAContext()
         var error: NSError?
@@ -234,7 +234,7 @@ struct PasswordEnterView: View {
                             
                             self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                             
-                            Core2FA_ViewModel.isLocked = false
+                            Core2FA_ViewModel.isLockedByBackground = false
                             self.isUnlocked = true
                         } else { return }
                     }

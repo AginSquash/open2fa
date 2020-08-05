@@ -19,9 +19,9 @@ class Core2FA_ViewModel: ObservableObject
     private var core: CORE_OPEN2FA
     private var timer: Timer?
     static var needUpdate = false
-    static var isLocked = false
+    static var isLockedByBackground = false
     
-    public var isLockedBind = Binding<Bool>(get: { Core2FA_ViewModel.isLocked }, set: { Core2FA_ViewModel.isLocked = $0 })
+    public var isLocked = Binding<Bool>(get: { Core2FA_ViewModel.isLockedByBackground }, set: { Core2FA_ViewModel.isLockedByBackground = $0 })
     
     @objc func updateTime() {
         let date = Date()

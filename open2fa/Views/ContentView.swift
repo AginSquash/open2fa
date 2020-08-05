@@ -22,7 +22,7 @@ struct ContentView: View {
                 NavigationLink(
                     destination: PasswordEnterView().environmentObject(core_driver)
                         .navigationBarBackButtonHidden(true),
-                    isActive: core_driver.isLockedBind,
+                    isActive: core_driver.isLocked,
                     label: {
                         Text("")
                     })
