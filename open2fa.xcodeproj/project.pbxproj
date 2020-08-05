@@ -24,7 +24,6 @@
 		CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */; };
 		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
 		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
-		CDF4568A24D1008B00A383C4 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF4568924D1008A00A383C4 /* KeyboardResponder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +48,6 @@
 		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
 		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
-		CDF4568924D1008A00A383C4 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +87,6 @@
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
-				CDF4568924D1008A00A383C4 /* KeyboardResponder.swift */,
 				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
@@ -217,7 +214,6 @@
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
 				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
-				CDF4568A24D1008B00A383C4 /* KeyboardResponder.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
 				CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */,

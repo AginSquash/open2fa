@@ -26,8 +26,6 @@ struct errorType: Identifiable {
 struct PasswordEnterView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    
-    //@ObservedObject private var keyboard = KeyboardResponder()
 
     @State var isUnlocked = false
     
@@ -185,8 +183,6 @@ struct PasswordEnterView: View {
                 .navigationBarHidden(true)
             }
     
-        
-            //.padding(.bottom, isFirstRun ? keyboard.currentHeight * 0.1 : nil)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)
