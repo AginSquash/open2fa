@@ -13,15 +13,19 @@ struct ContentView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var showSheet = false
-    @State private var isActive = false
     
     var body: some View {
         NavigationView {
             ZStack {
                 List {
-                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
-                         CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                    if core_driver.isActive {
+                        ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                             CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                        }
+                        .animation(.default)
+                        .transition(.opacity)
                     }
+                    
                 }
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(

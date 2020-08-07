@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 import core_open2fa
 
 class Core2FA_ViewModel: ObservableObject
@@ -14,6 +16,7 @@ class Core2FA_ViewModel: ObservableObject
     
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
+    @Published var isActive: Bool = true
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -76,10 +79,6 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func lock() {
-    
-    }
-    
     init(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
@@ -93,10 +92,49 @@ class Core2FA_ViewModel: ObservableObject
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+        
+        _debugPrint("DEINT")
+    }
+    
     func updateCore(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
+        self.setObservers()
+    }
+    
+    
+    func setObservers() {
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(willResignActiveNotification),
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(didBecomeActiveNotification),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+    }
+    
+    @objc func willResignActiveNotification() {
+        withAnimation {
+            self.isActive = false
+        }
+    }
+    
+    @objc func didBecomeActiveNotification() {
+        withAnimation {
+            self.isActive = true
+        }
     }
     
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
