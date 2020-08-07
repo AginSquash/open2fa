@@ -26,7 +26,7 @@ class Core2FA_ViewModel: ObservableObject
     
     @objc func updateTime() {
         
-        self.getState()
+        //self.getState()
         
         let date = Date()
         let df = DateFormatter()
@@ -115,12 +115,27 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
+    
+    func setObserver() {
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.willResignActiveNotification, // UIApplication.didBecomeActiveNotification for swift 4.2+
+            object: nil)
+    }
+    
+    @objc func applicationDidBecomeActive() {
+        self.isActive = false
+        _debugPrint("applicationDidBecomeActive")
+    }
+    
     func updateCore(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         objectWillChange.send()
         self.codes = core.getListOTP()
         objectWillChange.send()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
+        self.setObserver()
     }
     
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
