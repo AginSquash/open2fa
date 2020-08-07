@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var showSheet = false
     @State private var isActive = false
     
+    static public var isHide = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -29,8 +31,10 @@ struct ContentView: View {
                     })
                 
                 List {
-                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
-                         CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                    if ContentView.isHide == false {
+                        ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                        }
                     }
                 }
                 .navigationBarTitle("Open 2FA")
@@ -51,7 +55,10 @@ struct ContentView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-
+        .onDisappear(perform: {
+            print("DEBUG: ContentView disapper")
+            ContentView.isHide = true
+        })
     }
     
 }

@@ -79,9 +79,6 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func lock() {
-    
-    }
     
     init(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
