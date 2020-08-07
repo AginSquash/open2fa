@@ -8,14 +8,16 @@
 
 import SwiftUI
 
-struct passwordError: Identifiable {
+struct ExportResult: Identifiable {
     let id = UUID()
+    var title: String
     var message: String
 }
 
 struct ExportView: View {
     
     @Environment(\.exportFiles) var exportAction
+    @Environment(\.presentationMode) var presentationMode
     
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
@@ -33,7 +35,7 @@ struct ExportView: View {
     }
     
     @State private var passwordEntered = String()
-    @State private var error: passwordError? = nil
+    @State private var exportResult: ExportResult? = nil
     
     var body: some View {
         Form {
@@ -51,8 +53,8 @@ struct ExportView: View {
             })
         }
         .navigationBarTitle("Export", displayMode: .inline)
-        .alert(item: $error) { error in
-            Alert(title: Text("Error"), message: Text(error.message), dismissButton: .default(Text("Ok")))
+        .alert(item: $exportResult) { error in
+            Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == "Success" { self.presentationMode.wrappedValue.dismiss() } }) )
         }
     }
     
@@ -60,7 +62,7 @@ struct ExportView: View {
         
         guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
             passwordEntered = String()
-            error = passwordError(message: "You entered wrong password")
+            exportResult = ExportResult(title: "Error", message: "You entered wrong password")
             return
         }
         passwordEntered = String()
@@ -69,6 +71,7 @@ struct ExportView: View {
             exportAction(moving: dstURL) { result in
                     switch result {
                     case .success( _):
+                        exportResult = ExportResult(title: "Success", message: "Your file successfully exported!")
                         return
                     case .failure(let error):
                         print("Oops: \(error.localizedDescription)")

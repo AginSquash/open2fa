@@ -111,10 +111,10 @@
 			children = (
 				CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */,
 				CD8D71B324A3B7BA00A2C133 /* ImportView.swift */,
+				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
 				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
 				CD104A302499897F005A8E47 /* PreferencesView.swift */,
-				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 			);
 			path = Views;
