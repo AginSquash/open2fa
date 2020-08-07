@@ -20,7 +20,6 @@ class Core2FA_ViewModel: ObservableObject
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
-    static var needUpdate = false
     
     
     @objc func updateTime() {
@@ -29,12 +28,6 @@ class Core2FA_ViewModel: ObservableObject
         df.dateFormat = "ss"
         let time = Int(df.string(from: date))!
         
-        if Core2FA_ViewModel.needUpdate {
-            self.codes = self.core.getListOTP()
-            Core2FA_ViewModel.needUpdate = false
-        }
-        
-        //Need test! 
         if (time == 0 || time == 30) {
             self.codes = self.core.getListOTP()
         }
