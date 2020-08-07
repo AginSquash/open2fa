@@ -58,7 +58,8 @@ struct CodePreview: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            UIPasteboard.general.string = self.codeSingle
+            let pasteboard = self.codeSingle.replacingOccurrences(of: " ", with: "")
+            UIPasteboard.general.string = pasteboard
             withAnimation(.easeIn(duration: 0.15), { self.isCopied = true })
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
                 withAnimation(.easeIn(duration: 0.15), { self.isCopied = false })
