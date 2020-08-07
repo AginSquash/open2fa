@@ -24,10 +24,8 @@ struct errorType: Identifiable {
 }
 
 struct PasswordEnterView: View {
-    
-    @ObservedObject private var keyboard = KeyboardResponder()
 
-    @State var isUnlocked = false
+    @State private var isUnlocked = false
     
     let fileName = "encrypted.o2fa"
     var baseURL: URL {
@@ -168,9 +166,6 @@ struct PasswordEnterView: View {
                     .navigationBarTitle("")
                 .navigationBarHidden(true)
             }
-    
-        
-            .padding(.bottom, keyboard.currentHeight * 0.1) 
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: auth)

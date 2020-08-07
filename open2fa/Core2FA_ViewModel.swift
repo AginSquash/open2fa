@@ -86,6 +86,8 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     deinit {
+        self.timer = nil
+        
         NotificationCenter.default.removeObserver(self,
             name: UIApplication.willResignActiveNotification,
             object: nil)
