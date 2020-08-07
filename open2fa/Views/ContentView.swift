@@ -31,7 +31,7 @@ struct ContentView: View {
                     })
                 
                 List {
-                    if ContentView.isHide == false {
+                    if core_driver.isActive == true {
                         ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                             CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                         }

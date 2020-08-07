@@ -15,6 +15,7 @@ class Core2FA_ViewModel: ObservableObject
     
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
+    @Published var isActive: Bool = true
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -24,6 +25,9 @@ class Core2FA_ViewModel: ObservableObject
     public var isLocked = Binding<Bool>(get: { Core2FA_ViewModel.isLockedByBackground }, set: { Core2FA_ViewModel.isLockedByBackground = $0 })
     
     @objc func updateTime() {
+        
+        self.getState()
+        
         let date = Date()
         let df = DateFormatter()
         df.dateFormat = "ss"
@@ -100,7 +104,16 @@ class Core2FA_ViewModel: ObservableObject
         print("DEBUG: Core2Fa deleted")
     }
     
-    
+    func getState() {
+        let state = UIApplication.shared.applicationState
+        if state == .background || state == .inactive {
+            _debugPrint("inactive")
+            self.isActive = false
+        } else if state == .active {
+            _debugPrint("active")
+            self.isActive = true
+        }
+    }
     
     func updateCore(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
