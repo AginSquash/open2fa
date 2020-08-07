@@ -43,7 +43,9 @@ class Core2FA_ViewModel: ObservableObject
         guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
             fatalError("DeleteCode error")
         }
-        self.codes.removeAll(where: { $0.id == uuid } )
+        withAnimation {
+            self.codes.removeAll(where: { $0.id == uuid } )
+        }
     }
     
     func DEBUG() {
