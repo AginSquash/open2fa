@@ -47,7 +47,7 @@ struct CodePreview: View {
                 HStack {
                     Text(timeRemaningWrapped)
                         .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
-                        .frame(width: 30)
+                        .frame(width: 25)
                     Text(code.name)
                         .padding(.leading)
                     Spacer()
