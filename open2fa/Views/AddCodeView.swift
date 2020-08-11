@@ -21,6 +21,7 @@ struct AddCodeView: View {
     @State private var code = String()
     @State private var error: String? = nil
     @State private var showScaner = false
+    @State private var isCodeScanned = false
     
     var body: some View {
         NavigationView {
@@ -119,6 +120,7 @@ struct AddCodeView: View {
             
             self.code = dict["secret"] ?? "Error"
             self.name = parsed
+            self.isCodeScanned = true
             
         } else { fatalError("QR code not a URL") }
         

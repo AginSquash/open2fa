@@ -44,16 +44,16 @@ struct CodePreview: View {
                 Text("Copied!")
                 Spacer()
             } else {
-                ZStack {
-                    HStack {
-                        Text(timeRemaningWrapped)
-                            .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
-                        Text(code.name)
-                            .padding(.leading)
-                        Spacer()
-                        Text(codeSingle)
-                    }
+                HStack {
+                    Text(timeRemaningWrapped)
+                        .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
+                        .frame(width: 25)
+                    Text(code.name)
+                        .padding(.leading)
+                    Spacer()
+                    Text(codeSingle)
                 }
+                .animation(.none)
             }
         }
         .contentShape(Rectangle())
