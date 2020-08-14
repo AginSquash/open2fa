@@ -32,6 +32,8 @@ struct AddCodeView: View {
                 
                 Section(header: Text("Your secret code").font(.callout)) {
                     TextField("Code", text: $code)
+                        .foregroundColor(isCodeScanned ? .secondary : .primary)
+                        .disabled(isCodeScanned)
                 }
                 
                 Section {
@@ -61,18 +63,17 @@ struct AddCodeView: View {
             #if os(iOS)
             NavigationView {
                 
-                CBScanner(supportBarcode: [.qr]) //Set type of barcode you want to scan
+                CBScanner(supportBarcode: [.qr])
                             .interval(delay: 5.0) //Event will trigger every 5 seconds
-                               .found { code in
-                                    self.showScaner = false
-                                    handleCode(code: code)
-                              }
+                            .found { code in
+                                self.showScaner = false
+                                handleCode(code: code)
+                            }
                     .simulator(mockBarCode: "otpauth://totp/Test?secret=2fafa")
                     
                 .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
                 .navigationBarTitle("Scan QR code", displayMode: .inline)
             }
-            //.highPriorityGesture(DragGesture())
             #endif
          }
     }
