@@ -10,7 +10,7 @@ import SwiftUI
 import core_open2fa
 #if os(iOS)
 import AVFoundation
-import CodeScanner
+import CarBode
 #endif
 
 struct AddCodeView: View {
@@ -60,7 +60,15 @@ struct AddCodeView: View {
         .sheet(isPresented: $showScaner) {
             #if os(iOS)
             NavigationView {
-            CodeScannerView(codeTypes: [.qr], simulatedData: "{some json}", completion: self.handleScanner)
+                
+                CBScanner(supportBarcode: [.qr]) //Set type of barcode you want to scan
+                            .interval(delay: 5.0) //Event will trigger every 5 seconds
+                               .found { code in
+                                    self.showScaner = false
+                                    handleCode(code: code)
+                              }
+                    .simulator(mockBarCode: "otpauth://totp/Test?secret=2fafa")
+                    
                 .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
                 .navigationBarTitle("Scan QR code", displayMode: .inline)
             }
@@ -81,17 +89,6 @@ struct AddCodeView: View {
             self.showScaner = true
         }
         #endif
-    }
-    
-    func handleScanner(result: Result<String, CodeScannerView.ScanError>) {
-        showScaner = false
-        switch result {
-        case .success(let code):
-            //print("OUTPUT \(code)") //min otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example
-            handleCode(code: code)  //max otpauth://totp/LABEL?secret=JBSWY3DPEHPK3PXP
-        case .failure(let error):
-            debugPrint("OUTPUT ", error.localizedDescription)
-        }
     }
     
     func handleCode(code: String) {
