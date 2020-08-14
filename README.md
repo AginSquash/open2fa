@@ -35,7 +35,7 @@ Open2FA is a simple, open source two-factor authentication application written u
 All dependencies in this project are added through SPM. Links to them:
 - https://github.com/lachlanbell/SwiftOTP
 - https://github.com/krzyzanowskim/CryptoSwift
-- https://github.com/twostraws/CodeScanner
+- https://github.com/heart/CarBode-Barcode-Scanner-For-SwiftUI
 
 ## Notes
 This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
