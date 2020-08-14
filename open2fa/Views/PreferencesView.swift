@@ -10,13 +10,24 @@ import SwiftUI
 import core_open2fa
 
 struct PreferencesView: View {
+    
+    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var chosenForDelete: code? = nil
+    @State private var biometricStatusChange: Bool = false
+    @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
+    
     var body: some View {
             List {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
+                    Toggle(isOn: isEnableLocalKeyChain) {
+                        Text("FaceID or TouchID enable")
+                    }
+                    if biometricStatusChange {
+                        Text("Please, restart app and enter password to appear change")
+                    }
                 }
                 Section(header: Text("Delete")) {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
@@ -45,7 +56,24 @@ struct PreferencesView: View {
                           self.chosenForDelete = nil }),
                       secondaryButton: .cancel())
             }
+            .onAppear(perform: {
+                isEnableLocalKeyChain = Binding<Bool>(
+                    get: {
+                        let value = UserDefaults.standard.string(forKey: "isEnableLocalKeyChain")
+                        return value != "false" && value != ""
+                        },
+                    set: { changeTo in
+                        if changeTo == false {
+                            UserDefaults.standard.set("", forKey: "isEnableLocalKeyChain")
+                        } else {
+                            withAnimation { biometricStatusChange = true }
+                            UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
+                        }
+                        })
+            })
     }
+    
+
     
     func callAlert(at offset: IndexSet) {
         self.chosenForDelete = core_driver.codes[offset.first!]

@@ -84,7 +84,7 @@ struct PasswordEnterView: View {
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
                                 
                                 VStack {
-                                    Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                                    Toggle("🔐 Enable FaceID or TouchID", isOn: $isEnableLocalKeyChain.animation(.default))
                                     
                                     if isEnableLocalKeyChain == false {
                                         Text("FaceID and TouchID will be not available")
