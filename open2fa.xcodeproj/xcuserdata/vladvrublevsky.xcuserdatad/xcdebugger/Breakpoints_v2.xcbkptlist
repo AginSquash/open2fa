@@ -100,53 +100,5 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BCA5E63C-A0BA-4613-8CAC-E76781ED7AE2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "open2fa/Views/AddCodeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "BCA5E63C-A0BA-4613-8CAC-E76781ED7AE2 - 9bc11a1c8c7b6964"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in closure #3 () -&gt; SwiftUI.NavigationLink&lt;SwiftUI.Text, &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.highPriorityGesture&lt;A where A1: SwiftUI.Gesture&gt;(_: A1, including: SwiftUI.GestureMask) -&gt; some&gt;&gt;.0&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Section&lt;&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.TextField&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.Text, SwiftUI.TextField&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.EmptyView, SwiftUI.NavigationLink&lt;SwiftUI.Text, &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.highPriorityGesture&lt;A where A1: SwiftUI.Gesture&gt;(_: A1, including: SwiftUI.GestureMask) -&gt; some&gt;&gt;.0&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.EmptyView, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in open2fa.AddCodeView.body.getter : some"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/AddCodeView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "41"
-                  endingLineNumber = "41"
-                  offsetFromSymbolStart = "1224">
-               </Location>
-               <Location
-                  uuid = "BCA5E63C-A0BA-4613-8CAC-E76781ED7AE2 - 5700adc33bdb1042"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "implicit closure #2 (Swift.Result&lt;Swift.String, CodeScanner.CodeScannerView.ScanError&gt;) -&gt; () in implicit closure #1 (open2fa.AddCodeView) -&gt; (Swift.Result&lt;Swift.String, CodeScanner.CodeScannerView.ScanError&gt;) -&gt; () in closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in closure #3 () -&gt; SwiftUI.NavigationLink&lt;SwiftUI.Text, &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.highPriorityGesture&lt;A where A1: SwiftUI.Gesture&gt;(_: A1, including: SwiftUI.GestureMask) -&gt; some&gt;&gt;.0&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Section&lt;&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.TextField&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.Text, SwiftUI.TextField&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.EmptyView, SwiftUI.NavigationLink&lt;SwiftUI.Text, &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.highPriorityGesture&lt;A where A1: SwiftUI.Gesture&gt;(_: A1, including: SwiftUI.GestureMask) -&gt; some&gt;&gt;.0&gt;, SwiftUI.EmptyView&gt;, SwiftUI.Section&lt;SwiftUI.EmptyView, SwiftUI.Button&lt;SwiftUI.Text&gt;, SwiftUI.EmptyView&gt;)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.navigationBarHidden(Swift.Bool) -&gt; some&gt;&gt;.0 in open2fa.AddCodeView.body.getter : some"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/AddCodeView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "41"
-                  endingLineNumber = "41"
-                  offsetFromSymbolStart = "68">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

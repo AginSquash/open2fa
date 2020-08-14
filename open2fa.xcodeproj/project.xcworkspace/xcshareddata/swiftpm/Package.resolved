@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "CodeScanner",
-        "repositoryURL": "https://github.com/twostraws/CodeScanner",
+        "repositoryURL": "https://github.com/jcedmiston/CodeScanner",
         "state": {
           "branch": "main",
-          "revision": "fbeba7272e05502cf50f78649810ed5ccaf95a85",
+          "revision": "47a2d13e2ed61ebe975b87550e9eec16712597e4",
           "version": null
         }
       },
