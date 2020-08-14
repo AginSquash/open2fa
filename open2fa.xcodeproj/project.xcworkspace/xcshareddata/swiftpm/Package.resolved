@@ -5,9 +5,9 @@
         "package": "CodeScanner",
         "repositoryURL": "https://github.com/twostraws/CodeScanner",
         "state": {
-          "branch": null,
-          "revision": "9d902dec616bd70b1a2a1b1e6d821c10c392ba9f",
-          "version": "1.0.6"
+          "branch": "main",
+          "revision": "fbeba7272e05502cf50f78649810ed5ccaf95a85",
+          "version": null
         }
       },
       {

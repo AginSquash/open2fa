@@ -34,6 +34,23 @@ struct AddCodeView: View {
                     TextField("Code", text: $code)
                 }
                 
+               /* Section {
+                    NavigationLink("Scan QR",
+                        destination:
+                            NavigationView {
+                                CodeScannerView(codeTypes: [.qr], simulatedData: "{some json}", completion: self.handleScanner)
+                                    .navigationBarItems(trailing: Button("Close", action: {
+                                        DispatchQueue.main.async {
+                                            self.showScaner = false
+                                        }
+                                    }))
+                                    .navigationBarTitle("Scan QR code", displayMode: .inline)
+                                    .highPriorityGesture(DragGesture())
+                                },
+                        isActive: self.$showScaner
+                    )
+                } */
+                
                 Section {
                     Button(action: {
                         if self.name.isEmpty {
@@ -53,7 +70,6 @@ struct AddCodeView: View {
         .onAppear {
             self.startup()
         }
-    
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
@@ -67,7 +83,7 @@ struct AddCodeView: View {
             }
             .highPriorityGesture(DragGesture())
             #endif
-        }
+         }
     }
     
     func startup() {
