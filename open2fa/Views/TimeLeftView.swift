@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TimeLeftView: View {
-    var progress: CGFloat
+    let progress: CGFloat
     
         var body: some View {
             ZStack {
@@ -26,11 +26,17 @@ struct TimeLeftView: View {
                     .foregroundColor(Color.red)
             }
         }
+    
+    init(progress: CGFloat) {
+        self.progress = progress
+        _debugPrint("TimeLeftView \(Date())")
+    }
+    
 }
 
 struct TimeLeftView_Previews: PreviewProvider {
     static var previews: some View {
-        TimeLeftView(progress: 0.9)
+        TimeLeftView(progress: 0.4)
             .frame(width: 300, height: 300, alignment: .center)
     }
 }

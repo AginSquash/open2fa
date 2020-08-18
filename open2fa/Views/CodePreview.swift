@@ -33,7 +33,6 @@ struct CodePreview: View {
     }
     
     var timeRemaningWrapped: String {
-        _debugPrint(progress)
         
         if timeRemaning < 10 {
             return "0" + String(timeRemaning)
@@ -50,14 +49,15 @@ struct CodePreview: View {
                 Spacer()
             } else {
                 HStack {
-                    TimeLeftView(progress: progress)
-                        .frame(width: 50, height: 50, alignment: .center)
                     
+                    TimeLeftView(progress: progress)
+                        .frame(width: 30, height: 30, alignment: .center)
+                    /*
                     Text(timeRemaningWrapped)
                         .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
                         .frame(width: 25)
                     
-                    
+                    */
                     
                     Text(code.name)
                         .padding(.leading)

@@ -32,6 +32,7 @@ class Core2FA_ViewModel: ObservableObject
         if (time == 0 || time == 30) {
             self.codes = self.core.getListOTP()
         }
+        
         if time > 30 {
             timeRemaning = 30 - (time - 30)
         } else {
