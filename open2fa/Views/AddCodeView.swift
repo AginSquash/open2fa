@@ -33,6 +33,7 @@ struct AddCodeView: View {
                 Section(header: Text("Your secret code").font(.callout)) {
                     TextField("Code", text: $code)
                         .foregroundColor(isCodeScanned ? .secondary : .primary)
+                        .disableAutocorrection(true)
                         .disabled(isCodeScanned)
                 }
                 
