@@ -17,7 +17,7 @@ class Core2FA_ViewModel: ObservableObject
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = true
-    @Published var progress: CGFloat = 0
+    @Published var progress: CGFloat = 1.0
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?

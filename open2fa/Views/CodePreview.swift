@@ -12,8 +12,6 @@ import core_open2fa
 struct CodePreview: View {
     @State private var isCopied = false
     
-    //@State private var progress: CGFloat { CGFloat( timeRemaning / 30 ) }
-    
     let code: code
     let timeRemaning: Int
     let progress: CGFloat
@@ -49,7 +47,6 @@ struct CodePreview: View {
                 Spacer()
             } else {
                 HStack {
-                    
                     Text(code.name)
                         .padding(.leading)
                     Spacer()
