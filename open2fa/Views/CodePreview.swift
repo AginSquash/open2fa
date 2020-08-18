@@ -50,15 +50,6 @@ struct CodePreview: View {
             } else {
                 HStack {
                     
-                    TimeLeftView(progress: progress)
-                        .frame(width: 30, height: 30, alignment: .center)
-                    /*
-                    Text(timeRemaningWrapped)
-                        .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
-                        .frame(width: 25)
-                    
-                    */
-                    
                     Text(code.name)
                         .padding(.leading)
                     Spacer()

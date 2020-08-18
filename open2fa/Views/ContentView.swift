@@ -19,8 +19,13 @@ struct ContentView: View {
             ZStack {
                 List {
                     if core_driver.isActive {
+                        let timeLeftView = TimeLeftView(progress: core_driver.progress)
                         ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
-                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
+                            HStack {
+                                timeLeftView
+                                    .frame(width: 30, height: 30, alignment: .center)
+                                CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
+                            }
                             
                         }
                         .animation(.default)
