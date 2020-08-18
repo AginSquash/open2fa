@@ -18,6 +18,8 @@ struct PreferencesView: View {
     @State private var biometricStatusChange: Bool = false
     @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
     
+    let fileName = "encrypted.o2fa"
+    
     var body: some View {
             List {
                 Section(header: Text("Settings")) {
@@ -64,7 +66,8 @@ struct PreferencesView: View {
                         },
                     set: { changeTo in
                         if changeTo == false {
-                            UserDefaults.standard.set("", forKey: "isEnableLocalKeyChain")
+                            UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
+                            deletePasswordKeychain(name: fileName)
                         } else {
                             withAnimation { biometricStatusChange = true }
                             UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")

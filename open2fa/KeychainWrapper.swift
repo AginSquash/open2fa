@@ -60,3 +60,13 @@ func setPasswordKeychain(name: String, password: String) {
     guard status == errSecSuccess else { fatalError("ERROR \(status)") }
     _debugPrint("PASSWORD SAVED with name \(name)")
 }
+
+func deletePasswordKeychain(name: String) {
+    
+    var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                kSecAttrAccount as String: name,
+                                kSecAttrService as String: "open2fa_FILE_\(name)"]
+                                
+    let status = SecItemDelete(query as CFDictionary)
+    guard status == errSecSuccess || status == errSecItemNotFound else { fatalError("ERROR: \(status)") }
+}
