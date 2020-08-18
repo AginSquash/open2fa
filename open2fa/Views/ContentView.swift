@@ -20,7 +20,8 @@ struct ContentView: View {
                 List {
                     if core_driver.isActive {
                         ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
-                             CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
+                            
                         }
                         .animation(.default)
                         .transition(.opacity)

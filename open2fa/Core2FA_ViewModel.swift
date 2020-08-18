@@ -17,6 +17,7 @@ class Core2FA_ViewModel: ObservableObject
     @Published var codes: [code]
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = true
+    @Published var progress: CGFloat = 0
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -37,6 +38,7 @@ class Core2FA_ViewModel: ObservableObject
             timeRemaning = 30 - time
         }
         
+        progress = CGFloat( Double(timeRemaning) / 30 )
     }
     
     func deleteService(uuid: UUID) {

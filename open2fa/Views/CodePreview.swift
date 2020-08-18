@@ -12,8 +12,11 @@ import core_open2fa
 struct CodePreview: View {
     @State private var isCopied = false
     
+    //@State private var progress: CGFloat { CGFloat( timeRemaning / 30 ) }
+    
     let code: code
     let timeRemaning: Int
+    let progress: CGFloat
     
     var codeSingle: String {
         guard code.codeSingle != nil else {
@@ -30,6 +33,8 @@ struct CodePreview: View {
     }
     
     var timeRemaningWrapped: String {
+        _debugPrint(progress)
+        
         if timeRemaning < 10 {
             return "0" + String(timeRemaning)
         } else {
@@ -45,9 +50,15 @@ struct CodePreview: View {
                 Spacer()
             } else {
                 HStack {
+                    TimeLeftView(progress: progress)
+                        .frame(width: 50, height: 50, alignment: .center)
+                    
                     Text(timeRemaningWrapped)
                         .foregroundColor( self.timeRemaning <= 5 ? Color.red : .secondary)
                         .frame(width: 25)
+                    
+                    
+                    
                     Text(code.name)
                         .padding(.leading)
                     Spacer()
@@ -71,7 +82,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15)
+        return CodePreview(code: code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }
