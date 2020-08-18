@@ -18,7 +18,7 @@ Open2FA is a simple, open source two-factor authentication application written u
 
 ### Screenshots
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1_0.95.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
-<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2_1.2.0.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
+<img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2_1.2.1.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot6_0.95.png?raw=true" width="250" alt="Screenshot of the edit list" />
 
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot4.png?raw=true" width="550" alt="Screenshot of the macOS version" /> 

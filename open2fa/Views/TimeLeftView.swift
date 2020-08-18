@@ -22,7 +22,7 @@ struct TimeLeftView: View {
                     .trim(from: 0, to: progress)
                     .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: CGLineCap.round))
                     .rotationEffect(.degrees(-90))
-                    .foregroundColor( progress > 0.17 ? Color.purple : Color.red)
+                    .foregroundColor( progress > 0.17 ? Color.orange : Color.red)
                     .animation(.linear)
                     
             }
