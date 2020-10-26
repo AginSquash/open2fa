@@ -23,6 +23,12 @@ struct O2FADocument: FileDocument {
     
     var cf: codesFile
     
+    init(url: URL) {
+        let data = try! Data(contentsOf: url)
+        let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
+        self.cf = decoded
+    }
+    
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
               let codesFile = try? JSONDecoder().decode(codesFile.self, from: data)
