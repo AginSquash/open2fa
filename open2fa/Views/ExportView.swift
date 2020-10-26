@@ -79,7 +79,11 @@ struct ExportView: View {
             return
         }
         passwordEntered = String()
-        self.showExportView = true
+        self.showExportView = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.showExportView = true
+        }
     }
     /*
     func exportButton() {

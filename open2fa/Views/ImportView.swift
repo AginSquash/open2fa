@@ -51,7 +51,12 @@ struct ImportView: View {
                     }
                 }
                 Section {
-                    Button(action: { self.showImportAction = true }, label: {
+                    Button(action: {
+                        self.showImportAction = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.showImportAction = true
+                        }
+                    }, label: {
                         Text("Import")
                     })
                     .disabled(enteredPassword.isEmpty)
