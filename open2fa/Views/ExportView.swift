@@ -62,7 +62,8 @@ struct ExportView: View {
         .fileExporter(
             isPresented: $showExportView,
             document: encryptedFile,
-            contentType: UTType(filenameExtension: "o2fa")!) { result in
+            contentType: UTType(filenameExtension: "o2fa")!,
+            defaultFilename: "encrypted" ) { result in
             if case .success = result {
                     exportResult = ExportResult(title: "Success", message: "Your file successfully exported!")
                     return
