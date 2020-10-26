@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ExportResult: Identifiable {
     let id = UUID()
@@ -16,11 +17,11 @@ struct ExportResult: Identifiable {
 
 struct ExportView: View {
     
-    @Environment(\.exportFiles) var exportAction
+    //@Environment(\.exportFiles) var exportAction
     @Environment(\.presentationMode) var presentationMode
     
-    let fileName = "encrypted.o2fa"
-    var baseURL: URL {
+    static let fileName = "encrypted.o2fa"
+    static var baseURL: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
     }
     var dstURL: URL {
@@ -31,11 +32,13 @@ struct ExportView: View {
         {
             print("Unable to create directory \(error.debugDescription)")
         }
-       return url.appendingPathComponent(fileName)
+        return url.appendingPathComponent(ExportView.fileName)
     }
     
     @State private var passwordEntered = String()
     @State private var exportResult: ExportResult? = nil
+    @State private var showExportView = false
+    @State private var encryptedFile: O2FADocument = O2FADocument(url: baseURL)
     
     var body: some View {
         Form {
@@ -56,8 +59,33 @@ struct ExportView: View {
         .alert(item: $exportResult) { error in
             Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == "Success" { self.presentationMode.wrappedValue.dismiss() } }) )
         }
+        .fileExporter(
+            isPresented: $showExportView,
+            document: encryptedFile,
+            contentType: UTType(filenameExtension: "o2fa")!) { result in
+            if case .success = result {
+                    exportResult = ExportResult(title: "Success", message: "Your file successfully exported!")
+                    return
+                  } else {
+                    print("Oops: \(result)")
+                  }
+        }
     }
     
+    func exportButton() {
+        guard Core2FA_ViewModel.isPasswordCorrect(fileURL: ExportView.baseURL, password: passwordEntered) else {
+            passwordEntered = String()
+            exportResult = ExportResult(title: "Error", message: "You entered wrong password")
+            return
+        }
+        passwordEntered = String()
+        self.showExportView = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.showExportView = true
+        }
+    }
+    /*
     func exportButton() {
         
         guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
@@ -80,7 +108,7 @@ struct ExportView: View {
                     }
                 }
         }
-    }
+    } */
 }
 
 extension FileManager {

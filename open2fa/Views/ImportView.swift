@@ -9,6 +9,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import core_open2fa
+
 struct IVResult: Identifiable {
     let id = UUID()
     var title: String
@@ -17,7 +18,7 @@ struct IVResult: Identifiable {
 }
 
 struct ImportView: View {
-    @Environment(\.importFiles) var importAction
+    //@Environment(\.importFiles) var importAction
     @Environment(\.presentationMode) var presentationMode
     
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
@@ -31,6 +32,7 @@ struct ImportView: View {
     @State private var result: IVResult? = nil
     @State private var isEnableLocalKeyChain: Bool = true
     @State private var enteredPassword = String()
+    @State private var showImportAction = false
     
     var body: some View {
             Form {
@@ -49,7 +51,12 @@ struct ImportView: View {
                     }
                 }
                 Section {
-                    Button(action: ProccessImportAction, label: {
+                    Button(action: {
+                        self.showImportAction = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.showImportAction = true
+                        }
+                    }, label: {
                         Text("Import")
                     })
                     .disabled(enteredPassword.isEmpty)
@@ -63,8 +70,30 @@ struct ImportView: View {
                     }) )
                 }
             }
+            .fileImporter(
+                isPresented: $showImportAction,
+                allowedContentTypes: [UTType(filenameExtension: "o2fa")!],
+                allowsMultipleSelection: false
+            ) { result in
+                do {
+                    guard let url: URL = try result.get().first else { return }
+                    if url.startAccessingSecurityScopedResource() {
+                        if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
+                            url.stopAccessingSecurityScopedResource()
+                            
+                            let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
+                            handleCheckResult(checkResult)
+                        }
+                        url.stopAccessingSecurityScopedResource()
+                    } else {
+                        self.result = IVResult(title: "Error", message: "Unhandled error", isSuccessful: false)
+                    }
+                } catch {
+                    self.result = IVResult(title: "Error", message: error.localizedDescription, isSuccessful: false)
+                }
+            }
     }
-    
+    /*
     func ProccessImportAction() {
         let type = UTType(filenameExtension: "o2fa")!
         importAction(singleOfType: [type], completion: { (result: Result<URL, Error>?) in
@@ -89,7 +118,7 @@ struct ImportView: View {
             }
             return
         })
-    }
+    } */
     
     func handleCheckResult(_ checkResult: FUNC_RESULT) {
         var title = "Error"

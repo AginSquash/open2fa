@@ -25,6 +25,7 @@
 		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
 		CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD6703124EC13C40097D45D /* TimeLeftView.swift */; };
 		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
+		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
 		CDD6703124EC13C40097D45D /* TimeLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftView.swift; sourceTree = "<group>"; };
 		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
+				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
@@ -222,6 +225,7 @@
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
 				CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */,
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
+				CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 			);
