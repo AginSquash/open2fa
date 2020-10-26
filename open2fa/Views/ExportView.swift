@@ -16,7 +16,7 @@ struct ExportResult: Identifiable {
 
 struct ExportView: View {
     
-    @Environment(\.exportFiles) var exportAction
+    //@Environment(\.exportFiles) var exportAction
     @Environment(\.presentationMode) var presentationMode
     
     let fileName = "encrypted.o2fa"
@@ -46,7 +46,7 @@ struct ExportView: View {
                 }
                 SecureField("Password", text: $passwordEntered)
             }
-            Button(action: exportButton, label: {
+            Button(action: {}, label: {
                 Text("Yes, I understand that I still need to put this file in a safe place.")
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
@@ -58,6 +58,7 @@ struct ExportView: View {
         }
     }
     
+    /*
     func exportButton() {
         
         guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
@@ -80,7 +81,7 @@ struct ExportView: View {
                     }
                 }
         }
-    }
+    } */
 }
 
 extension FileManager {
