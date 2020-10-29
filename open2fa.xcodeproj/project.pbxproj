@@ -463,7 +463,7 @@
 			repositoryURL = "https://github.com/heart/CarBode-Barcode-Scanner-For-SwiftUI";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.3;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

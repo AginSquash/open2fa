@@ -64,13 +64,14 @@ struct AddCodeView: View {
             #if os(iOS)
             NavigationView {
                 
-                CBScanner(supportBarcode: [.qr])
-                            .interval(delay: 5.0) //Event will trigger every 5 seconds
-                            .found { code in
-                                self.showScaner = false
-                                handleCode(code: code)
-                            }
-                    .simulator(mockBarCode: "otpauth://totp/Test?secret=2fafa")
+                CBScanner(supportBarcode: .constant([.qr]), //Set type of barcode you want to scan
+                          scanInterval: .constant(5.0),
+                          mockBarCode:
+                            .constant(BarcodeData(value:"otpauth://totp/Test?secret=2fafa", type: .qr))
+                ) { code in
+                        self.showScaner = false
+                        handleCode(code: code.value)
+                }
                     
                 .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
                 .navigationBarTitle("Scan QR code", displayMode: .inline)

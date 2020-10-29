@@ -18,7 +18,7 @@ struct IVResult: Identifiable {
 }
 
 struct ImportView: View {
-    //@Environment(\.importFiles) var importAction
+    
     @Environment(\.presentationMode) var presentationMode
     
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
@@ -93,32 +93,6 @@ struct ImportView: View {
                 }
             }
     }
-    /*
-    func ProccessImportAction() {
-        let type = UTType(filenameExtension: "o2fa")!
-        importAction(singleOfType: [type], completion: { (result: Result<URL, Error>?) in
-            switch result {
-            case .success(let url):
-                if url.startAccessingSecurityScopedResource() {
-                    if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
-                        url.stopAccessingSecurityScopedResource()
-                        
-                        let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
-                        handleCheckResult(checkResult)
-                    }
-                    url.stopAccessingSecurityScopedResource()
-                } else {
-                    self.result = IVResult(title: "Error", message: "Unhandled error", isSuccessful: false)
-                }
-            case .failure(let error):
-                print("DEBUG: \(error.localizedDescription)")
-                self.result = IVResult(title: "Error", message: error.localizedDescription, isSuccessful: false)
-            case .none:
-                return
-            }
-            return
-        })
-    } */
     
     func handleCheckResult(_ checkResult: FUNC_RESULT) {
         var title = "Error"
