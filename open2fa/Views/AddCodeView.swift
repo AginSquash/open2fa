@@ -8,9 +8,9 @@
 
 import SwiftUI
 import core_open2fa
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
 import AVFoundation
-import CarBode
+import CodeScanner
 #endif
 
 struct AddCodeView: View {
@@ -22,7 +22,7 @@ struct AddCodeView: View {
     @State private var error: String? = nil
     @State private var showScaner = false
     @State private var isCodeScanned = false
-    
+        
     var body: some View {
         NavigationView {
             Form {
@@ -61,30 +61,51 @@ struct AddCodeView: View {
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
         .sheet(isPresented: $showScaner) {
-            #if os(iOS)
+            #if os(iOS) && !targetEnvironment(macCatalyst)
             NavigationView {
-                
-                CBScanner(supportBarcode: .constant([.qr]), //Set type of barcode you want to scan
-                          scanInterval: .constant(5.0),
-                          mockBarCode:
-                            .constant(BarcodeData(value:"otpauth://totp/Test?secret=2fafa", type: .qr))
-                ) { code in
-                        self.showScaner = false
-                        handleCode(code: code.value)
-                }
+                GeometryReader { geo in
+            ZStack {
+                Color(.sRGB, red: 242/255, green: 242/255, blue: 247/255, opacity: 1.0)
+                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                        CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { result in
+                            switch result {
+                            case .success(let code):
+                                self.showScaner = false
+                                handleCode(code: code)
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                        .frame(width: geo.size.width*0.9, height: geo.size.width*0.9, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
+                        .padding(.top)
                     
-                .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
-                .navigationBarTitle("Scan QR code", displayMode: .inline)
+                        Text("Please scan your QR code or close this view for manual input.")
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        
+                        Spacer()
+                    
+                        Text("(◕‿◕)♡")
+                            .font(.system(size: 48))
+                            .foregroundColor(.secondary)
+                            .padding()
+                    
+                        Spacer()
+                    }
+                }
+                }
+            .navigationBarItems(trailing: Button("Close", action: { self.showScaner = false }))
+            .navigationBarTitle("Scan QR code", displayMode: .inline)
             }
             #endif
+            
          }
     }
     
     func startup() {
-        #if targetEnvironment(macCatalyst)
-        return 
-        #endif
-        #if os(iOS)
+        #if os(iOS) && !targetEnvironment(macCatalyst)
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .denied || status == .restricted {
             self.showScaner = false
@@ -92,6 +113,7 @@ struct AddCodeView: View {
             self.showScaner = true
         }
         #endif
+        
     }
     
     func handleCode(code: String) {
