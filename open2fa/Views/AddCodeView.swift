@@ -15,7 +15,9 @@ import CodeScanner
 
 struct AddCodeView: View {
     @EnvironmentObject var core: Core2FA_ViewModel
+    
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var name = String()
     @State private var code = String()
@@ -65,8 +67,13 @@ struct AddCodeView: View {
             NavigationView {
                 GeometryReader { geo in
             ZStack {
+                if colorScheme == .light {
                 Color(.sRGB, red: 242/255, green: 242/255, blue: 247/255, opacity: 1.0)
                     .edgesIgnoringSafeArea(.all)
+                } else {
+                    Color.black
+                        .edgesIgnoringSafeArea(.all)
+                }
                 VStack {
                         CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { result in
                             switch result {
