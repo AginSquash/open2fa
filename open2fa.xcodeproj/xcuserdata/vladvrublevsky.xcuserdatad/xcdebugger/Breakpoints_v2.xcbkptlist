@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "E0F3E6C0-62F4-4B3D-A057-4B6CD412EC98"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7481009D-6C74-422D-81BC-D827CA6EE6A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "DeleteCode(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7230B982-A7A1-470E-A37C-5C009EB17AB9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "DeleteCode(id:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "AddCode(service_name:code:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - e34eb48014bc7b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "core_open2fa.CORE_OPEN2FA.DeleteCode(id: Foundation.UUID) -&gt; core_open2fa.FUNC_RESULT"
+                  moduleName = "open2fa"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladvrublevsky/Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "268">
+               </Location>
+               <Location
+                  uuid = "3BF27599-51AD-4963-98AE-EC2BB9AA4CE9 - 90d8fd01abe6ed98"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (core_open2fa.codeSecure) -&gt; Swift.Bool in core_open2fa.CORE_OPEN2FA.DeleteCode(id: Foundation.UUID) -&gt; core_open2fa.FUNC_RESULT"
+                  moduleName = "open2fa"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladvrublevsky/Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "85">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A3B936D6-2B85-414B-A390-00A314EB5E11"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Developer/Xcode/DerivedData/open2fa-ageaoakkzumcmbfyciyeoahecxjt/SourcePackages/checkouts/core-open2fa/Sources/core_open2fa/core_open2fa.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "CORE_OPEN2FA"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A255475F-EF22-4844-A48C-0C7F68B7BFCD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "open2fa/Views/ImportView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
