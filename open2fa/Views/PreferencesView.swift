@@ -21,7 +21,7 @@ struct PreferencesView: View {
     let fileName = "encrypted.o2fa"
     
     var body: some View {
-            List {
+            Form {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
                     Toggle(isOn: isEnableLocalKeyChain) {
