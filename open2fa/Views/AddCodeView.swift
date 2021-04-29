@@ -28,7 +28,7 @@ struct AddCodeView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Name of your service").font(.callout).padding(.top)) {
+                Section(header: Text("Name of your account").font(.callout).padding(.top)) {
                     TextField("Name", text: $name)
                 }
                 
@@ -58,6 +58,7 @@ struct AddCodeView: View {
         .onAppear {
             self.startup()
         }
+        .navigationBarTitle("Adding new Account", displayMode: .inline)
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
