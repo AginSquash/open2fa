@@ -30,6 +30,11 @@ struct PreferencesView: View {
                     if biometricStatusChange {
                         Text("Please, restart app and enter password to appear change")
                     }
+                    NavigationLink(
+                        destination: CreditsView(),
+                        label: {
+                            Text("Credits")
+                        })
                 }
                 Section(header: Text("Delete")) {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
