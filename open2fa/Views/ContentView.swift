@@ -18,18 +18,16 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 List {
-                        let timeLeftView = TimeLeftView(progress: core_driver.progress)
-                        ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
-                            HStack {
-                                timeLeftView
-                                    .frame(width: 30, height: 30, alignment: .center)
-                                CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
-                            }
-                            
+                    let timeLeftView = TimeLeftView(progress: core_driver.progress)
+                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                        HStack {
+                            timeLeftView
+                                .frame(width: 30, height: 30, alignment: .center)
+                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
                         }
-                        .animation(.default)
-                        .transition(.opacity)
-                        //.blur(radius: core_driver.isActive ? 0 : 5)
+                    }
+                    .animation(.default)
+                    .transition(.opacity)
                 }
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(
