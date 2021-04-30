@@ -24,7 +24,6 @@ struct errorType: Identifiable {
 }
 
 struct PasswordEnterView: View {
-
     @State private var isUnlocked = false
     
     let fileName = "encrypted.o2fa"
@@ -186,6 +185,8 @@ struct PasswordEnterView: View {
     }
     
     func auth() {
+        self.core_driver.isActive = false
+        
         guard isFirstRun == false else {
             return
         }

@@ -76,7 +76,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         _debugPrint("removeObserver")
     }
-
-
 }
 
