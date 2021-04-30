@@ -29,7 +29,7 @@ struct ContentView: View {
                         }
                         .animation(.default)
                         .transition(.opacity)
-                        .blur(radius: core_driver.isActive ? 0 : 5)
+                        //.blur(radius: core_driver.isActive ? 0 : 5)
                 }
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(
@@ -48,6 +48,7 @@ struct ContentView: View {
                 
             }
         }
+        .blur(radius: core_driver.isActive ? 0 : 5)
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
