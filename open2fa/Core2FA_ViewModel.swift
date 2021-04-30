@@ -34,7 +34,7 @@ class Core2FA_ViewModel: ObservableObject
         }
         
         if time > 30 {
-            timeRemaning = 30 - (time - 30)
+            timeRemaning = 60 - time
         } else {
             timeRemaning = 30 - time
         }
