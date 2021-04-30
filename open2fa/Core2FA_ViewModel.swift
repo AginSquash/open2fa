@@ -105,11 +105,11 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     func updateCore(fileURL: URL, pass: String) {
+        self.setObservers()
+        
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
-        self.setObservers()
     }
     
     
