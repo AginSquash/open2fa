@@ -126,13 +126,11 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     @objc func willResignActiveNotification() {
-        withAnimation {
             self.isActive = false
-        }
     }
     
     @objc func didBecomeActiveNotification() {
-        withAnimation {
+        withAnimation(.easeInOut(duration: 0.2)) {
             self.isActive = true
         }
     }

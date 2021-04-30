@@ -18,7 +18,6 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 List {
-                    if core_driver.isActive {
                         let timeLeftView = TimeLeftView(progress: core_driver.progress)
                         ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                             HStack {
@@ -30,8 +29,7 @@ struct ContentView: View {
                         }
                         .animation(.default)
                         .transition(.opacity)
-                    }
-                    
+                        .blur(radius: core_driver.isActive ? 0 : 5)
                 }
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(
@@ -59,7 +57,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file")
-        //core_driver.DEBUG()
+        core_driver.DEBUG()
         
         return ContentView().environmentObject(core_driver)
     }
