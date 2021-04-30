@@ -208,7 +208,9 @@ struct PasswordEnterView: View {
                         if let pass = getPasswordFromKeychain(name: fileName) {
                             self.enteredPassword = pass
                             
-                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword) 
+                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                            self.core_driver.setObservers()
+                            
                             self.isUnlocked = true
                         } else { return }
                     }
