@@ -23,6 +23,7 @@
 		CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */; };
 		CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = CD9A8F2825B6F58C00DFD47F /* CodeScanner */; };
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
+		CDB64B32263C2331000F7B01 /* open2faApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB64B31263C2331000F7B01 /* open2faApp.swift */; };
 		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
 		CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD6703124EC13C40097D45D /* TimeLeftView.swift */; };
 		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
@@ -51,6 +52,7 @@
 		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
 		CDA02C92263ACCFE0097882E /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		CDB64B31263C2331000F7B01 /* open2faApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = open2faApp.swift; sourceTree = "<group>"; };
 		CDD6703124EC13C40097D45D /* TimeLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftView.swift; sourceTree = "<group>"; };
 		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
+				CDB64B31263C2331000F7B01 /* open2faApp.swift */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
 				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
@@ -231,6 +234,7 @@
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
 				CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
+				CDB64B32263C2331000F7B01 /* open2faApp.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

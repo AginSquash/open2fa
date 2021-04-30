@@ -5,7 +5,7 @@
 //  Created by Vlad Vrublevsky on 16.05.2020.
 //  Copyright © 2020 Vlad Vrublevsky. All rights reserved.
 //
-
+/*
 import UIKit
 import SwiftUI
 import core_open2fa
@@ -80,3 +80,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+*/
