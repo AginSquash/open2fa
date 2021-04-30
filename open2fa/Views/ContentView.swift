@@ -19,7 +19,7 @@ struct ContentView: View {
             ZStack {
                 List {
                     let timeLeftView = TimeLeftView(progress: core_driver.progress)
-                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                    ForEach (core_driver.codes) { c in
                         HStack {
                             timeLeftView
                                 .frame(width: 30, height: 30, alignment: .center)
