@@ -168,7 +168,9 @@ struct PasswordEnterView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: auth)
+        .onAppear(perform: {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: auth)
+        })
         .alert(item: $errorDiscription) { error in
             if error.error == .thisFileNotExist {
                 return Alert(title: Text("Error"), message: Text("File not exists"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
