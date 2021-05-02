@@ -30,7 +30,7 @@ class Core2FA_ViewModel: ObservableObject
         let time = Int(df.string(from: date))!
         
         if (time == 0 || time == 30) {
-            self.codes = self.core.getListOTP().sorted(by: { $0.date < $1.date })
+            self.codes = self.core.getListOTP()
         }
         
         if time > 30 {
@@ -63,7 +63,7 @@ class Core2FA_ViewModel: ObservableObject
     func addService(name: String, code: String) -> String? {
         let result = core.AddCode(service_name: name, code: code)
         if result == .SUCCEFULL {
-            self.codes = self.core.getListOTP().sorted(by: { $0.date < $1.date })
+            self.codes = self.core.getListOTP()
             return nil
         }
         
@@ -79,7 +79,7 @@ class Core2FA_ViewModel: ObservableObject
     
     init(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        self.codes = core.getListOTP().sorted(by: { $0.date < $1.date })
+        self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
@@ -108,7 +108,7 @@ class Core2FA_ViewModel: ObservableObject
         self.setObservers()
         
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        self.codes = core.getListOTP().sorted(by: { $0.date < $1.date })
+        self.codes = core.getListOTP() 
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
