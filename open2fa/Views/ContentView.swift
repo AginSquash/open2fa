@@ -46,7 +46,9 @@ struct ContentView: View {
                 
             }
         }
+#if os(iOS) && !targetEnvironment(macCatalyst)
         .blur(radius: core_driver.isActive ? 0 : 5)
+#endif
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
