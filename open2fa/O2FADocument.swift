@@ -17,7 +17,6 @@ struct codesFile: Codable {
     var passcheck: Data?
     var codes: Data?
 }
-
 struct O2FADocument: FileDocument {
     static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
     
