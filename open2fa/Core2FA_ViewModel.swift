@@ -77,6 +77,23 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
+    func editService(serviceID: UUID, newName: String) -> String? {
+        let result = core.EditCode(id: serviceID, newName: newName)
+        if result == .SUCCEFULL {
+            self.codes = self.core.getListOTP()
+            return nil
+        }
+        
+        switch result {
+        case .ALREADY_EXIST:
+            return "This name already taken"
+        case .CANNOT_FIND_ID:
+            return "Cannot find this ID"
+        default:
+            return "Unknown error"
+        }
+    }
+    
     init(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()

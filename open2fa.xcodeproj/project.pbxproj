@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
+		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
+		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
 		CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */; };
@@ -35,6 +37,8 @@
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CD20FCD724D0F938008F5E6A /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD20FCD824D0F938008F5E6A /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
+		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CD6786FA24AB7F3C00422233 /* open2fa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = open2fa.entitlements; sourceTree = "<group>"; };
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
@@ -61,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
 				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
 			);
@@ -122,6 +127,7 @@
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
 				CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */,
 				CD104A302499897F005A8E47 /* PreferencesView.swift */,
+				CD58E2E027885ADF00D9047E /* EditCodeView.swift */,
 				CDA02C92263ACCFE0097882E /* CreditsView.swift */,
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CDD6703124EC13C40097D45D /* TimeLeftView.swift */,
@@ -132,6 +138,7 @@
 		CDC636EF2471DC8400F10540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD58E2E227885EA900D9047E /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */,
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
@@ -403,6 +411,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					"\"XCTest\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.vladvrublevsky.open2fa123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -433,6 +445,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					"\"XCTest\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.vladvrublevsky.open2fa123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

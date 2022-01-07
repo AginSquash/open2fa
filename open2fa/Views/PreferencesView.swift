@@ -36,7 +36,13 @@ struct PreferencesView: View {
                             Text("Credits")
                         })
                 }
-                Section(header: Text("Delete")) {
+                Section(header: Text("Edit and Delete"), footer:
+                    Group {
+                        Text("Tap to edit, swipe from right edge to the left to ")
+                        +
+                        Text("delete").foregroundColor(.red)
+                }.layoutPriority(1)
+                ) {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                         HStack {
                             Text(c.name)
@@ -44,12 +50,23 @@ struct PreferencesView: View {
                             Text("added " + self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
                                 .padding(.trailing, 10)
+                            Spacer()
+                            NavigationLink(
+                                destination:
+                                    EditCodeView(service: c),
+                                label: {
+                                    Image(systemName: "square.and.pencil")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20)
+                            }).frame(width: 40)
+                            /*
                             Button(action: {
                                 self.chosenForDelete = c
                             }, label: {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
-                            })
+                            }) */
                         }
                     }.onDelete(perform: callAlert)
                 }
