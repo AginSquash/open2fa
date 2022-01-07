@@ -23,6 +23,11 @@ struct O2FADocument: FileDocument {
     var cf: codesFile
     
     init(url: URL) {
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+            self.cf = codesFile(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
+            return
+        }
+        
         let data = try! Data(contentsOf: url)
         let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
         self.cf = decoded
