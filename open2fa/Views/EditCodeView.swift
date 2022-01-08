@@ -14,13 +14,11 @@ struct EditCodeView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.colorScheme) var colorScheme
     
     var service: code
     
     @State private var name = String()
     @State private var error: String? = nil
-    
     @State private var deleteThisService = false
     
     var body: some View {
