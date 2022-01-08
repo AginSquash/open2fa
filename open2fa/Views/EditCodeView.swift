@@ -21,9 +21,6 @@ struct EditCodeView: View {
     @State private var name = String()
     @State private var error: String? = nil
     
-    @State private var showScaner = false
-    @State private var isCodeScanned = false
-    
     @State private var deleteThisService = false
     
     var body: some View {
@@ -42,8 +39,7 @@ struct EditCodeView: View {
                     }
                     .font(.system(size: 6))
                     .foregroundColor(.secondary)
-                    .disableAutocorrection(true)
-                    .disabled(isCodeScanned)
+                    .disabled(true)
                 }
                 
                 Section {
