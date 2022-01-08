@@ -47,10 +47,9 @@ struct PreferencesView: View {
                         HStack {
                             Text(c.name)
                             Spacer()
-                            Text("added " + self.getWrappedDate(date: c.date))
+                            Text(self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
                                 .padding(.trailing, 10)
-                            Spacer()
                             NavigationLink(
                                 destination:
                                     EditCodeView(service: c),
