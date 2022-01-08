@@ -11,7 +11,7 @@ import core_open2fa
 import XCTest
 
 struct EditCodeView: View {
-    @EnvironmentObject var core: Core2FA_ViewModel
+    @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
@@ -20,9 +20,12 @@ struct EditCodeView: View {
     
     @State private var name = String()
     @State private var error: String? = nil
+    
     @State private var showScaner = false
     @State private var isCodeScanned = false
-        
+    
+    @State private var deleteThisService = false
+    
     var body: some View {
         NavigationView {
             Form {
@@ -44,38 +47,74 @@ struct EditCodeView: View {
                 }
                 
                 Section {
-                    Button(action: {
-                        if self.name.isEmpty {
-                            self.error = "Name cannot be empty"
-                            return
-                        }
-                        
-                        guard self.name != self.service.name else {
-                            return
-                        }
-                        
-                        self.error = self.core.editService(serviceID: service.id, newName: self.name)
-                        if self.error == nil {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
-                    }, label: {
-                        HStack {
-                            Spacer()
-                            Text("Save")
-                            Spacer()
-                        }
-                    } )
-                    
+                    saveButton
                 }
             }
             .navigationBarHidden(true)
-        }
-        .navigationBarTitle("Adding new Account", displayMode: .inline)
+        } // leading: Spacer().frame(width: 20) <- use to hide "Preferences" back button
+        .navigationBarItems(trailing: deleteButton)
+        .navigationBarTitle("Account editing", displayMode: .inline)
         .navigationViewStyle(StackNavigationViewStyle())
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
     }
+    
+    var deleteButton: some View {
+        Button(
+            action: { self.deleteThisService = true },
+            label: {
+                Text("Delete")
+                    .foregroundColor(.red)
+            })
+            .alert(isPresented: $deleteThisService) {
+                Alert(title: Text("Are you sure want to delete \(name)?"), message: Text("This action is irreversible"),
+                      primaryButton: .destructive(Text("Delete"), action: {
+                        self.core_driver.deleteService(uuid: service.id )
+                        self.presentationMode.wrappedValue.dismiss()
+                }),
+                      secondaryButton: .cancel())
+            }
+    }
+    
+    var saveButton: some View {
+        Button(action: {
+            if self.name.isEmpty {
+                self.error = "Name cannot be empty"
+                return
+            }
+            
+            guard self.name != self.service.name else {
+                return
+            }
+            
+            self.error = self.core_driver.editService(serviceID: service.id, newName: self.name)
+            if self.error == nil {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }, label: {
+            HStack {
+                Spacer()
+                Text("Save")
+                Spacer()
+            }
+        } )
+    }
+    
+    /// Custom back button
+    /*
+    var backButton: some View {
+        Button(
+            action: { self.presentationMode.wrappedValue.dismiss() },
+            label: {
+                HStack {
+                    Image(systemName: "chevron.left")
+                        .imageScale(.large)
+                    Text("Back")
+                }
+        })
+    }
+     */
     
     init(service: code) {
         self.service = service
