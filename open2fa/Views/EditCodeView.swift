@@ -58,7 +58,14 @@ struct EditCodeView: View {
                         if self.error == nil {
                             self.presentationMode.wrappedValue.dismiss()
                         }
-                    }, label: { Text("Save") } )
+                    }, label: {
+                        HStack {
+                            Spacer()
+                            Text("Save")
+                            Spacer()
+                        }
+                    } )
+                    
                 }
             }
             .navigationBarHidden(true)
