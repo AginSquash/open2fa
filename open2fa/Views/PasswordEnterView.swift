@@ -51,7 +51,9 @@ struct PasswordEnterView: View {
                 VStack {
                         VStack(alignment: .trailing, spacing: 0) {
                              HStack {
-                                 GetAppIcon()
+                                 Image("LogoIcon")
+                                     .resizable()
+                                     .frame(width: 60, height: 60)
                                      .clipShape(RoundedRectangle(cornerRadius: 10))
                                  VStack {
                                      Text("Open2FA")
@@ -239,17 +241,6 @@ struct PasswordEnterView: View {
             }
         }
     }
-    
-    func GetAppIcon() -> Image? {
-        guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String:Any],
-        let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String:Any],
-        let iconFiles = primaryIconsDictionary["CFBundleIconFiles"] as? [String],
-        let lastIcon = iconFiles.last else { return nil }
-        let uiIcon = UIImage(named: lastIcon)!
-        return Image(uiImage: uiIcon)
-
-    }
-    
 }
 
 
