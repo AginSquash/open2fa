@@ -100,6 +100,7 @@ struct PasswordEnterView: View {
                             }
                         }.padding(.horizontal)
                         
+                    VStack {
                         NavigationLink(
                             destination:
                                 ContentView().environmentObject(core_driver)
@@ -144,12 +145,29 @@ struct PasswordEnterView: View {
                                     VStack {
                                         Text( isFirstRun ? "Create" : "Unlock")
                                             .padding(.top, geo.size.height / 50 )
-                                        Spacer()
                                     }
                                 })
                             })
                             .disabled( (enteredPassword != enteredPasswordCHECK && isFirstRun) || ( enteredPassword.isEmpty ) )
                         
+                        if !isFirstRun && isEnableLocalKeyChain {
+                            VStack {
+                                Text("- or -")
+                                    .foregroundColor(.secondary)
+                                    .padding()
+                                Button(action: auth, label: {
+                                    HStack {
+                                        Text("Retry")
+                                        Image(systemName: "faceid")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                    }
+                                })
+                                
+                            }
+                        }
+                        Spacer()
+                    }
                         
                         if isFirstRun {
                             VStack {
