@@ -94,6 +94,10 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
+    func _exportServiceSECURE(with id: UUID) -> codeSecure? {
+        return core.NoCrypt_ExportServiceSECRET(with: id)
+    }
+    
     init(fileURL: URL, pass: String) {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
