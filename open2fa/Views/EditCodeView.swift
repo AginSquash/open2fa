@@ -21,6 +21,8 @@ struct EditCodeView: View {
     @State private var error: String? = nil
     @State private var deleteThisService = false
     
+    @State private var showAuth: Bool = false
+    
     var body: some View {
         NavigationView {
             Form {
@@ -34,10 +36,20 @@ struct EditCodeView: View {
                         Image(systemName: "circle.fill")
                         Image(systemName: "circle.fill")
                         Image(systemName: "circle.fill")
+                        
+                        Spacer()
+                        
+                        Button(action: showSecret,
+                               label: {
+                                    Image(systemName: "eye.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 20)
+                                    }
+                        )
                     }
                     .font(.system(size: 6))
                     .foregroundColor(.secondary)
-                    .disabled(true)
                 }
                 
                 Section {
@@ -52,6 +64,9 @@ struct EditCodeView: View {
         .alert(item: $error) { error in
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
+        .sheet(isPresented: $showAuth, content: {
+            AuthView(serviceUUID: service.id)
+        })
     }
     
     var deleteButton: some View {
@@ -109,6 +124,10 @@ struct EditCodeView: View {
         })
     }
      */
+    
+    func showSecret() {
+        self.showAuth = true
+    }
     
     init(service: code) {
         self.service = service

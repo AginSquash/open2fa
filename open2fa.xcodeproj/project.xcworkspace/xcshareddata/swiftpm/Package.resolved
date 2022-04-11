@@ -1,43 +1,41 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "CodeScanner",
-        "repositoryURL": "https://github.com/twostraws/CodeScanner",
-        "state": {
-          "branch": null,
-          "revision": "8a9ce909a4ea502d4a2ccf327ae8c16b7e48e740",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "core_open2fa",
-        "repositoryURL": "https://github.com/AginSquash/core-open2fa",
-        "state": {
-          "branch": null,
-          "revision": "80443e8b7918d32b8506cfd126fb895fa4fedcb5",
-          "version": "3.3.0"
-        }
-      },
-      {
-        "package": "CryptoSwift",
-        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift",
-        "state": {
-          "branch": null,
-          "revision": "5669f222e46c8134fb1f399c745fa6882b43532e",
-          "version": "1.3.8"
-        }
-      },
-      {
-        "package": "SwiftOTP",
-        "repositoryURL": "https://github.com/lachlanbell/SwiftOTP.git",
-        "state": {
-          "branch": null,
-          "revision": "93d4942c90dd498580988ffb9971e2ddf91d5a28",
-          "version": "2.0.3"
-        }
+  "pins" : [
+    {
+      "identity" : "codescanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/twostraws/CodeScanner",
+      "state" : {
+        "revision" : "8a9ce909a4ea502d4a2ccf327ae8c16b7e48e740",
+        "version" : "1.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "core-open2fa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AginSquash/core-open2fa",
+      "state" : {
+        "revision" : "95b21c60f9cd095d13c10efdc0f48e53fdc7d0e1",
+        "version" : "3.6.1"
+      }
+    },
+    {
+      "identity" : "cryptoswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/CryptoSwift",
+      "state" : {
+        "revision" : "5669f222e46c8134fb1f399c745fa6882b43532e",
+        "version" : "1.3.8"
+      }
+    },
+    {
+      "identity" : "swiftotp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lachlanbell/SwiftOTP.git",
+      "state" : {
+        "revision" : "93d4942c90dd498580988ffb9971e2ddf91d5a28",
+        "version" : "2.0.3"
+      }
+    }
+  ],
+  "version" : 2
 }
