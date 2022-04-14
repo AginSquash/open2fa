@@ -25,6 +25,7 @@ struct AuthView: View {
     
     @State private var enteredPassword: String = ""
     @State private var isUnlocked: Bool = false
+    @State private var showPasswordError: Bool = false
     
     var body: some View {
         NavigationView {
@@ -44,6 +45,9 @@ struct AuthView: View {
                             _debugPrint(baseURL)
                             self.core_driver.isActive = true
                             self.isUnlocked = true
+                        } else {
+                            self.enteredPassword = ""
+                            self.showPasswordError = true
                         }
                     })
                 })
@@ -70,6 +74,9 @@ struct AuthView: View {
             .onAppear(perform: {
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: auth)
             })
+            .alert(isPresented: $showPasswordError) {
+                Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
+            }
         }
     }
     
