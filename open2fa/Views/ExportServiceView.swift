@@ -14,17 +14,17 @@ struct ExportServiceView: View {
     
     var serviceUUID: UUID
     
-    @State private var showAuth: Bool = true
+    @State private var secret: String = "error!"
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Your service secret:").font(.callout)) {
                     HStack {
-                        Text("1234567")
+                        Text(secret)
                         Spacer()
                         Button(action: {
-                            //copy to clipboard
+                            UIPasteboard.general.string = secret
                         }, label: {
                             Image(systemName: "doc.on.doc")
                                 .resizable()
@@ -33,8 +33,18 @@ struct ExportServiceView: View {
                         })
                     }
                 }
-            }.navigationTitle(Text("Export Service"))
+            }
+            .navigationTitle(Text("Export Service"))
+            .onAppear(perform: startup)
         }
+    }
+    
+    func startup() {
+        guard let code_secure = core_driver._exportServiceSECURE(with: serviceUUID) else {
+            fatalError("Auth with incorrect pass/other")
+        }
+        
+        self.secret = code_secure.secret
     }
 }
 
