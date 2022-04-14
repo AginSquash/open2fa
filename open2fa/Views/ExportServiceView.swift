@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import core_open2fa
 
 struct ExportServiceView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
@@ -15,6 +16,7 @@ struct ExportServiceView: View {
     var serviceUUID: UUID
     
     @State private var secret: String = "error!"
+    @State private var QRImage: Image?
     
     var body: some View {
         NavigationView {
@@ -33,6 +35,11 @@ struct ExportServiceView: View {
                         })
                     }
                 }
+                Section {
+                    QRImage?
+                        .resizable()
+                        .scaledToFit()
+                }
             }
             .navigationTitle(Text("Export Service"))
             .onAppear(perform: startup)
@@ -45,6 +52,28 @@ struct ExportServiceView: View {
         }
         
         self.secret = code_secure.secret
+        getQRCode(cs: code_secure)
+    }
+    
+    func getQRCode(cs: codeSecure) {
+        let exportText = "otpauth://totp/\(cs.name)?secret=\(cs.secret)"
+        let encoded: Data = exportText.data(using: .utf8)!
+        let params = [
+            "inputMessage": encoded,
+            "inputCorrectionLevel": "H"
+        ] as [String : Any]
+        let qrEncoder = CIFilter(name: "CIQRCodeGenerator", parameters: params)
+        let ciImage: CIImage = qrEncoder!.outputImage!
+        var image = UIImage(ciImage: ciImage)
+        
+        let size: CGSize = CGSize(width: 500, height: 500)
+        UIGraphicsBeginImageContext(size);
+        let context = UIGraphicsGetCurrentContext()
+        context!.interpolationQuality = .none//
+        image.draw(in: CGRect(origin: .zero, size: size))
+        image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext();
+        self.QRImage = Image(uiImage: image)
     }
 }
 
