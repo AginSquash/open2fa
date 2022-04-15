@@ -17,6 +17,7 @@ struct ExportServiceView: View {
     
     @State private var secret: String = "error!"
     @State private var QRImage: Image?
+    @Binding var isCloseExport: Bool
     
     var body: some View {
         NavigationView {
@@ -43,6 +44,16 @@ struct ExportServiceView: View {
             }
             .navigationTitle(Text("Export Service"))
             .onAppear(perform: startup)
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        self.isCloseExport = true
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Close")
+                    })
+                }
+            })
         }
     }
     
@@ -79,6 +90,6 @@ struct ExportServiceView: View {
 
 struct ExportServiceView_Previews: PreviewProvider {
     static var previews: some View {
-        ExportServiceView(serviceUUID: UUID())
+        ExportServiceView(serviceUUID: UUID(), isCloseExport: .constant(false))
     }
 }

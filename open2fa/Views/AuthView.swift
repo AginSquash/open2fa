@@ -26,6 +26,7 @@ struct AuthView: View {
     @State private var enteredPassword: String = ""
     @State private var isUnlocked: Bool = false
     @State private var showPasswordError: Bool = false
+    @State private var isCloseExport: Bool = false
     
     var body: some View {
         NavigationView {
@@ -35,7 +36,7 @@ struct AuthView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 NavigationLink(
                     destination:
-                        ExportServiceView(serviceUUID: serviceUUID)
+                        ExportServiceView(serviceUUID: serviceUUID, isCloseExport: $isCloseExport)
                         .navigationBarTitle("")
                         .navigationBarHidden(true),
                     isActive: $isUnlocked,
@@ -72,11 +73,24 @@ struct AuthView: View {
             .padding()
             .navigationTitle("Authentication")
             .onAppear(perform: {
+                if isCloseExport {
+                    self.presentationMode.wrappedValue.dismiss()
+                    return
+                }
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: auth)
             })
             .alert(isPresented: $showPasswordError) {
                 Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.enteredPassword = "" }))
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Close")
+                    })
+                }
+            })
         }
     }
     
