@@ -57,7 +57,7 @@ class Core2FA_ViewModel: ObservableObject
         _ = core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
         _ = core.AddCode(service_name: "Test4", code: "q4qghrcn2c42bgbz")
         _ = core.AddCode(service_name: "Test5", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test6", code: "q4qghrcn2c42bgbz")
+        _ = core.AddCode(service_name: "Test6_extralargenamewillbehere", code: "q4qghrcn2c42bgbz")
     }
     
     func addService(name: String, code: String) -> String? {
