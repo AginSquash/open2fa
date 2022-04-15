@@ -148,10 +148,13 @@ struct AddCodeView: View {
             }
             
             self.code = dict["secret"] ?? "Error"
-            self.name = parsed
+            self.name = parsed.replacingOccurrences(of: "%20", with: " ")
             self.isCodeScanned = true
             
-        } else { fatalError("QR code not a URL") }
+        } else {
+            _debugPrint("url: \(parsed)")
+            fatalError("QR code not a URL")
+        }
         
     }
 }

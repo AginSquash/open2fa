@@ -83,7 +83,8 @@ struct ExportServiceView: View {
     }
     
     func getQRCode(cs: codeSecure) {
-        let exportText = "otpauth://totp/\(cs.name)?secret=\(cs.secret)"
+        let name = cs.name.replacingOccurrences(of: " ", with: "%20")
+        let exportText = "otpauth://totp/\(name)?secret=\(cs.secret)"
         let encoded: Data = exportText.data(using: .utf8)!
         let params = [
             "inputMessage": encoded,
