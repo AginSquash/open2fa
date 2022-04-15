@@ -91,6 +91,7 @@ struct AuthView: View {
                     })
                 }
             })
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
