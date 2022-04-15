@@ -19,41 +19,57 @@ struct ExportServiceView: View {
     @State private var QRImage: Image?
     @Binding var isCloseExport: Bool
     
+    var verticalPadding: CGFloat {
+        #if os(iOS) && !targetEnvironment(macCatalyst)
+        return -20
+        #endif
+        return 0
+    }
+    
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Your service secret:").font(.callout)) {
-                    HStack {
-                        Text(secret)
-                        Spacer()
-                        Button(action: {
-                            UIPasteboard.general.string = secret
-                        }, label: {
-                            Image(systemName: "doc.on.doc")
+        GeometryReader { geometry in
+            NavigationView {
+                Form {
+                    Section(header: Text("Your service secret:").font(.callout)) {
+                        HStack {
+                            Text(secret)
+                            Spacer()
+                            Button(action: {
+                                UIPasteboard.general.string = secret
+                            }, label: {
+                                Image(systemName: "doc.on.doc")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 18)
+                            })
+                        }
+                    }
+                    Section(header: Text("QR code")) {
+                        HStack {
+                            Spacer()
+                            QRImage?
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 18)
-                        })
+                                .frame(height: geometry.size.height/2, alignment: .center)
+                                .padding(.vertical, verticalPadding)
+                            Spacer()
+                        }
                     }
                 }
-                Section {
-                    QRImage?
-                        .resizable()
-                        .scaledToFit()
-                }
+                .navigationTitle(Text("Export Service"))
+                .navigationViewStyle(StackNavigationViewStyle())
+                .onAppear(perform: startup)
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            self.isCloseExport = true
+                            self.presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            Text("Close")
+                        })
+                    }
+                })
             }
-            .navigationTitle(Text("Export Service"))
-            .onAppear(perform: startup)
-            .toolbar(content: {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        self.isCloseExport = true
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Text("Close")
-                    })
-                }
-            })
         }
     }
     
