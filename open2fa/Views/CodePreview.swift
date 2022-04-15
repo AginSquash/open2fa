@@ -49,6 +49,7 @@ struct CodePreview: View {
                 HStack {
                     Text(code.name)
                         .padding(.leading)
+                        .lineLimit(1)
                     Spacer()
                     Text(codeSingle)
                 }

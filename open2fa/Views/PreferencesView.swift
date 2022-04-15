@@ -46,6 +46,7 @@ struct PreferencesView: View {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                         HStack {
                             Text(c.name)
+                                .lineLimit(1)
                             Spacer()
                             Text(self.getWrappedDate(date: c.date))
                                 .foregroundColor(.secondary)
