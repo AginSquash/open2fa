@@ -11,6 +11,7 @@ import core_open2fa
 #if os(iOS) && !targetEnvironment(macCatalyst)
 import AVFoundation
 import CodeScanner
+import UIKit
 #endif
 
 struct AddCodeView: View {
@@ -151,9 +152,11 @@ struct AddCodeView: View {
             self.name = parsed.replacingOccurrences(of: "%20", with: " ")
             self.isCodeScanned = true
             
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            
         } else {
             _debugPrint("url: \(parsed)")
-            fatalError("QR code not a URL")
+            _debugPrint("QR code not a URL")
         }
         
     }
