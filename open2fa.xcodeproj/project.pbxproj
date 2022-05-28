@@ -497,7 +497,7 @@
 			repositoryURL = "https://github.com/AginSquash/core-open2fa";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				minimumVersion = 4.0.0;
 			};
 		};
 		CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
