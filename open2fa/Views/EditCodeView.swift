@@ -94,6 +94,7 @@ struct EditCodeView: View {
             }
             
             guard self.name != self.service.name else {
+                self.presentationMode.wrappedValue.dismiss()
                 return
             }
             
