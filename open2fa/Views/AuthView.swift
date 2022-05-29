@@ -32,7 +32,7 @@ struct AuthView: View {
         NavigationView {
             VStack {
                 Text("Please, enter your password")
-                SecureField("Password:", text: $enteredPassword)
+                SecureField("Password", text: $enteredPassword)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 NavigationLink(
                     destination:

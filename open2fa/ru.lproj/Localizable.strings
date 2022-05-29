@@ -70,3 +70,8 @@
 /// EditCodeView
 "Account editing" = "Редактирование аккаунта";
 "Created on" = "Аккаунт создан";
+
+/// AuthView
+"Authentication" = "Аутентификация";
+
+//
