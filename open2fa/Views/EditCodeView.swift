@@ -30,7 +30,7 @@ struct EditCodeView: View {
                     TextField("Name", text: $name)
                 }
                 
-                Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(service.date)")) {
+                Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(getParsedDate(date: service.date))")) {
                     HStack {
                         Image(systemName: "circle.fill")
                         Image(systemName: "circle.fill")
@@ -134,6 +134,14 @@ struct EditCodeView: View {
         self.service = service
         
         self._name = State(wrappedValue: service.name)
+    }
+    
+    func getParsedDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .medium
+        
+        return dateFormatter.string(from: date)
     }
 }
 
