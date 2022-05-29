@@ -30,7 +30,7 @@ struct ExportServiceView: View {
         GeometryReader { geometry in
             NavigationView {
                 Form {
-                    Section(header: Text("Your service secret:").font(.callout)) {
+                    Section(header: Text("Your secret code").font(.callout)) {
                         HStack {
                             Text(secret)
                             Spacer()
@@ -56,7 +56,7 @@ struct ExportServiceView: View {
                         }
                     }
                 }
-                .navigationTitle(Text("Export Service"))
+                .navigationTitle(Text("Exporting an Account"))
                 .navigationViewStyle(StackNavigationViewStyle())
                 .onAppear(perform: startup)
                 .toolbar(content: {

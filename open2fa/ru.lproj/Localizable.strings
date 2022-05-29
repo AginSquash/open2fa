@@ -74,4 +74,6 @@
 /// AuthView
 "Authentication" = "Аутентификация";
 
-//
+/// ExportServiceView
+"QR code" = "QR код";
+"Exporting an Account" = "Экспорт аккаунта";
