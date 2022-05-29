@@ -30,7 +30,7 @@ struct EditCodeView: View {
                     TextField("Name", text: $name)
                 }
                 
-                Section(header: Text("Your secret code").font(.callout), footer: Text("Created on \(service.date)")) {
+                Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(service.date)")) {
                     HStack {
                         Image(systemName: "circle.fill")
                         Image(systemName: "circle.fill")
@@ -77,7 +77,7 @@ struct EditCodeView: View {
                     .foregroundColor(.red)
             })
             .alert(isPresented: $deleteThisService) {
-                Alert(title: Text("Are you sure want to delete \(name)?"), message: Text("This action is irreversible"),
+                Alert(title: Text(NSLocalizedString("Are you sure want to delete", comment: "delete verification") + " \(name)?"), message: Text("This action is irreversible"),
                       primaryButton: .destructive(Text("Delete"), action: {
                         self.core_driver.deleteService(uuid: service.id )
                         self.presentationMode.wrappedValue.dismiss()
@@ -89,7 +89,7 @@ struct EditCodeView: View {
     var saveButton: some View {
         Button(action: {
             if self.name.isEmpty {
-                self.error = "Name cannot be empty"
+                self.error = NSLocalizedString("Name cannot be empty", comment: "Error empty name")
                 return
             }
             

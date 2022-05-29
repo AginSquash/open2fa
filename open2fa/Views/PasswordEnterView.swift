@@ -73,7 +73,7 @@ struct PasswordEnterView: View {
                             Spacer()
                             
                             if isFirstRun {
-                                Text("For start using 2FA, create a password")
+                                Text("For start using Open2FA, create a password")
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
                                     .layoutPriority(1)
@@ -85,7 +85,7 @@ struct PasswordEnterView: View {
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
                                 
                                 VStack {
-                                    Toggle("🔐 Enable FaceID or TouchID", isOn: $isEnableLocalKeyChain.animation(.default))
+                                    Toggle("🔐 Enable FaceID / TouchID", isOn: $isEnableLocalKeyChain.animation(.default))
                                     
                                     if isEnableLocalKeyChain == false {
                                         Text("FaceID and TouchID will be not available")

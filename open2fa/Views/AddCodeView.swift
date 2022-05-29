@@ -43,7 +43,7 @@ struct AddCodeView: View {
                 Section {
                     Button(action: {
                         if self.name.isEmpty {
-                            self.error = "Name cannot be empty"
+                            self.error = NSLocalizedString("Name cannot be empty", comment: "Error empty name") 
                             return
                         }
                         

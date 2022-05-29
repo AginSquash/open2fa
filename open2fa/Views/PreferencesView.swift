@@ -29,6 +29,7 @@ struct PreferencesView: View {
                     }
                     if biometricStatusChange {
                         Text("Please, restart app and enter password to appear change")
+                            .foregroundColor(.secondary)
                     }
                     NavigationLink(
                         destination: CreditsView(),
@@ -74,7 +75,7 @@ struct PreferencesView: View {
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete) { codeDelete in
-                Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"), message: Text("This action is irreversible"),
+                Alert(title: Text( NSLocalizedString("Are you sure want to delete", comment: "delete verification") + " \(codeDelete.name)?"), message: Text("This action is irreversible"),
                       primaryButton: .destructive(Text("Delete"), action: {
                         self.core_driver.deleteService(uuid: codeDelete.id )
                           self.chosenForDelete = nil }),
