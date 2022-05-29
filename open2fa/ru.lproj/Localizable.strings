@@ -9,11 +9,12 @@
 /// PasswordEnteredView
 /* No comment provided by engineer. */
 "Open2FA" = "Open2FA";
-"For start using 2FA, create a password" = "Для начала использования Open2FA2FA, придумайте пароль";
+"For start using Open2FA, create a password" = "Для начала использования Open2FA2FA, придумайте пароль";
+"by Vlad Vrublevsky" = "by Vlad Vrublevsky";
 "Create" = "Создать";
 "Unlock" = "Разблокировать";
 "Please authenticate to unlock your codes" = "Пожалуйста идентифицируйтесь для разблокировки";
-"Already used Open2fa?" = "Уже пользовались Open2fa?";
+"Already used Open2fa?" = "Уже пользовались Open2FA?";
 "FaceID and TouchID will be not available" = "FaceID и TouchID будут недоступны";
 "🔐 Enable FaceID / TouchID" = "🔐 Включить FaceID / TouchID";
 "Please, enter your password" = "Пожалуйста, введите свой пароль";
@@ -30,6 +31,9 @@
 /// ImportView
 "If you have already used Open2FA, please enter your password and select the file using button below." = "Если вы уже пользовались Open2FA, введите свой пароль и выберите файл с помощью кнопки ниже.";
 "Password" = "Пароль";
+"Imported!" = "Импортировано!";
+"Your o2fa file was imported successfully!" = "Ваш o2fa файл был успешно импортирован!";
+"Error" = "Ошибка";
 
 /// CodePreview
 "Copied!" = "Скопировано!";
@@ -77,3 +81,15 @@
 /// ExportServiceView
 "QR code" = "QR код";
 "Exporting an Account" = "Экспорт аккаунта";
+
+/// ExportView
+"For your protection, we need to identify you. Please enter your password below." = "Для защиты ваших аккаунтов, нам нужно идентифицировать Вас. Пожалуйста, введите свой пароль ниже.";
+"🔐 All your codes will remain encrypted with AES256" = "🔐 Все ваши коды останутся зашифрованными с помощью AES256";
+"Yes, I understand that I still need to put this file in a safe place." = "Да, я понимаю, что мне все равно нужно поместить этот файл в безопасное место";
+"Success" = "Успешно";
+"Your file successfully exported!" = "Ваш файл успешно экспортирован!";
+
+
+/// Permissions
+"We need use camera for scan QR codes" = "Нам нужен доступ к камере для сканирования QR-кодов";
+"Please identify yourself to unlock the app" = "Пожалуйтса идентифицируйте себя чтобы разблокировать приложение";

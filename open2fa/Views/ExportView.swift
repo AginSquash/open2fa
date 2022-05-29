@@ -57,7 +57,7 @@ struct ExportView: View {
         }
         .navigationBarTitle("Export", displayMode: .inline)
         .alert(item: $exportResult) { error in
-            Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == "Success" { self.presentationMode.wrappedValue.dismiss() } }) )
+            Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == NSLocalizedString("Success", comment: "Success") { self.presentationMode.wrappedValue.dismiss() } }) )
         }
         .fileExporter(
             isPresented: $showExportView,
@@ -65,7 +65,7 @@ struct ExportView: View {
             contentType: UTType(filenameExtension: "o2fa")!,
             defaultFilename: "encrypted" ) { result in
             if case .success = result {
-                    exportResult = ExportResult(title: "Success", message: "Your file successfully exported!")
+                    exportResult = ExportResult(title: NSLocalizedString("Success", comment: "Success"), message: NSLocalizedString("Your file successfully exported!", comment: "success exported"))
                     return
                   } else {
                     print("Oops: \(result)")

@@ -222,7 +222,7 @@ struct PasswordEnterView: View {
 
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Please authenticate to unlock your codes"
+            let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
                 

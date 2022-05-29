@@ -95,7 +95,7 @@ struct ImportView: View {
     }
     
     func handleCheckResult(_ checkResult: FUNC_RESULT) {
-        var title = "Error"
+        var title = NSLocalizedString("Error", comment: "Error")
         var message = String()
         switch checkResult {
         case .PASS_INCORRECT:
@@ -111,8 +111,8 @@ struct ImportView: View {
             message = "File damaged"
             break
         case .SUCCEFULL:
-            title = "Imported!"
-            message =  "Your o2fa file was imported successfully!"
+            title = NSLocalizedString("Imported!", comment: "Imported!")
+            message =  NSLocalizedString("Your o2fa file was imported successfully!", comment: "successfully import")
             storageFirstRun = baseURL.absoluteString
             if isEnableLocalKeyChain {
                 storageLocalKeyChain = "true"

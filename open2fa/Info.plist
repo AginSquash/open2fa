@@ -29,7 +29,7 @@
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>We need  access to import file</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Please authenticate yourself to unlock your codes</string>
+	<string>Please identify yourself to unlock the app</string>
 	<key>NSFileProviderDomainUsageDescription</key>
 	<string>We need  access to import file</string>
 	<key>NSFileProviderPresenceUsageDescription</key>
