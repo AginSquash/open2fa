@@ -42,7 +42,7 @@ struct ImportView: View {
                 Section {
                     SecureField("Password", text: $enteredPassword)
                     VStack {
-                        Toggle("🔐 Enable local keychain", isOn: $isEnableLocalKeyChain.animation(.default))
+                        Toggle("🔐 Enable FaceID / TouchID", isOn: $isEnableLocalKeyChain.animation(.default))
                                 
                         if isEnableLocalKeyChain == false {
                             Text("FaceID and TouchID will be not available")

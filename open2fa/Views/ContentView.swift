@@ -37,7 +37,7 @@ struct ContentView: View {
                         NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
                 
                 if core_driver.codes.count == 0 {
-                    Text("Add your codes using the button above")
+                    Text("Add your accounts using the button above")
                         .multilineTextAlignment(.center)
                         .font(.title)
                         .foregroundColor(.secondary)

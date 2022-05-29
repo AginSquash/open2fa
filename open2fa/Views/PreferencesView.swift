@@ -25,7 +25,7 @@ struct PreferencesView: View {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
                     Toggle(isOn: isEnableLocalKeyChain) {
-                        Text("FaceID or TouchID enable")
+                        Text("Enable FaceID / TouchID")
                     }
                     if biometricStatusChange {
                         Text("Please, restart app and enter password to appear change")
