@@ -128,10 +128,16 @@ struct AddCodeView: View {
     func handleCode(code: String) {
         
         ///need test code with additions
-        
         var parsed = code
+        
+        if parsed.contains("otpauth://hotp/") {
+            DispatchQueue.main.async {
+                self.error =  NSLocalizedString("HOTP currently not supported!", comment: "HOTP currently not supported!")
+            }
+            return
+        }
+        
         parsed = parsed.replacingOccurrences(of: "otpauth://totp/", with: "")
-        parsed = parsed.replacingOccurrences(of: "otpauth://hotp/", with: "")
         let index = parsed.firstIndex(of: "?")
         guard index != nil else {
             return

@@ -70,6 +70,7 @@
 "Please scan your QR code or close this view for manual input." = "Пожалуйста, сканируйте QR-код или закройте это окно для ручного ввода.";
 "Close" = "Закрыть";
 "Scan QR code" = "Сканирование QR кода";
+"HOTP currently not supported!" = "HOTP в настоящее время не поддерживается!";
 
 /// EditCodeView
 "Account editing" = "Редактирование аккаунта";
