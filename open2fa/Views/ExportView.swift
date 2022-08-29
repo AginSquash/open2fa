@@ -45,7 +45,7 @@ struct ExportView: View {
             Section {
                 VStack(alignment: .leading, spacing: 15) {
                     Text("For your protection, we need to identify you. Please enter your password below.")
-                    Text("🔐 All your codes will remain encrypted with AES256")
+                    Text("🔐 All your codes will remain encrypted with AES-256")
                 }
                 SecureField("Password", text: $passwordEntered)
             }
