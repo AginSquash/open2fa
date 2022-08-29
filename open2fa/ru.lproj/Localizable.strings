@@ -89,6 +89,8 @@
 "Yes, I understand that I still need to put this file in a safe place." = "Да, я понимаю, что мне все равно нужно поместить этот файл в безопасное место";
 "Success" = "Успешно";
 "Your file successfully exported!" = "Ваш файл успешно экспортирован!";
+"Still encrypted" = "Оставить зашифрованным";
+"Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option" = "Ваши коды не будут защищены шифрованием, что позволит импортировать их в другие приложения.\nЯвляется небезопасным вариантом ";
 
 
 /// Permissions
