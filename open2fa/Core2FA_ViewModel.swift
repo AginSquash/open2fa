@@ -94,7 +94,7 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func _exportServiceSECURE(with id: UUID) -> codeSecure? {
+    func NoCrypt_ExportService(with id: UUID) -> codeSecure? {
         return core.NoCrypt_ExportServiceSECRET(with: id)
     }
     

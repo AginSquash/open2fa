@@ -74,7 +74,7 @@ struct ExportServiceView: View {
     }
     
     func startup() {
-        guard let code_secure = core_driver._exportServiceSECURE(with: serviceUUID) else {
+        guard let code_secure = core_driver.NoCrypt_ExportService(with: serviceUUID) else {
             fatalError("Auth with incorrect pass/other")
         }
         
