@@ -17,7 +17,6 @@ struct ExportResult: Identifiable {
 
 struct ExportView: View {
     
-    //@Environment(\.exportFiles) var exportAction
     @Environment(\.presentationMode) var presentationMode
     
     static let fileName = "encrypted.o2fa"
@@ -40,22 +39,7 @@ struct ExportView: View {
     @State private var showExportView = false
     @State private var encryptedFile: O2FADocument = O2FADocument(url: baseURL)
     
-    @State private var encryptedExport: Bool = true
-    @State private var showEncryptionOffAlert = false
-    
     var body: some View {
-        let exportEncryptionChoosen = Binding<Bool>(
-            get: { encryptedExport },
-            set: {
-                if $0 == false {
-                    self.showEncryptionOffAlert = true
-                } else {
-                    withAnimation {
-                        encryptedExport = true
-                    }
-                }
-            }
-        )
         return Form {
             Section {
                 VStack(alignment: .leading, spacing: 15) {
@@ -63,15 +47,6 @@ struct ExportView: View {
                     Text("🔐 All your codes will remain encrypted with AES-256")
                 }
                 SecureField("Password", text: $passwordEntered)
-            }
-            
-            Section {
-                Toggle("Still encrypted", isOn: exportEncryptionChoosen)
-                if exportEncryptionChoosen.wrappedValue == false {
-                    Text("Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option")
-                        .foregroundColor(.secondary)
-                }
-                    
             }
             
             Button(action: exportButton, label: {
@@ -83,9 +58,6 @@ struct ExportView: View {
         .navigationBarTitle("Export", displayMode: .inline)
         .alert(item: $exportResult) { error in
             Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == NSLocalizedString("Success", comment: "Success") { self.presentationMode.wrappedValue.dismiss() } }) )
-        }
-        .alert(isPresented: $showEncryptionOffAlert) {
-            Alert(title: Text("Warning!"), message: Text("Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks"), primaryButton: .destructive(Text("Export unencrypted"), action: { withAnimation { self.encryptedExport = false } }), secondaryButton: .default(Text("Cancel")))
         }
         .fileExporter(
             isPresented: $showExportView,
@@ -100,7 +72,6 @@ struct ExportView: View {
                   }
         }
     }
-    
 
     
     func exportButton() {
@@ -116,30 +87,40 @@ struct ExportView: View {
             self.showExportView = true
         }
     }
+    
+    /// Code for  unsecure export
     /*
-    func exportButton() {
-        
-        guard Core2FA_ViewModel.isPasswordCorrect(fileURL: baseURL, password: passwordEntered) else {
-            passwordEntered = String()
-            exportResult = ExportResult(title: "Error", message: "You entered wrong password")
-            return
-        }
-        passwordEntered = String()
-
-        if FileManager.default.secureCopyItem(at: baseURL, to: dstURL) {
-            exportAction(moving: dstURL) { result in
-                    switch result {
-                    case .success( _):
-                        exportResult = ExportResult(title: "Success", message: "Your file successfully exported!")
-                        return
-                    case .failure(let error):
-                        print("Oops: \(error.localizedDescription)")
-                    case .none:
-                        return
-                    }
-                }
-        }
-    } */
+     @State private var encryptedExport: Bool = true
+     @State private var showEncryptionOffAlert = false
+     
+     var body: some View {
+         let exportEncryptionChoosen = Binding<Bool>(
+             get: { encryptedExport },
+             set: {
+                 if $0 == false {
+                     self.showEncryptionOffAlert = true
+                 } else {
+                     withAnimation {
+                         encryptedExport = true
+                     }
+                 }
+             }
+         )
+     ...
+     
+     Section {
+         Toggle("Still encrypted", isOn: exportEncryptionChoosen)
+         if exportEncryptionChoosen.wrappedValue == false {
+             Text("Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option")
+                 .foregroundColor(.secondary)
+         }
+             
+     }
+     
+     .alert(isPresented: $showEncryptionOffAlert) {
+         Alert(title: Text("Warning!"), message: Text("Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks"), primaryButton: .destructive(Text("Export unencrypted"), action: { withAnimation { self.encryptedExport = false } }), secondaryButton: .default(Text("Cancel")))
+     }
+     */
 }
 
 extension FileManager {
@@ -151,7 +132,7 @@ extension FileManager {
             }
             try FileManager.default.copyItem(at: srcURL, to: dstURL)
         } catch (let error) {
-            print("DEBUG: Cannot copy item at \(srcURL) to \(dstURL): \(error)")
+            _debugPrint("Cannot copy item at \(srcURL) to \(dstURL): \(error)")
             return false
         }
         return true
