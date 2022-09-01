@@ -91,7 +91,10 @@
 "Your file successfully exported!" = "Ваш файл успешно экспортирован!";
 "Still encrypted" = "Оставить зашифрованным";
 "Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option" = "Ваши коды не будут защищены шифрованием, что позволит импортировать их в другие приложения.\nЯвляется небезопасным вариантом ";
-
+"Warning!" = "Внимание";
+"Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks" = "Вы уверены? Эта опция уберет шифрование с файла, что сделает ваш файл подверженным хакерским атакам";
+"Export unencrypted" = "Экспорт незашифрованным";
+"Cancel" = "Отмена";
 
 /// Permissions
 "We need use camera for scan QR codes" = "Нам нужен доступ к камере для сканирования QR-кодов";

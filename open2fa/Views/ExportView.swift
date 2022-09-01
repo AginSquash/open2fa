@@ -40,8 +40,23 @@ struct ExportView: View {
     @State private var showExportView = false
     @State private var encryptedFile: O2FADocument = O2FADocument(url: baseURL)
     
+    @State private var encryptedExport: Bool = true
+    @State private var showEncryptionOffAlert = false
+    
     var body: some View {
-        Form {
+        let exportEncryptionChoosen = Binding<Bool>(
+            get: { encryptedExport },
+            set: {
+                if $0 == false {
+                    self.showEncryptionOffAlert = true
+                } else {
+                    withAnimation {
+                        encryptedExport = true
+                    }
+                }
+            }
+        )
+        return Form {
             Section {
                 VStack(alignment: .leading, spacing: 15) {
                     Text("For your protection, we need to identify you. Please enter your password below.")
@@ -49,6 +64,16 @@ struct ExportView: View {
                 }
                 SecureField("Password", text: $passwordEntered)
             }
+            
+            Section {
+                Toggle("Still encrypted", isOn: exportEncryptionChoosen)
+                if exportEncryptionChoosen.wrappedValue == false {
+                    Text("Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option")
+                        .foregroundColor(.secondary)
+                }
+                    
+            }
+            
             Button(action: exportButton, label: {
                 Text("Yes, I understand that I still need to put this file in a safe place.")
                     .foregroundColor(.red)
@@ -58,6 +83,9 @@ struct ExportView: View {
         .navigationBarTitle("Export", displayMode: .inline)
         .alert(item: $exportResult) { error in
             Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == NSLocalizedString("Success", comment: "Success") { self.presentationMode.wrappedValue.dismiss() } }) )
+        }
+        .alert(isPresented: $showEncryptionOffAlert) {
+            Alert(title: Text("Warning!"), message: Text("Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks"), primaryButton: .destructive(Text("Export unencrypted"), action: { withAnimation { self.encryptedExport = false } }), secondaryButton: .default(Text("Cancel")))
         }
         .fileExporter(
             isPresented: $showExportView,
@@ -72,6 +100,8 @@ struct ExportView: View {
                   }
         }
     }
+    
+
     
     func exportButton() {
         guard Core2FA_ViewModel.isPasswordCorrect(fileURL: ExportView.baseURL, password: passwordEntered) else {
