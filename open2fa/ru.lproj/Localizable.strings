@@ -46,7 +46,8 @@
 "Export" = "Экспорт";
 "Credits" = "О приложении";
 "Edit and Delete" = "Редактирвоание и удаление";
-"Tap to edit, swipe from right edge to the left to " = "Нажмите, чтобы отредактировать, проведите пальцем от правого края влево, чтобы ";
+"Share & Edit" = "Поделиться & Изменить";
+"Tap to share or edit, swipe from right edge to the left to " = "Нажмите, чтобы поделиться или отредактировать, проведите пальцем от правого края влево, чтобы ";
 "Enable FaceID / TouchID" = "Включить FaceID / TouchID";
 "delete" = "удалить";
 "Delete" = "Удалить";

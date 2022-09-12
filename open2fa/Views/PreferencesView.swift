@@ -37,9 +37,9 @@ struct PreferencesView: View {
                             Text("Credits")
                         })
                 }
-                Section(header: Text("Edit and Delete"), footer:
+                Section(header: Text("Share & Edit"), footer:
                     Group {
-                        Text("Tap to edit, swipe from right edge to the left to ")
+                        Text("Tap to share or edit, swipe from right edge to the left to ")
                         +
                         Text("delete").foregroundColor(.red)
                 }.layoutPriority(1)
