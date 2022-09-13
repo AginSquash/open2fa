@@ -25,7 +25,18 @@ struct AddCodeView: View {
     @State private var error: String? = nil
     @State private var showScaner = false
     @State private var isCodeScanned = false
-        
+    
+/*
+    enum FieldFocusable: Hashable {
+      case name
+      case secret
+    }
+
+    @FocusState private var fieldFocusable: FieldFocusable?
+ 
+    .focused($fieldFocusable, equals: .secret)
+*/
+    
     var body: some View {
         NavigationView {
             Form {
