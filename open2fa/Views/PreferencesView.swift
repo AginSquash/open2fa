@@ -39,9 +39,11 @@ struct PreferencesView: View {
                 }
                 Section(header: Text("Share & Edit"), footer:
                     Group {
+                    #if os(iOS) && !targetEnvironment(macCatalyst)
                         Text("Tap to share or edit, swipe from right edge to the left to ")
                         +
                         Text("delete").foregroundColor(.red)
+                    #endif
                 }.layoutPriority(1)
                 ) {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
