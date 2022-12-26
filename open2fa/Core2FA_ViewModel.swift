@@ -12,6 +12,17 @@ import SwiftUI
 import core_open2fa
 import GAuthDecrypt
 
+extension String {
+    init(_ func_result: FUNC_RESULT) {
+        switch func_result {
+        case .SUCCEFULL:
+            self = "SUCCEFULL"
+        default:
+            self = "OTHER"
+        }
+    }
+}
+
 class Core2FA_ViewModel: ObservableObject
 {
     
