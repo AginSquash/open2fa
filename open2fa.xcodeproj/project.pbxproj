@@ -11,6 +11,7 @@
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
+		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
 		CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */; };
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */,
 				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
 				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
@@ -168,6 +170,7 @@
 			packageProductDependencies = (
 				CDC636F02471DC8400F10540 /* core_open2fa */,
 				CD9A8F2825B6F58C00DFD47F /* CodeScanner */,
+				CD6A580028E49D930075C0CE /* GAuthDecrypt */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -202,6 +205,7 @@
 			packageReferences = (
 				CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */,
 				CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -426,7 +430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.vladvrublevsky.open2fa123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
@@ -460,7 +464,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.vladvrublevsky.open2fa123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
@@ -492,12 +496,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AginSquash/GAuthDecrypt";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/core-open2fa";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -511,6 +523,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD6A580028E49D930075C0CE /* GAuthDecrypt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */;
+			productName = GAuthDecrypt;
+		};
 		CD9A8F2825B6F58C00DFD47F /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */;
