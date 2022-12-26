@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SwiftUI
 import core_open2fa
+import GAuthDecrypt
 
 class Core2FA_ViewModel: ObservableObject
 {
@@ -188,6 +189,27 @@ class Core2FA_ViewModel: ObservableObject
     
     static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
         return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
+    }
+    
+    func importFromGAuth(gauthString: String) -> Int {
+     guard let decryprtedGAuth = GAuthDecryptFrom(string: gauthString) else {
+            return 0
+        }
+        
+        var newAccounts = [UNPROTECTED_AccountData]()
+        for decrypted in decryprtedGAuth {
+            if decrypted.type == .hotp {
+                return 0
+            }
+            newAccounts.append(UNPROTECTED_AccountData(name: decrypted.name, secret: decrypted.secret))
+        }
+        let result = core.AddMulipleAccounts(newAccounts: newAccounts)
+        
+        _debugPrint("result: \(result)")
+        
+        self.codes = self.core.getListOTP()
+        
+        return result
     }
     
 }
