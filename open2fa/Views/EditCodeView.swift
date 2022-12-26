@@ -15,7 +15,7 @@ struct EditCodeView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    var service: code
+    var service: Account_Code
     
     @State private var name = String()
     @State private var error: String? = nil
@@ -130,7 +130,7 @@ struct EditCodeView: View {
         self.showAuth = true
     }
     
-    init(service: code) {
+    init(service: Account_Code) {
         self.service = service
         
         self._name = State(wrappedValue: service.name)

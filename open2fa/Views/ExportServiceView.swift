@@ -82,7 +82,7 @@ struct ExportServiceView: View {
         getQRCode(cs: code_secure)
     }
     
-    func getQRCode(cs: codeSecure) {
+    func getQRCode(cs: UNPROTECTED_AccountData) {
         let name = cs.name.replacingOccurrences(of: " ", with: "%20")
         let exportText = "otpauth://totp/\(name)?secret=\(cs.secret)"
         let encoded: Data = exportText.data(using: .utf8)!

@@ -12,7 +12,7 @@ import core_open2fa
 struct CodePreview: View {
     @State private var isCopied = false
     
-    let code: code
+    let code: Account_Code
     let timeRemaning: Int
     let progress: CGFloat
     
@@ -71,7 +71,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
+        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }

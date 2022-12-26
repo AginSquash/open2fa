@@ -14,7 +14,7 @@ struct PreferencesView: View {
     @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
-    @State private var chosenForDelete: code? = nil
+    @State private var chosenForDelete: Account_Code? = nil
     @State private var biometricStatusChange: Bool = false
     @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
     
