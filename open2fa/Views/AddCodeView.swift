@@ -12,9 +12,33 @@ import core_open2fa
 import AVFoundation
 import CodeScanner
 import UIKit
+import GAuthDecrypt
 #endif
 
 struct AddCodeView: View {
+    struct AlertMessage: Identifiable {
+        enum AlertMsgType {
+            case Error
+            case Successful
+        }
+        
+        let id: UUID
+        let type: AlertMsgType
+        let message: String
+        
+        init(_ msg: String) {
+            self.id = UUID()
+            self.type = .Error
+            self.message = msg
+        }
+        
+        init(type: AlertMsgType, _ msg: String) {
+            self.id = UUID()
+            self.type = .Error
+            self.message = msg
+        }
+    }
+    
     @EnvironmentObject var core: Core2FA_ViewModel
     
     @Environment(\.presentationMode) var presentationMode
@@ -22,7 +46,8 @@ struct AddCodeView: View {
     
     @State private var name = String()
     @State private var code = String()
-    @State private var error: String? = nil
+    @State private var alertMsg: AlertMessage? = nil
+    @State private var multplieImportSuccessful: String? = nil
     @State private var showScaner = false
     @State private var isCodeScanned = false
     
@@ -36,6 +61,7 @@ struct AddCodeView: View {
  
     .focused($fieldFocusable, equals: .secret)
 */
+
     
     var body: some View {
         NavigationView {
@@ -54,13 +80,15 @@ struct AddCodeView: View {
                 Section {
                     Button(action: {
                         if self.name.isEmpty {
-                            self.error = NSLocalizedString("Name cannot be empty", comment: "Error empty name") 
+                            self.alertMsg = AlertMessage(NSLocalizedString("Name cannot be empty", comment: "Error empty name"))
                             return
                         }
                         
-                        self.error = self.core.addService(name: self.name, code: self.code)
-                        if self.error == nil {
+                        let error = self.core.addService(name: self.name, code: self.code)
+                        if error == nil {
                             self.presentationMode.wrappedValue.dismiss()
+                        } else {
+                            self.alertMsg = AlertMessage(error!)
                         }
                     }, label: { Text("Save") } )
                 }
@@ -72,8 +100,12 @@ struct AddCodeView: View {
         }
         .navigationBarTitle("Adding new Account", displayMode: .inline)
         .navigationViewStyle(StackNavigationViewStyle())
-        .alert(item: $error) { error in
-            Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
+        .alert(item: $alertMsg) { alertMsg in
+            if alertMsg.type == .Error {
+                return Alert(title: Text("Alert!"), message: Text(alertMsg.message), dismissButton: .default(Text("Ok")))
+            } else {
+                return Alert(title: Text("Successful"), message: Text(alertMsg.message), dismissButton: .default(Text("Ok")))
+            }
         }
         .sheet(isPresented: $showScaner) {
             #if os(iOS) && !targetEnvironment(macCatalyst)
@@ -93,8 +125,8 @@ struct AddCodeView: View {
                             case .success(let code):
                                 self.showScaner = false
                                 handleCode(code: code)
-                            case .failure(let error):
-                                print(error.localizedDescription)
+                            case .failure(let alertMsg):
+                                print(alertMsg.localizedDescription)
                             }
                         }
                         .frame(width: geo.size.width*0.9, height: geo.size.width*0.9, alignment: .center)
@@ -143,10 +175,28 @@ struct AddCodeView: View {
         
         if parsed.contains("otpauth://hotp/") {
             DispatchQueue.main.async {
-                self.error =  NSLocalizedString("HOTP currently not supported!", comment: "HOTP currently not supported!")
+                self.alertMsg = AlertMessage(NSLocalizedString("HOTP currently not supported!", comment: "HOTP currently not supported!"))
             }
             return
         }
+        
+        #if os(iOS) && !targetEnvironment(macCatalyst)
+        if parsed.contains("otpauth-migration://offline?data=") {
+            let importResult = core.importFromGAuth(gauthString: parsed)
+            
+            DispatchQueue.main.async {
+                if importResult > 0 {
+                    self.alertMsg = AlertMessage(type: .Successful, "Successfuly imported \(importResult) accounts")
+                    self.presentationMode.wrappedValue.dismiss()
+                } else {
+                    self.alertMsg = AlertMessage("Error on import")
+                }
+            }
+            
+            self.isCodeScanned = true
+            return
+        }
+        #endif
         
         parsed = parsed.replacingOccurrences(of: "otpauth://totp/", with: "")
         let index = parsed.firstIndex(of: "?")
