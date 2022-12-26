@@ -14,7 +14,7 @@ import core_open2fa
 class Core2FA_ViewModel: ObservableObject
 {
     
-    @Published var codes: [code]
+    @Published var codes: [Account_Code]
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
@@ -52,16 +52,16 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     func DEBUG() {
-        _ = core.AddCode(service_name: "Test1", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test2", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test3", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test4", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test5", code: "q4qghrcn2c42bgbz")
-        _ = core.AddCode(service_name: "Test6_extralargenamewillbehere", code: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test1", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test2", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test3", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test4", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test5", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", secret: "q4qghrcn2c42bgbz")
     }
     
     func addService(name: String, code: String) -> String? {
-        let result = core.AddCode(service_name: name, code: code)
+        let result = core.AddAccount(account_name: name, secret: code)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()
             return nil
@@ -94,11 +94,11 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func NoCrypt_ExportService(with id: UUID) -> codeSecure? {
+    func NoCrypt_ExportService(with id: UUID) -> UNPROTECTED_AccountData? {
         return core.NoCrypt_ExportServiceSECRET(with: id)
     }
     
-    func NoCrypt_ExportALLService() -> [codeSecure] {
+    func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
         return core.NoCrypt_ExportAllServicesSECRETS()
     }
     
@@ -111,7 +111,7 @@ class Core2FA_ViewModel: ObservableObject
     
     init() {
         self.core = CORE_OPEN2FA()
-        self.codes = [code(id: UUID(), date: Date(), name: "NULL INIT", codeSingle: "111 111")]
+        self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
