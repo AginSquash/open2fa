@@ -55,6 +55,7 @@ struct ExportView: View {
                     .multilineTextAlignment(.center)
             })
         }
+        .padding([.top], 1) //Fix for bug with form in center of screen, not on top
         .navigationBarTitle("Export", displayMode: .inline)
         .alert(item: $exportResult) { error in
             Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == NSLocalizedString("Success", comment: "Success") { self.presentationMode.wrappedValue.dismiss() } }) )
