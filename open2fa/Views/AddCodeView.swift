@@ -51,18 +51,6 @@ struct AddCodeView: View {
     @State private var showScaner = false
     @State private var isCodeScanned = false
     
-/*
-    enum FieldFocusable: Hashable {
-      case name
-      case secret
-    }
-
-    @FocusState private var fieldFocusable: FieldFocusable?
- 
-    .focused($fieldFocusable, equals: .secret)
-*/
-
-    
     var body: some View {
         NavigationView {
             Form {
@@ -189,7 +177,7 @@ struct AddCodeView: View {
                     self.alertMsg = AlertMessage(type: .Successful, "Successfuly imported \(importResult) accounts")
                     self.presentationMode.wrappedValue.dismiss()
                 } else {
-                    self.alertMsg = AlertMessage("Error on import")
+                    self.alertMsg = AlertMessage("Import error or this accounts already exists")
                 }
             }
             
