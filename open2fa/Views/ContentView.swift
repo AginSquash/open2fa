@@ -24,6 +24,7 @@ struct ContentView: View {
                             timeLeftView
                                 .frame(width: 30, height: 30, alignment: .center)
                             CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
+                            .padding(.leading, 5)
                         }
                     }
                     .animation(.default)

@@ -67,7 +67,6 @@ struct CodePreview: View {
                         Spacer()
                     }
                 }
-                .padding(.leading)
                 .animation(.none)
             }
         }
