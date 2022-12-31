@@ -39,24 +39,40 @@ struct CodePreview: View {
         }
     }
     
+    func getParsedName(name: String, issuer: String) -> String {
+        if issuer.isEmpty {
+            return name
+        }
+        
+        return "\(issuer) (\(name))"
+    }
+    
     var body: some View {
         HStack {
             if isCopied {
                 Spacer()
                 Text("Copied!")
+                    .font(.system(size: 21))
                 Spacer()
             } else {
-                HStack {
-                    Text(code.name)
-                        .padding(.leading)
-                        .lineLimit(1)
-                    Spacer()
-                    Text(codeSingle)
+                VStack {
+                    HStack {
+                        Text(getParsedName(name: code.name, issuer: code.issuer))
+                        Spacer()
+                    }
+                    .lineLimit(1)
+                    HStack {
+                        Text(codeSingle)
+                            .font(.system(size: 21))
+                        Spacer()
+                    }
                 }
+                .padding(.leading)
                 .animation(.none)
             }
         }
         .contentShape(Rectangle())
+        .frame(height: 40)
         .onTapGesture {
             let pasteboard = self.codeSingle.replacingOccurrences(of: " ", with: "")
             UIPasteboard.general.string = pasteboard
@@ -71,7 +87,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
+        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", issuer: "Issuer", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }
