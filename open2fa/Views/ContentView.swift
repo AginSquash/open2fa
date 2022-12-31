@@ -23,7 +23,7 @@ struct ContentView: View {
                         HStack {
                             timeLeftView
                                 .frame(width: 30, height: 30, alignment: .center)
-                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning, progress: self.core_driver.progress )
+                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                             .padding(.leading, 5)
                         }
                     }

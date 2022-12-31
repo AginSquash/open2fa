@@ -14,7 +14,7 @@ struct CodePreview: View {
     
     let code: Account_Code
     let timeRemaning: Int
-    let progress: CGFloat
+    //let progress: CGFloat
     
     var codeSingle: String {
         guard code.codeSingle != nil else {
@@ -86,7 +86,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", issuer: "Issuer", codeSingle: "123456"), timeRemaning: 15, progress: CGFloat(0.5))
+        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", issuer: "Issuer", codeSingle: "123456"), timeRemaning: 15)
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }
