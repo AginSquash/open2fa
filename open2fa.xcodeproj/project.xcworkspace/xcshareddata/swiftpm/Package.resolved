@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AginSquash/GAuthDecrypt",
       "state" : {
-        "branch" : "main",
-        "revision" : "3f6e84a2d95c486186aa0371ccd611e2ac39b71a"
+        "revision" : "042600782e3eb06acbf0526f5980474750646243",
+        "version" : "2.0.0"
       }
     },
     {

@@ -500,8 +500,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/GAuthDecrypt";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
