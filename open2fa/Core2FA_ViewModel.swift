@@ -123,7 +123,7 @@ class Core2FA_ViewModel: ObservableObject
     
     init() {
         self.core = CORE_OPEN2FA()
-        self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", codeSingle: "111 111")]
+        self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
