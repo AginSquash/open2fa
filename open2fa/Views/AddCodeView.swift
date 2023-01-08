@@ -45,6 +45,7 @@ struct AddCodeView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var name = String()
+    @State private var issuer = String()
     @State private var code = String()
     @State private var alertMsg: AlertMessage? = nil
     @State private var multplieImportSuccessful: String? = nil
@@ -56,6 +57,10 @@ struct AddCodeView: View {
             Form {
                 Section(header: Text("Name of your account").font(.callout).padding(.top)) {
                     TextField("Name", text: $name)
+                }
+                
+                Section(header: Text("Issuer").font(.callout)) {
+                    TextField("Issuer", text: $issuer)
                 }
                 
                 Section(header: Text("Your secret code").font(.callout)) {
@@ -72,7 +77,7 @@ struct AddCodeView: View {
                             return
                         }
                         
-                        let error = self.core.addService(name: self.name, code: self.code)
+                        let error = self.core.addAccount(name: self.name, issuer: self.issuer, secret: self.code)
                         if error == nil {
                             self.presentationMode.wrappedValue.dismiss()
                         } else {
@@ -204,6 +209,7 @@ struct AddCodeView: View {
             }
             
             self.code = dict["secret"] ?? "Error"
+            self.issuer = dict["issuer"] ?? ""
             self.name = parsed.replacingOccurrences(of: "%20", with: " ")
             self.isCodeScanned = true
             

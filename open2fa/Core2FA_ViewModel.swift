@@ -72,8 +72,8 @@ class Core2FA_ViewModel: ObservableObject
         _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", issuer: "CompanyWExtraLargeName", secret: "q4qghrcn2c42bgbz")
     }
     
-    func addService(name: String, code: String) -> String? {
-        let result = core.AddAccount(account_name: name, secret: code)
+    func addAccount(name: String, issuer: String, secret: String) -> String? {
+        let result = core.AddAccount(account_name: name, issuer: issuer, secret: secret)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()
             return nil
