@@ -64,12 +64,12 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     func DEBUG() {
-        _ = core.AddAccount(account_name: "Test1", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test1", issuer: "Google", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test2", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test3", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test4", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test5", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", secret: "q4qghrcn2c42bgbz")
+        _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", issuer: "CompanyWExtraLargeName", secret: "q4qghrcn2c42bgbz")
     }
     
     func addService(name: String, code: String) -> String? {
