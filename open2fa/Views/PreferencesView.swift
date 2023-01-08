@@ -71,6 +71,7 @@ struct PreferencesView: View {
                     }.onDelete(perform: callAlert)
                 }
             }
+            .padding([.top], 1)
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete) { codeDelete in
