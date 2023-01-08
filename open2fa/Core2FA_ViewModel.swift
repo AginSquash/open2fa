@@ -89,7 +89,7 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func editService(serviceID: UUID, newName: String, newIssuer: String) -> String? {
+    func editAccount(serviceID: UUID, newName: String, newIssuer: String) -> String? {
         let result = core.EditAccount(id: serviceID, newName: newName, newIssuer: newIssuer)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()

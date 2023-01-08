@@ -105,7 +105,7 @@ struct EditCodeView: View {
             
             let parsed_issuer = issuer.trimmingCharacters(in: .whitespaces)
             
-            self.error = self.core_driver.editService(serviceID: service.id, newName: self.name, newIssuer: parsed_issuer)
+            self.error = self.core_driver.editAccount(serviceID: service.id, newName: self.name, newIssuer: parsed_issuer)
             if self.error == nil {
                 self.presentationMode.wrappedValue.dismiss()
             }
