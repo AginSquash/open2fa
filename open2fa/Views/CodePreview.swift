@@ -17,17 +17,13 @@ struct CodePreview: View {
     //let progress: CGFloat
     
     var codeSingle: String {
-        guard code.codeSingle != nil else {
+        guard var codeSingle = code.codeSingle else {
             return "Incorrect password"
         }
-        var old_codeSingle = code.codeSingle!
-        var new_codeSingle = String()
-        for _ in 0..<3 {
-            new_codeSingle.append( old_codeSingle.removeFirst() )
-        }
-        new_codeSingle.append(" ")
-        new_codeSingle.append(contentsOf: old_codeSingle)
-        return new_codeSingle
+        
+        codeSingle.insert(" ", at: codeSingle.index(codeSingle.startIndex,
+                                                    offsetBy: 3))
+        return codeSingle
     }
     
     var timeRemaningWrapped: String {
