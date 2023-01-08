@@ -212,7 +212,7 @@ class Core2FA_ViewModel: ObservableObject
             if decrypted.type == .hotp {
                 return 0
             }
-            newAccounts.append(UNPROTECTED_AccountData(name: decrypted.name, secret: decrypted.secret))
+            newAccounts.append(UNPROTECTED_AccountData(name: decrypted.name, issuer: decrypted.issuer, secret: decrypted.secret))
         }
         let result = core.AddMulipleAccounts(newAccounts: newAccounts)
         
