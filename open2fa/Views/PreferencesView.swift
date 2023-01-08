@@ -48,12 +48,16 @@ struct PreferencesView: View {
                 ) {
                     ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
                         HStack {
-                            Text(c.name)
-                                .lineLimit(1)
+                            VStack(alignment: .leading) {
+                                if c.issuer.isNotEmpty() {
+                                    Text(c.issuer)
+                                }
+                                Text(c.name)
+                                Text(self.getWrappedDate(date: c.date))
+                                    .foregroundColor(.secondary)
+                                    .padding(.trailing, 10)
+                            }
                             Spacer()
-                            Text(self.getWrappedDate(date: c.date))
-                                .foregroundColor(.secondary)
-                                .padding(.trailing, 10)
                             NavigationLink(
                                 destination:
                                     EditCodeView(service: c),
@@ -63,13 +67,6 @@ struct PreferencesView: View {
                                         .scaledToFit()
                                         .frame(width: 20)
                             }).frame(width: 40)
-                            /*
-                            Button(action: {
-                                self.chosenForDelete = c
-                            }, label: {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
-                            }) */
                         }
                     }.onDelete(perform: callAlert)
                 }
@@ -113,6 +110,12 @@ struct PreferencesView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     
+    }
+}
+
+extension String {
+    func isNotEmpty() -> Bool {
+        !self.isEmpty
     }
 }
 
