@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AginSquash/core-open2fa",
       "state" : {
-        "revision" : "a4d14dff118729ebea6a3edafd8c45d0eda30974",
-        "version" : "6.0.0"
+        "revision" : "befb549a72ac43aa86fffdcf94e423b5c00aa237",
+        "version" : "6.1.0"
       }
     },
     {

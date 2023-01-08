@@ -18,6 +18,7 @@ struct EditCodeView: View {
     var service: Account_Code
     
     @State private var name = String()
+    @State private var issuer = String()
     @State private var error: String? = nil
     @State private var deleteThisService = false
     
@@ -28,6 +29,10 @@ struct EditCodeView: View {
             Form {
                 Section(header: Text("Name of your account").font(.callout).padding(.top)) {
                     TextField("Name", text: $name)
+                }
+                
+                Section(header: Text("Issuer").font(.callout)) {
+                    TextField("Issuer", text: $issuer)
                 }
                 
                 Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(getParsedDate(date: service.date))")) {
@@ -93,12 +98,14 @@ struct EditCodeView: View {
                 return
             }
             
-            guard self.name != self.service.name else {
+            guard (self.name != self.service.name) || (self.issuer != self.service.issuer) else {
                 self.presentationMode.wrappedValue.dismiss()
                 return
             }
             
-            self.error = self.core_driver.editService(serviceID: service.id, newName: self.name)
+            let parsed_issuer = issuer.trimmingCharacters(in: .whitespaces)
+            
+            self.error = self.core_driver.editService(serviceID: service.id, newName: self.name, newIssuer: parsed_issuer)
             if self.error == nil {
                 self.presentationMode.wrappedValue.dismiss()
             }
@@ -134,6 +141,7 @@ struct EditCodeView: View {
         self.service = service
         
         self._name = State(wrappedValue: service.name)
+        self._issuer = State(wrappedValue: service.issuer)
     }
     
     func getParsedDate(date: Date) -> String {

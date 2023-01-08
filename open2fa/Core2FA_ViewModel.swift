@@ -55,7 +55,7 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     func deleteService(uuid: UUID) {
-        guard self.core.DeleteCode(id: uuid) == .SUCCEFULL else {
+        guard self.core.DeleteAccount(id: uuid) == .SUCCEFULL else {
             fatalError("DeleteCode error")
         }
         withAnimation {
@@ -89,8 +89,8 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func editService(serviceID: UUID, newName: String) -> String? {
-        let result = core.EditCode(id: serviceID, newName: newName)
+    func editService(serviceID: UUID, newName: String, newIssuer: String) -> String? {
+        let result = core.EditAccount(id: serviceID, newName: newName, newIssuer: newIssuer)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()
             return nil
