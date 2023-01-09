@@ -134,6 +134,10 @@ struct EditCodeView: View {
      */
     
     func showSecret() {
+        // Code to hide keyboard
+        let resign = #selector(UIResponder.resignFirstResponder)
+        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+        
         self.showAuth = true
     }
     
