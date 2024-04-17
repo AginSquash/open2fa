@@ -40,7 +40,7 @@ struct ExportView: View {
     @State private var isSecureExport = true
     @State private var exportResult: ExportResult? = nil
     @State private var showExportView = false
-    @State private var showUNSECUREExportView = false
+    @State private var show_UNSECURE_ExportView = false
     @State private var encryptedFile: O2FADocument = O2FADocument(url: baseURL)
     @State private var unEncryptedFile: O2FA_Unencrypted? = nil
     
@@ -92,7 +92,7 @@ struct ExportView: View {
                   }
         })
         .fileExporter(
-            isPresented: $showUNSECUREExportView,
+            isPresented: $show_UNSECURE_ExportView,
             document: unEncryptedFile,
             contentType: UTType.json,
             defaultFilename: "open2fa_unencrypted",
@@ -118,7 +118,7 @@ struct ExportView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if isSecureExport == false {
                 self.unEncryptedFile = O2FA_Unencrypted(accounts: core_driver.NoCrypt_ExportALLService() )
-                self.showUNSECUREExportView = true
+                self.show_UNSECURE_ExportView = true
                 return
             }
             self.showExportView = true
