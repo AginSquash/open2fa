@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
-
+import core_open2fa
 
 struct codesFile: Codable {
     var core_version: String
@@ -17,6 +17,7 @@ struct codesFile: Codable {
     var passcheck: Data?
     var codes: Data?
 }
+
 struct O2FADocument: FileDocument {
     static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
     
@@ -48,5 +49,30 @@ struct O2FADocument: FileDocument {
         return FileWrapper(regularFileWithContents: encoded)
     }
     
+}
+
+
+struct O2FA_Unencrypted: FileDocument {
+    static var readableContentTypes: [UTType] { [.json] }
+    var accountsUnencrypted: [UNPROTECTED_AccountData]
+    
+    init(accounts: [UNPROTECTED_AccountData]) {
+        self.accountsUnencrypted = accounts
+    }
+    
+    init(configuration: ReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents,
+              let accounts = try? JSONDecoder().decode([UNPROTECTED_AccountData].self, from: data)
+            else {
+                throw CocoaError(.fileReadCorruptFile)
+        }
+        
+        accountsUnencrypted = accounts
+    }
+    
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        let jsonData = try JSONEncoder().encode(self.accountsUnencrypted)
+        return FileWrapper(regularFileWithContents: jsonData)
+    }
     
 }

@@ -34,25 +34,44 @@ struct ExportView: View {
         return url.appendingPathComponent(ExportView.fileName)
     }
     
+    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    
     @State private var passwordEntered = String()
+    @State private var isSecureExport = true
     @State private var exportResult: ExportResult? = nil
     @State private var showExportView = false
+    @State private var showUNSECUREExportView = false
     @State private var encryptedFile: O2FADocument = O2FADocument(url: baseURL)
+    @State private var unEncryptedFile: O2FA_Unencrypted? = nil
+    
     
     var body: some View {
         return Form {
             Section {
                 VStack(alignment: .leading, spacing: 15) {
                     Text("For your protection, we need to identify you. Please enter your password below.")
-                    Text("🔐 All your codes will remain encrypted with AES-256")
                 }
                 SecureField("Password", text: $passwordEntered)
             }
             
+            Section {
+                Toggle(isOn: $isSecureExport, label: {
+                    Text("Encrypted export")
+                })
+                if !isSecureExport {
+                    Text("⚠️ Warning! Your file with account keys will be exported in json format WITHOUT encryption!")
+                } else {
+                    Text("🔐 All your codes will remain encrypted with AES-256")
+                }
+            }
+            
             Button(action: exportButton, label: {
-                Text("Yes, I understand that I still need to put this file in a safe place.")
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
+                HStack {
+                    Spacer()
+                    Text("Export")
+                        .foregroundColor(.red)
+                    Spacer()
+                }
             })
         }
         .padding([.top], 1) //Fix for bug with form in center of screen, not on top
@@ -64,14 +83,26 @@ struct ExportView: View {
             isPresented: $showExportView,
             document: encryptedFile,
             contentType: UTType(filenameExtension: "o2fa")!,
-            defaultFilename: "encrypted" ) { result in
+            defaultFilename: "encrypted", onCompletion: { result in
             if case .success = result {
                     exportResult = ExportResult(title: NSLocalizedString("Success", comment: "Success"), message: NSLocalizedString("Your file successfully exported!", comment: "success exported"))
                     return
                   } else {
                     print("Oops: \(result)")
                   }
-        }
+        })
+        .fileExporter(
+            isPresented: $showUNSECUREExportView,
+            document: unEncryptedFile,
+            contentType: UTType.json,
+            defaultFilename: "open2fa_unencrypted",
+            onCompletion: { result in
+            if case .success = result {
+                    exportResult = ExportResult(title: NSLocalizedString("Success", comment: "Success"), message: NSLocalizedString("Your file successfully exported!", comment: "success exported"))
+                    return
+                  } else {
+                    print("Oops: \(result)")
+                  } })
     }
 
     
@@ -85,6 +116,11 @@ struct ExportView: View {
         self.showExportView = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if isSecureExport == false {
+                self.unEncryptedFile = O2FA_Unencrypted(accounts: core_driver.NoCrypt_ExportALLService() )
+                self.showUNSECUREExportView = true
+                return
+            }
             self.showExportView = true
         }
     }
