@@ -11,6 +11,7 @@ import UIKit
 import SwiftUI
 import core_open2fa
 import GAuthDecrypt
+import CloudKit
 
 extension String {
     init(_ func_result: FUNC_RESULT) {
@@ -34,6 +35,10 @@ class Core2FA_ViewModel: ObservableObject
     private var core: CORE_OPEN2FA
     private var timer: Timer?
     
+    let cloudContainer = CKContainer.default()
+    private lazy var database = cloudContainer.privateCloudDatabase
+    
+    let recordID: CKRecord.ID = .init(recordName: "encrypted.o2fa")
     
     @objc func updateTime() {
         let date = Date()
@@ -223,4 +228,57 @@ class Core2FA_ViewModel: ObservableObject
         return result
     }
     
+    func uploadDataToCloud() async throws {
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("encrypted.o2fa")
+        let data = try! Data(contentsOf: fileURL)
+        
+        let storeDataRecord = CKRecord(recordType: "open2faFile", recordID: recordID)
+        storeDataRecord["data"] = data as CKRecordValue
+        
+        let recordResult: Result<CKRecord, Error>
+            // With the CloudKit async API, we can customize savePolicy. (For this sample, we'd like
+            // to overwrite the server version of the record in all cases, regardless of what's
+            // on the server.
+        do {
+            let (saveResults, _) = try await database.modifyRecords(saving: [storeDataRecord],
+                                                                    deleting: [],
+                                                                    savePolicy: .allKeys)
+            // In this sample, we will only ever be saving a single record,
+            // so we only expect one returned result.  We know that if the
+            // function did not throw, we'll have a result for every record
+            // we attempted to save
+            recordResult = saveResults[recordID]!
+        } catch let functionError { // Handle per-function error
+            // Give callers a chance to handle this error as they like
+            throw functionError
+        }
+        /// The CloudKit container to use. Update with your own container identifier.
+      
+        switch recordResult {
+        case .success(let savedRecord):
+            print("DEBUG: saved \(savedRecord)")
+            break
+        case .failure(let recordError): // Handle per-record error
+            // Give callers a chance to handle this error as they like
+            //throw recordError
+            fatalError(recordError.localizedDescription)
+        }
+    }
+    
+    /// Fetches the store data record
+    func loadCloudStoreData() async throws {
+        // Here, we will use the convenience async method on CKDatabase
+        // to fetch a single CKRecord
+        do {
+            let record = try await database.record(for: recordID)
+            if let storeJson = record["data"] as? Data {
+                core.loadNewFileFromData(newData: storeJson)
+                self.codes = core.getListOTP() 
+            }
+            
+        } catch {
+            // Give callers a chance to handle this error as they like
+            throw error
+        }
+    }
 }

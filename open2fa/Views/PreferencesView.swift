@@ -31,6 +31,10 @@ struct PreferencesView: View {
                         Text("Please, restart app and enter password to appear change")
                             .foregroundColor(.secondary)
                     }
+                    
+                    Button("Send to iCloud", action: sendToCloud)
+                    Button("Load from iCloud", action: loadFromCloud)
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {
@@ -111,6 +115,18 @@ struct PreferencesView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     
+    }
+    
+    func sendToCloud() {
+        let uploadTask = Task {
+            try? await core_driver.uploadDataToCloud()
+        }
+    }
+    
+    func loadFromCloud() {
+        let loadTask = Task {
+            try? await core_driver.loadCloudStoreData()
+        }
     }
 }
 
