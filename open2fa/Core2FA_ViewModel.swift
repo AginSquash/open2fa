@@ -273,12 +273,16 @@ class Core2FA_ViewModel: ObservableObject
             let record = try await database.record(for: recordID)
             if let storeJson = record["data"] as? Data {
                 core.loadNewFileFromData(newData: storeJson)
-                self.codes = core.getListOTP() 
+                self.codes = core.getListOTP()
             }
             
         } catch {
             // Give callers a chance to handle this error as they like
             throw error
         }
+    }
+    
+    func addNewAccounts() {
+        
     }
 }
