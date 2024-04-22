@@ -35,6 +35,9 @@ struct PreferencesView: View {
                     Button("Send to iCloud", action: sendToCloud)
                     Button("Load from iCloud", action: loadFromCloud)
                     
+                    Button("TEST Add", action: testAdd)
+                    Button("TEST Read", action: testreadDB)
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {
@@ -127,6 +130,14 @@ struct PreferencesView: View {
         let loadTask = Task {
             try? await core_driver.loadCloudStoreData()
         }
+    }
+    
+    func testAdd() {
+        core_driver.TEST_addNewRecord()
+    }
+    
+    func testreadDB() {
+        core_driver.TEST_readDB()
     }
 }
 

@@ -32,6 +32,8 @@ class Core2FA_ViewModel: ObservableObject
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
     
+    private var storage: StorageService
+    
     private var core: CORE_OPEN2FA
     private var timer: Timer?
     
@@ -120,6 +122,7 @@ class Core2FA_ViewModel: ObservableObject
     }
     
     init(fileURL: URL, pass: String) {
+        self.storage = StorageService()
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
@@ -127,6 +130,7 @@ class Core2FA_ViewModel: ObservableObject
     
     
     init() {
+        self.storage = StorageService()
         self.core = CORE_OPEN2FA()
         self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
@@ -284,5 +288,17 @@ class Core2FA_ViewModel: ObservableObject
     
     func addNewAccounts() {
         
+    }
+    
+    func TEST_addNewRecord() {
+        let newRecord = AccountDTO(id: NSUUID().uuidString, creation_date: Date(), modified_date: Date(), account_data: "Account data here")
+        let object = AccountObject(newRecord)
+        try? storage.saveOrUpdateObject(object: object)
+    }
+    
+    func TEST_readDB() {
+        let data = storage.fetch(by: AccountObject.self)
+        let map = data.map(AccountDTO.init)
+        print("DEBUG: readed from DB: \(map)")
     }
 }
