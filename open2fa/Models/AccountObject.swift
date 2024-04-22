@@ -16,18 +16,42 @@ enum OTP_Type: Codable {
 }
 
 struct AccountData: Codable {
-    public let type: OTP_Type
-    public var name: String
-    public var issuer: String
-    public var secret: String
-    public var counter: UInt = 0
+    let id: String
+    let type: OTP_Type
+    var name: String
+    var issuer: String
+    var secret: String
+    var counter: UInt = 0
+    var creation_date: Date
+    var modified_date: Date
+}
+
+extension AccountData {
+    init() {
+        id = NSUUID().uuidString
+        type = .TOTP
+        name = "Test 1"
+        issuer = "issuer"
+        secret = "secret"
+        counter = 0
+        creation_date = Date()
+        modified_date = Date()
+    }
+    
+    init(_ object: AccountObject) {
+        self.init(data: object.account_data)
+    }
+    
+    init(data: Data?) {
+        guard let data = data else { self.init(); return }
+        guard let decoded = try? JSONDecoder().decode(AccountData.self, from: data) else { self.init(); return }
+        self = decoded
+    }
 }
 
 class AccountObject: Object {
     @Persisted(primaryKey: true) var id = NSUUID().uuidString
-    @Persisted var creation_date: Date
-    @Persisted var modified_date: Date
-    @Persisted var account_data: String
+    @Persisted var account_data: Data?
     
     /// IceCream safe delete
     @Persisted var isDeleted = false
@@ -37,28 +61,12 @@ extension AccountObject: CKRecordConvertible & CKRecordRecoverable {
 
 }
 
-extension AccountObject{
-    convenience init(_ dto: AccountDTO) {
+extension AccountObject {
+    convenience init(_ dto: AccountData) {
         self.init()
         self.id = dto.id
-        self.creation_date = dto.creation_date
-        self.modified_date = dto.modified_date
-        self.account_data = dto.account_data
-    }
-}
-
-struct AccountDTO {
-    let id: String
-    let creation_date: Date
-    var modified_date: Date
-    var account_data: String
-}
-
-extension AccountDTO {
-    init(object: AccountObject) {
-        id = object.id
-        creation_date = object.creation_date
-        modified_date = object.modified_date
-        account_data = object.account_data
+        let encoded = try? JSONEncoder().encode(dto)
+        self.account_data = encoded
+        
     }
 }
