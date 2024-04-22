@@ -131,31 +131,55 @@ class Core2FA_ViewModel: ObservableObject {
         return core.NoCrypt_ExportAllServicesSECRETS()
     }
     
-    func loadCryptoModule(pass: String) {
-        let key: [UInt8]
-        var keyKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .key)
-        if keyKC == nil {
-            let salt = KeychainWrapper.sharedInstance.getString(name: .salt) ?? CryptoModule.generateSalt()
-            _debugPrint("salt: \(salt)")
+    func loadCryptoModule(with pass: String) {
+       // DispatchQueue.global(qos: .userInitiated).async {
+            let key: [UInt8]
+            let salt: String
+        
+            let saltKC = KeychainWrapper.sharedInstance.getString(name: .salt)
+            if saltKC == nil {
+                salt = CryptoModule.generateSalt()
+                KeychainWrapper.sharedInstance.setValue(name: .salt, value: salt)
+                _debugPrint("salt: \(salt)")
+            } else {
+                salt = saltKC!
+            }
+            
             key = CryptoModule.generateKey(pass: pass, salt: salt)
-            KeychainWrapper.sharedInstance.setValue(name: .key, value: key)
-            KeychainWrapper.sharedInstance.setValue(name: .salt, value: salt)
-        } else {
-            key = [UInt8](keyKC!)
-        }
         
-        var iv: [UInt8]
-        var ivKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .iv)
-        if ivKC == nil {
-            iv = CryptoModule.generateIV()
-            KeychainWrapper.sharedInstance.setValue(name: .iv, value: iv)
-        } else {
-            iv = [UInt8](ivKC!)
-        }
-        
+            /*
+             var keyKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .key)
+             if keyKC == nil {
+             let salt = KeychainWrapper.sharedInstance.getString(name: .salt) ?? CryptoModule.generateSalt()
+             _debugPrint("salt: \(salt)")
+             key = CryptoModule.generateKey(pass: pass, salt: salt)
+             KeychainWrapper.sharedInstance.setValue(name: .key, value: key)
+             KeychainWrapper.sharedInstance.setValue(name: .salt, value: salt)
+             } else {
+                 key = [UInt8](keyKC!)
+             }
+             */
+            
+            var iv: [UInt8]
+            let ivKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .iv)
+            if ivKC == nil {
+                iv = CryptoModule.generateIV()
+                KeychainWrapper.sharedInstance.setValue(name: .iv, value: iv)
+            } else {
+                iv = [UInt8](ivKC!)
+            }
+            
+            //DispatchQueue.main.async {
+                self.cryptoModel = CryptoModule(key: key, IV: iv)
+                self.updateAccounts()
+                _debugPrint("cryptoModel created with: key \(key), iv: \(iv)")
+           // }
+       // }
+        /*
         self.cryptoModel = CryptoModule(key: key, IV: iv)
         self.updateAccounts()
         _debugPrint("cryptoModel created with: key \(key), iv: \(iv)")
+         */
     }
     
     init(fileURL: URL, pass: String) {
@@ -163,7 +187,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.loadCryptoModule(pass: pass)
+        self.loadCryptoModule(with: pass)
     }
     
     init() {
