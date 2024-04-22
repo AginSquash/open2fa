@@ -12,6 +12,7 @@ import SwiftUI
 import core_open2fa
 import GAuthDecrypt
 import CloudKit
+import RealmSwift
 
 extension String {
     init(_ func_result: FUNC_RESULT) {
@@ -32,7 +33,14 @@ class Core2FA_ViewModel: ObservableObject
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
     
+
+    @Published var accountData = [AccountData]()
+    //var testCloud: [AccountObject] = StorageService.sharedInstance.fetch(by: AccountObject.self)
+    
+    var token: NotificationToken?
+
     private var storage: StorageService
+    var notificationToken: NotificationToken?
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -126,18 +134,23 @@ class Core2FA_ViewModel: ObservableObject
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
     }
-    
     
     init() {
         self.storage = StorageService()
         self.core = CORE_OPEN2FA()
         self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
+        self.token = storage.realm!.observe { notification, realm in
+            self.updateAccounts()
+        }
     }
     
     deinit {
         self.timer = nil
+        self.token?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
             name: UIApplication.willResignActiveNotification,
@@ -286,10 +299,6 @@ class Core2FA_ViewModel: ObservableObject
         }
     }
     
-    func addNewAccounts() {
-        
-    }
-    
     let iv = "ZRhF3P6KXVzT9jed"
     
     func TEST_addNewRecord() {
@@ -302,5 +311,14 @@ class Core2FA_ViewModel: ObservableObject
         let data = storage.fetch(by: AccountObject.self)
         let map = data.map({ AccountData($0, pass: "pass", iv: self.iv) })
         print("DEBUG: readed from DB: \(map)")
+    }
+    
+    func fetchAccounts() -> [AccountData] {
+        let data = storage.fetch(by: AccountObject.self)
+        return data.map({ AccountData($0, pass: "pass", iv: self.iv) })
+    }
+    
+    func updateAccounts() {
+        self.accountData = self.fetchAccounts() // Maybe move decryption to background thread?
     }
 }

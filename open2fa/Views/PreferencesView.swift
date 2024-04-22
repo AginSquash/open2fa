@@ -38,6 +38,10 @@ struct PreferencesView: View {
                     Button("TEST Add", action: testAdd)
                     Button("TEST Read", action: testreadDB)
                     
+                    ForEach(core_driver.accountData) { account in
+                        Text(account.name)
+                    }
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {

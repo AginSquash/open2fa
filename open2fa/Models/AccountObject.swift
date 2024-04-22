@@ -15,7 +15,7 @@ enum OTP_Type: Codable {
     case HOTP
 }
 
-struct AccountData: Codable {
+struct AccountData: Codable, Identifiable {
     let id: String
     let type: OTP_Type
     var name: String

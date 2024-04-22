@@ -12,7 +12,9 @@ import IceCream
 import CommonCrypto
 
 final class StorageService {
-    private let storage: Realm?
+
+    public let realm: Realm?
+    public static let sharedInstance = StorageService()
     
     init(inMemory: Bool = false) {
         let configuration: Realm.Configuration
@@ -21,11 +23,11 @@ final class StorageService {
         } else {
             configuration = Realm.Configuration()
         }
-        self.storage = try? Realm(configuration: configuration)
+        self.realm = try? Realm(configuration: configuration)
     }
     
     func saveOrUpdateObject(object: Object) throws {
-        guard let storage = storage else { return }
+        guard let storage = realm else { return }
         storage.writeAsync {
             storage.add(object, update: .all)
         }
@@ -41,7 +43,7 @@ final class StorageService {
         if let obj = object as? AccountObject {
             obj.isDeleted = true
         } else {
-            guard let storage = storage else { return }
+            guard let storage = realm else { return }
             try storage.write {
                 storage.delete(object)
             }
@@ -49,7 +51,7 @@ final class StorageService {
     }
     
     func fetch<T: Object>(by type: T.Type) -> [T] {
-        guard let storage = storage else { return [] }
+        guard let storage = realm else { return [] }
         return storage.objects(T.self).toArray()
     }
     
@@ -58,19 +60,5 @@ final class StorageService {
 extension Results {
     func toArray() -> [Element] {
         .init(self)
-    }
-}
-
-extension String {
-    
-    func sha512_v2() -> Data? {
-        let stringData = data(using: String.Encoding.utf8)!
-        var result = Data(count: Int (CC_SHA512_DIGEST_LENGTH))
-        _ = result.withUnsafeMutableBytes { resultBytes in
-            stringData.withUnsafeBytes { stringBytes in
-                CC_SHA512 (stringBytes, CC_LONG(stringData.count), resultBytes)
-            }
-        }
-        return result
     }
 }
