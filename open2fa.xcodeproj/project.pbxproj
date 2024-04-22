@@ -12,6 +12,7 @@
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
+		CD74FEFF2BD69DE400D33BD0 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CD74FEFE2BD69DE400D33BD0 /* core_open2fa */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
 		CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */; };
@@ -28,7 +29,6 @@
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
-		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
 		CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD6703124EC13C40097D45D /* TimeLeftView.swift */; };
 		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
 		CDDDB67A2BD5BD9B00FEB3F8 /* AccountObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6792BD5BD9B00FEB3F8 /* AccountObject.swift */; };
@@ -80,8 +80,8 @@
 				CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */,
 				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
 				CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */,
-				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
+				CD74FEFF2BD69DE400D33BD0 /* core_open2fa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,10 +187,10 @@
 			);
 			name = open2fa;
 			packageProductDependencies = (
-				CDC636F02471DC8400F10540 /* core_open2fa */,
 				CD9A8F2825B6F58C00DFD47F /* CodeScanner */,
 				CD6A580028E49D930075C0CE /* GAuthDecrypt */,
 				CDDDB67C2BD5C30600FEB3F8 /* IceCream */,
+				CD74FEFE2BD69DE400D33BD0 /* core_open2fa */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -223,10 +223,10 @@
 			);
 			mainGroup = CD87B4C3246F53B800E04D70;
 			packageReferences = (
-				CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */,
 				CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */,
 				CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */,
+				CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -532,12 +532,12 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
+		CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/core-open2fa";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -564,15 +564,15 @@
 			package = CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */;
 			productName = GAuthDecrypt;
 		};
+		CD74FEFE2BD69DE400D33BD0 /* core_open2fa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */;
+			productName = core_open2fa;
+		};
 		CD9A8F2825B6F58C00DFD47F /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
-		};
-		CDC636F02471DC8400F10540 /* core_open2fa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */;
-			productName = core_open2fa;
 		};
 		CDDDB67C2BD5C30600FEB3F8 /* IceCream */ = {
 			isa = XCSwiftPackageProductDependency;

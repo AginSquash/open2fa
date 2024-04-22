@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AginSquash/core-open2fa",
       "state" : {
-        "revision" : "f47e15fece5069c0bc26043230b9b6d2ad32eed5",
-        "version" : "6.3.0"
+        "branch" : "master",
+        "revision" : "57f5b7b28c6695f90044017a26e3f49ac9048698"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift",
       "state" : {
-        "revision" : "5669f222e46c8134fb1f399c745fa6882b43532e",
-        "version" : "1.3.8"
+        "revision" : "c9c3df6ab812de32bae61fc0cd1bf6d45170ebf0",
+        "version" : "1.8.2"
       }
     },
     {
