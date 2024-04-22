@@ -143,7 +143,7 @@ class KeychainWrapper {
         
         let status = SecItemAdd(query as CFDictionary, nil)
         if status == errSecDuplicateItem {
-            let attributes: [String: Any] = [kSecAttrAccount as String: name,
+            let attributes: [String: Any] = [kSecAttrAccount as String: name.rawValue,
                                              kSecValueData as String: value]
             
             let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
