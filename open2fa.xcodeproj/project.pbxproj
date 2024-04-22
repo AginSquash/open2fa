@@ -34,6 +34,7 @@
 		CDDDB67A2BD5BD9B00FEB3F8 /* AccountObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6792BD5BD9B00FEB3F8 /* AccountObject.swift */; };
 		CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */ = {isa = PBXBuildFile; productRef = CDDDB67C2BD5C30600FEB3F8 /* IceCream */; };
 		CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */; };
+		CDDDB6812BD5EBB900FEB3F8 /* CryptoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoHandler.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		CDDDB6792BD5BD9B00FEB3F8 /* AccountObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountObject.swift; sourceTree = "<group>"; };
 		CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		CDDDB6802BD5EBB900FEB3F8 /* CryptoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHandler.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +164,7 @@
 			children = (
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CDDDB6792BD5BD9B00FEB3F8 /* AccountObject.swift */,
+				CDDDB6802BD5EBB900FEB3F8 /* CryptoHandler.swift */,
 				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
 			);
 			path = Models;
@@ -262,6 +265,7 @@
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
+				CDDDB6812BD5EBB900FEB3F8 /* CryptoHandler.swift in Sources */,
 				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,

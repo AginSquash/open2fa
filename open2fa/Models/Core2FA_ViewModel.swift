@@ -290,15 +290,17 @@ class Core2FA_ViewModel: ObservableObject
         
     }
     
+    let iv = "ZRhF3P6KXVzT9jed"
+    
     func TEST_addNewRecord() {
         let newRecord = AccountData() //AccountDTO(id: NSUUID().uuidString, account_data: nil)
-        let object = AccountObject(newRecord)
+        let object = AccountObject(newRecord, pass: "pass", iv: self.iv)
         try? storage.saveOrUpdateObject(object: object)
     }
     
     func TEST_readDB() {
         let data = storage.fetch(by: AccountObject.self)
-        let map = data.map(AccountData.init)
+        let map = data.map({ AccountData($0, pass: "pass", iv: self.iv) })
         print("DEBUG: readed from DB: \(map)")
     }
 }

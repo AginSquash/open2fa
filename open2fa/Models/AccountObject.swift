@@ -38,13 +38,10 @@ extension AccountData {
         modified_date = Date()
     }
     
-    init(_ object: AccountObject) {
-        self.init(data: object.account_data)
-    }
-    
-    init(data: Data?) {
-        guard let data = data else { self.init(); return }
-        guard let decoded = try? JSONDecoder().decode(AccountData.self, from: data) else { self.init(); return }
+    init(_ object: AccountObject, pass: String, iv: String) {
+        guard let data = object.account_data else { self.init(); return }
+        guard let decrypted = DecryptAES256(key: pass, iv: iv, data: data) else { self.init(); return }
+        guard let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { self.init(); return }
         self = decoded
     }
 }
@@ -57,16 +54,13 @@ class AccountObject: Object {
     @Persisted var isDeleted = false
 }
 
-extension AccountObject: CKRecordConvertible & CKRecordRecoverable {
-
-}
+extension AccountObject: CKRecordConvertible & CKRecordRecoverable { }
 
 extension AccountObject {
-    convenience init(_ dto: AccountData) {
+    convenience init(_ dto: AccountData, pass: String, iv: String) {
         self.init()
         self.id = dto.id
-        let encoded = try? JSONEncoder().encode(dto)
-        self.account_data = encoded
-        
+        guard let encoded = try? JSONEncoder().encode(dto) else { self.account_data = nil; return }
+        self.account_data = CryptAES256(key: pass, iv: iv, data: encoded)
     }
 }
