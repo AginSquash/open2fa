@@ -136,6 +136,7 @@ class Core2FA_ViewModel: ObservableObject {
             let key: [UInt8]
             let salt: String
         
+        /*
             let saltKC = KeychainWrapper.sharedInstance.getString(name: .salt)
             if saltKC == nil {
                 salt = CryptoModule.generateSalt()
@@ -146,8 +147,8 @@ class Core2FA_ViewModel: ObservableObject {
             }
             
             key = CryptoModule.generateKey(pass: pass, salt: salt)
-        
-            /*
+        */
+            
              var keyKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .key)
              if keyKC == nil {
              let salt = KeychainWrapper.sharedInstance.getString(name: .salt) ?? CryptoModule.generateSalt()
@@ -158,7 +159,7 @@ class Core2FA_ViewModel: ObservableObject {
              } else {
                  key = [UInt8](keyKC!)
              }
-             */
+             
             
             var iv: [UInt8]
             let ivKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .iv)

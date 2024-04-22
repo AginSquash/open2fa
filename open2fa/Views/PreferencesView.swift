@@ -38,6 +38,9 @@ struct PreferencesView: View {
                     Button("TEST Add", action: testAdd)
                     Button("TEST Read", action: testreadDB)
                     
+                    Button("Reset KC", action: resetKC)
+                    Button("Print KC", action: printKC)
+                    
                     ForEach(core_driver.accountData) { account in
                         Text(account.name)
                     }
@@ -102,6 +105,7 @@ struct PreferencesView: View {
                         if changeTo == false {
                             UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
                             deletePasswordKeychain(name: fileName)
+                            KeychainWrapper.sharedInstance.deleteValue(name: .key)
                         } else {
                             withAnimation { biometricStatusChange = true }
                             UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
@@ -122,6 +126,14 @@ struct PreferencesView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     
+    }
+    
+    func resetKC() {
+        KeychainWrapper.sharedInstance.deleteValue(name: .key)
+    }
+    
+    func printKC() {
+        print(KeychainWrapper.sharedInstance.getValue(name: .key))
     }
     
     func sendToCloud() {

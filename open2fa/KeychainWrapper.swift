@@ -121,6 +121,16 @@ class KeychainWrapper {
         return String(data: data, encoding: String.Encoding.utf8)
     }
     
+    public func deleteValue(name: KeychainTag) {
+        
+        var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrAccount as String: name.rawValue,
+                                    kSecAttrService as String: getService(for: name.rawValue)]
+                                    
+        let status = SecItemDelete(query as CFDictionary)
+        guard status == errSecSuccess || status == errSecItemNotFound else { fatalError("ERROR: \(status)") }
+    }
+    
     private func getService(for name: String) -> String {
         "com.vladvrublevsky.open2fa.\(name)"
     }
