@@ -140,6 +140,7 @@ struct PasswordEnterView: View {
                                         _debugPrint(baseURL)
                                         self.core_driver.isActive = true
                                         self.isUnlocked = true
+                                        self.core_driver.loadCryptoModule(pass: enteredPassword)
                                     } else {
                                         self.errorDiscription = errorType(error: .passwordIncorrect)
                                     }
@@ -232,6 +233,7 @@ struct PasswordEnterView: View {
                             self.enteredPassword = pass
                             
                             self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
+                            self.core_driver.loadCryptoModule(pass: pass)
                             self.core_driver.setObservers()
                             
                             self.isUnlocked = true

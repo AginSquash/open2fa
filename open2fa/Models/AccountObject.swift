@@ -38,9 +38,9 @@ extension AccountData {
         modified_date = Date()
     }
     
-    init(_ object: AccountObject, pass: String, iv: String) {
+    init(_ object: AccountObject, cm: CryptoModule) {
         guard let data = object.account_data else { self.init(); return }
-        guard let decrypted = DecryptAES256(key: pass, iv: iv, data: data) else { self.init(); return }
+        guard let decrypted = cm.decryptData(data) else { self.init(); return }
         guard let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { self.init(); return }
         self = decoded
     }
@@ -57,10 +57,10 @@ class AccountObject: Object {
 extension AccountObject: CKRecordConvertible & CKRecordRecoverable { }
 
 extension AccountObject {
-    convenience init(_ dto: AccountData, pass: String, iv: String) {
+    convenience init(_ dto: AccountData, cm: CryptoModule) {
         self.init()
         self.id = dto.id
         guard let encoded = try? JSONEncoder().encode(dto) else { self.account_data = nil; return }
-        self.account_data = CryptAES256(key: pass, iv: iv, data: encoded)
+        self.account_data = cm.encryptData(encoded)
     }
 }

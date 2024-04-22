@@ -25,22 +25,24 @@ extension String {
     }
 }
 
-class Core2FA_ViewModel: ObservableObject
-{
+class Core2FA_ViewModel: ObservableObject {
     
     @Published var codes: [Account_Code]
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
-    
 
     @Published var accountData = [AccountData]()
     //var testCloud: [AccountObject] = StorageService.sharedInstance.fetch(by: AccountObject.self)
     
     var token: NotificationToken?
 
+    /// Realm
     private var storage: StorageService
     var notificationToken: NotificationToken?
+    
+    /// Crypto
+    private var cryptoModel: CryptoModule?
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -129,12 +131,39 @@ class Core2FA_ViewModel: ObservableObject
         return core.NoCrypt_ExportAllServicesSECRETS()
     }
     
+    func loadCryptoModule(pass: String) {
+        let key: [UInt8]
+        var keyKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .key)
+        if keyKC == nil {
+            let salt = KeychainWrapper.sharedInstance.getString(name: .salt) ?? CryptoModule.generateSalt()
+            _debugPrint("salt: \(salt)")
+            key = CryptoModule.generateKey(pass: pass, salt: salt)
+            KeychainWrapper.sharedInstance.setValue(name: .key, value: key)
+            KeychainWrapper.sharedInstance.setValue(name: .salt, value: salt)
+        } else {
+            key = [UInt8](keyKC!)
+        }
+        
+        var iv: [UInt8]
+        var ivKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .iv)
+        if ivKC == nil {
+            iv = CryptoModule.generateIV()
+            KeychainWrapper.sharedInstance.setValue(name: .iv, value: iv)
+        } else {
+            iv = [UInt8](ivKC!)
+        }
+        
+        self.cryptoModel = CryptoModule(key: key, IV: iv)
+        self.updateAccounts()
+        _debugPrint("cryptoModel created with: key \(key), iv: \(iv)")
+    }
+    
     init(fileURL: URL, pass: String) {
         self.storage = StorageService()
         self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
         self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
+        self.loadCryptoModule(pass: pass)
     }
     
     init() {
@@ -142,7 +171,6 @@ class Core2FA_ViewModel: ObservableObject
         self.core = CORE_OPEN2FA()
         self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
         self.token = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
@@ -302,20 +330,23 @@ class Core2FA_ViewModel: ObservableObject
     let iv = "ZRhF3P6KXVzT9jed"
     
     func TEST_addNewRecord() {
+        guard let cryptoModel = self.cryptoModel else { return }
         let newRecord = AccountData() //AccountDTO(id: NSUUID().uuidString, account_data: nil)
-        let object = AccountObject(newRecord, pass: "pass", iv: self.iv)
+        let object = AccountObject(newRecord, cm: cryptoModel)
         try? storage.saveOrUpdateObject(object: object)
     }
     
     func TEST_readDB() {
+        guard let cryptoModel = self.cryptoModel else { return }
         let data = storage.fetch(by: AccountObject.self)
-        let map = data.map({ AccountData($0, pass: "pass", iv: self.iv) })
+        let map = data.map({ AccountData($0, cm: cryptoModel) })
         print("DEBUG: readed from DB: \(map)")
     }
     
     func fetchAccounts() -> [AccountData] {
+        guard let cryptoModel = self.cryptoModel else { return [] }
         let data = storage.fetch(by: AccountObject.self)
-        return data.map({ AccountData($0, pass: "pass", iv: self.iv) })
+        return data.map({ AccountData($0, cm: cryptoModel) })
     }
     
     func updateAccounts() {
