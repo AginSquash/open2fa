@@ -9,7 +9,6 @@
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
-import core_open2fa
 
 struct codesFile: Codable {
     var core_version: String

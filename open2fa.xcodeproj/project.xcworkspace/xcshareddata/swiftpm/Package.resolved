@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "core-open2fa",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AginSquash/core-open2fa",
-      "state" : {
-        "branch" : "master",
-        "revision" : "57f5b7b28c6695f90044017a26e3f49ac9048698"
-      }
-    },
-    {
       "identity" : "cryptoswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift",
@@ -82,6 +73,15 @@
       }
     },
     {
+      "identity" : "swift-crypto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-crypto.git",
+      "state" : {
+        "revision" : "f0525da24dc3c6cbb2b6b338b65042bc91cbc4bb",
+        "version" : "3.3.0"
+      }
+    },
+    {
       "identity" : "swift-protobuf",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lachlanbell/SwiftOTP.git",
       "state" : {
-        "revision" : "93d4942c90dd498580988ffb9971e2ddf91d5a28",
-        "version" : "2.0.3"
+        "revision" : "9660551ea3df153c3cbacfa34ac3abbec73a8b84",
+        "version" : "3.0.2"
       }
     }
   ],

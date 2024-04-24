@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftUI
-import core_open2fa
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

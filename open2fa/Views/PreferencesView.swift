@@ -7,14 +7,13 @@
 //
 
 import SwiftUI
-import core_open2fa
 
 struct PreferencesView: View {
     
     @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
-    @State private var chosenForDelete: Account_Code? = nil
+    @State private var chosenForDelete: AccountCurrentCode? = nil
     @State private var biometricStatusChange: Bool = false
     @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
     
@@ -61,14 +60,14 @@ struct PreferencesView: View {
                     #endif
                 }.layoutPriority(1)
                 ) {
-                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                    ForEach (core_driver.codes.sorted()  ) { c in
                         HStack {
                             VStack(alignment: .leading) {
                                 if c.issuer.isNotEmpty() {
                                     Text(c.issuer)
                                 }
                                 Text(c.name)
-                                Text(self.getWrappedDate(date: c.date))
+                                Text(self.getWrappedDate(date: c.creation_date))
                                     .foregroundColor(.secondary)
                                     .padding(.trailing, 10)
                             }

@@ -7,13 +7,12 @@
 //
 
 import SwiftUI
-import core_open2fa
 
 struct ExportServiceView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    var serviceUUID: UUID
+    var serviceUUID: String
     
     @State private var secret: String = "error!"
     @State private var QRImage: Image?
@@ -58,7 +57,7 @@ struct ExportServiceView: View {
                 }
                 .navigationTitle(Text("Exporting an Account"))
                 .navigationViewStyle(StackNavigationViewStyle())
-                .onAppear(perform: startup)
+                //.onAppear(perform: startup)
                 .toolbar(content: {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -72,7 +71,7 @@ struct ExportServiceView: View {
             }
         }
     }
-    
+    /*
     func startup() {
         guard let code_secure = core_driver.NoCrypt_ExportService(with: serviceUUID) else {
             fatalError("Auth with incorrect pass/other")
@@ -106,6 +105,7 @@ struct ExportServiceView: View {
         UIGraphicsEndImageContext();
         self.QRImage = Image(uiImage: image)
     }
+     */
 }
 
 struct ExportServiceView_Previews: PreviewProvider {
@@ -113,7 +113,7 @@ struct ExportServiceView_Previews: PreviewProvider {
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
         core_driver.DEBUG()
-        let firstID = core_driver.codes.first!.id
+        let firstID = "somerandomID" //core_driver.codes.first!.id
         
         return ExportServiceView(serviceUUID: firstID, isCloseExport: .constant(false)).environmentObject(core_driver)
     }

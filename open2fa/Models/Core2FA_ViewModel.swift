@@ -10,24 +10,13 @@ import Foundation
 import UIKit
 import SwiftUI
 import GAuthDecrypt
-import core_open2fa
 import CloudKit
 import RealmSwift
-
-extension String {
-    init(_ func_result: FUNC_RESULT) {
-        switch func_result {
-        case .SUCCEFULL:
-            self = "SUCCEFULL"
-        default:
-            self = "OTHER"
-        }
-    }
-}
+import SwiftOTP
 
 class Core2FA_ViewModel: ObservableObject {
     
-    @Published var codes: [Account_Code]
+    @Published var codes: [AccountCurrentCode] = []
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
@@ -44,13 +33,9 @@ class Core2FA_ViewModel: ObservableObject {
     /// Crypto
     private var cryptoModule: CryptoModule?
     
-    private var core: CORE_OPEN2FA
     private var timer: Timer?
     
     let cloudContainer = CKContainer.default()
-    private lazy var database = cloudContainer.privateCloudDatabase
-    
-    let recordID: CKRecord.ID = .init(recordName: "encrypted.o2fa")
     
     @objc func updateTime() {
         let date = Date()
@@ -59,7 +44,7 @@ class Core2FA_ViewModel: ObservableObject {
         let time = Int(df.string(from: date))!
         
         if (time == 0 || time == 30) {
-            self.codes = self.core.getListOTP()
+            self.codes = self.getOTPList()
         }
         
         if time > 30 {
@@ -71,30 +56,52 @@ class Core2FA_ViewModel: ObservableObject {
         progress = CGFloat( Double(timeRemaning) / 30 )
     }
     
-    func deleteService(uuid: UUID) {
+    func getOTPList() -> [AccountCurrentCode] {
+        var accountsCurrentCode: [AccountCurrentCode] = []
+        for account in accountData {
+            guard let totp = TOTP(secret: account.secret) else { continue }
+            guard let currentCode = totp.generate(time: Date()) else { continue }
+            let newACC = AccountCurrentCode(account, currentCode: currentCode)
+            accountsCurrentCode.append(newACC)
+        }
+        return accountsCurrentCode
+    }
+    
+    func deleteService(uuid: String) {
+        /*
         guard self.core.DeleteAccount(id: uuid) == .SUCCEFULL else {
             fatalError("DeleteCode error")
         }
         withAnimation {
             self.codes.removeAll(where: { $0.id == uuid } )
         }
+         */
     }
     
     func DEBUG() {
+        /*
         _ = core.AddAccount(account_name: "Test1", issuer: "Google", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test2", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test3", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test4", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test5", secret: "q4qghrcn2c42bgbz")
         _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", issuer: "CompanyWExtraLargeName", secret: "q4qghrcn2c42bgbz")
+         */
     }
     
     func addAccount(name: String, issuer: String, secret: String) -> String? {
         guard let cm = cryptoModule else { return nil }
-        let newAccount = AccountData(name: name, issuer: issuer, secret: secret)
+        guard let baase32Decoded = secret.base32DecodedData else { return nil }
+        
+        let newAccount = AccountData(name: name, issuer: issuer, secret: baase32Decoded)
         let accountObject = AccountObject(newAccount, cm: cm)
         try? storage.saveOrUpdateObject(object: accountObject)
         
+        self.accountData.append(newAccount)
+        self.codes = getOTPList()
+        
+        return nil
+        /*
         let result = core.AddAccount(account_name: name, issuer: issuer, secret: secret)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()
@@ -109,9 +116,11 @@ class Core2FA_ViewModel: ObservableObject {
         default:
             return "Unknown error"
         }
+         */
     }
     
-    func editAccount(serviceID: UUID, newName: String, newIssuer: String) -> String? {
+    func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
+        /*
         let result = core.EditAccount(id: serviceID, newName: newName, newIssuer: newIssuer)
         if result == .SUCCEFULL {
             self.codes = self.core.getListOTP()
@@ -126,28 +135,30 @@ class Core2FA_ViewModel: ObservableObject {
         default:
             return "Unknown error"
         }
+         */
+        return nil
     }
     
     func NoCrypt_ExportService(with id: UUID) -> UNPROTECTED_AccountData? {
-        return core.NoCrypt_ExportServiceSECRET(with: id)
+        return nil //core.NoCrypt_ExportServiceSECRET(with: id)
     }
     
     func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
-        return core.NoCrypt_ExportAllServicesSECRETS()
+        return [] //core.NoCrypt_ExportAllServicesSECRETS()
     }
     
     init(fileURL: URL, pass: String) {
         self.storage = StorageService()
-        self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        self.codes = core.getListOTP()
+        //self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
+        //self.codes = core.getListOTP()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.loadCryptoModuleFromPassword(with: pass)
     }
     
     init() {
         self.storage = StorageService()
-        self.core = CORE_OPEN2FA()
-        self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
+       // self.core = CORE_OPEN2FA()
+       //// self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.token = storage.realm!.observe { notification, realm in
             self.updateAccounts()
@@ -172,8 +183,8 @@ class Core2FA_ViewModel: ObservableObject {
     func updateCore(fileURL: URL, pass: String) {
         self.setObservers()
         
-        self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        self.codes = core.getListOTP() 
+       // self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
+        self.codes = getOTPList()
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
@@ -201,6 +212,9 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
+        return true
+        
+        /*
         let passcheck = CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
         switch passcheck {
         case .PASS_INCORRECT:
@@ -224,31 +238,29 @@ class Core2FA_ViewModel: ObservableObject {
             _debugPrint("no one")
         }
         return passcheck == .SUCCEFULL || passcheck == .NO_CODES
+         */
     }
     
+    /*
     static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
         return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
     }
+     */
     
     func importFromGAuth(gauthString: String) -> Int {
      guard let decryprtedGAuth = GAuthDecryptFrom(string: gauthString) else {
             return 0
         }
         
-        var newAccounts = [UNPROTECTED_AccountData]()
+        var count = 0
         for decrypted in decryprtedGAuth {
-            if decrypted.type == .hotp {
-                return 0
-            }
-            newAccounts.append(UNPROTECTED_AccountData(name: decrypted.name, issuer: decrypted.issuer, secret: decrypted.secret))
+            if decrypted.type == .hotp { continue }
+            
+            _ = self.addAccount(name: decrypted.name, issuer: decrypted.issuer, secret: decrypted.secret)
+            count += 1
         }
-        let result = core.AddMulipleAccounts(newAccounts: newAccounts)
         
-        _debugPrint("result: \(result)")
-        
-        self.codes = self.core.getListOTP()
-        
-        return result
+        return count
     }
     
     func TEST_addNewRecord() {

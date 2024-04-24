@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import core_open2fa
 import XCTest
 
 struct EditCodeView: View {
@@ -15,7 +14,7 @@ struct EditCodeView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    var service: Account_Code
+    var service: AccountCurrentCode
     
     @State private var name = String()
     @State private var issuer = String()
@@ -35,7 +34,7 @@ struct EditCodeView: View {
                     TextField("Issuer", text: $issuer)
                 }
                 
-                Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(getParsedDate(date: service.date))")) {
+                Section(header: Text("Your secret code").font(.callout), footer: Text(NSLocalizedString("Created on", comment: "Creation date") + " \(getParsedDate(date: service.creation_date))")) {
                     HStack {
                         Image(systemName: "circle.fill")
                         Image(systemName: "circle.fill")
@@ -141,7 +140,7 @@ struct EditCodeView: View {
         self.showAuth = true
     }
     
-    init(service: Account_Code) {
+    init(service: AccountCurrentCode) {
         self.service = service
         
         self._name = State(wrappedValue: service.name)
@@ -161,8 +160,9 @@ struct EditCodeView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
 
-        core_driver.DEBUG()
+        //core_driver.DEBUG()
+        let service = AccountCurrentCode(id: "id", type: .TOTP, name: "Name", issuer: "Issuer", currentCode: "code", creation_date: Date())
         
-        return EditCodeView(service: core_driver.codes.first!).environmentObject(core_driver)
+        return EditCodeView(service: service).environmentObject(core_driver)
     }
 }

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import core_open2fa
 #if os(iOS) && !targetEnvironment(macCatalyst)
 import AVFoundation
 import CodeScanner

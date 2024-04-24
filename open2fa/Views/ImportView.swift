@@ -8,7 +8,6 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
-import core_open2fa
 
 struct IVResult: Identifiable {
     let id = UUID()
@@ -81,8 +80,8 @@ struct ImportView: View {
                         if (FileManager.default.secureCopyItem(at: url.absoluteURL, to: baseURL.absoluteURL)) {
                             url.stopAccessingSecurityScopedResource()
                             
-                            let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
-                            handleCheckResult(checkResult)
+                            //let checkResult = Core2FA_ViewModel.checkFileO2FA(fileURL: baseURL, password: enteredPassword)
+                            //handleCheckResult(checkResult)
                         }
                         url.stopAccessingSecurityScopedResource()
                     } else {
@@ -94,6 +93,7 @@ struct ImportView: View {
             }
     }
     
+    /*
     func handleCheckResult(_ checkResult: FUNC_RESULT) {
         var title = NSLocalizedString("Error", comment: "Error")
         var message = String()
@@ -129,6 +129,7 @@ struct ImportView: View {
         }
         self.result = IVResult(title: title, message: message, isSuccessful: title == "Error" ? false : true)
     }
+     */
 }
 
 struct ImportView_Previews: PreviewProvider {

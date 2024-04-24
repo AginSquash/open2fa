@@ -21,7 +21,7 @@ struct AuthView: View {
         return storageLocalKeyChain == "true"
     }
     
-    var serviceUUID: UUID
+    var serviceUUID: String
     
     @State private var enteredPassword: String = ""
     @State private var isUnlocked: Bool = false

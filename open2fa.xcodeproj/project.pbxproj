@@ -13,7 +13,6 @@
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
-		CD74FEFF2BD69DE400D33BD0 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CD74FEFE2BD69DE400D33BD0 /* core_open2fa */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
 		CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */; };
@@ -36,6 +35,9 @@
 		CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */ = {isa = PBXBuildFile; productRef = CDDDB67C2BD5C30600FEB3F8 /* IceCream */; };
 		CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */; };
 		CDDDB6812BD5EBB900FEB3F8 /* CryptoModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */; };
+		CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763032BD996DF00234D18 /* SwiftOTP */; };
+		CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763062BD998BE00234D18 /* CryptoSwift */; };
+		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +72,7 @@
 		CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoModule.swift; sourceTree = "<group>"; };
+		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,8 +85,9 @@
 				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
 				CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */,
 				CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */,
+				CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
-				CD74FEFF2BD69DE400D33BD0 /* core_open2fa in Frameworks */,
+				CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +172,7 @@
 				CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */,
 				CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */,
 				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
+				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -192,8 +197,9 @@
 				CD9A8F2825B6F58C00DFD47F /* CodeScanner */,
 				CD6A580028E49D930075C0CE /* GAuthDecrypt */,
 				CDDDB67C2BD5C30600FEB3F8 /* IceCream */,
-				CD74FEFE2BD69DE400D33BD0 /* core_open2fa */,
 				CD188EBE2BD88CB00029D7E0 /* KeychainAccess */,
+				CDE763032BD996DF00234D18 /* SwiftOTP */,
+				CDE763062BD998BE00234D18 /* CryptoSwift */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -229,8 +235,9 @@
 				CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */,
 				CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */,
-				CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */,
 				CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */,
+				CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -260,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */,
 				CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */,
 				CDDDB67A2BD5BD9B00FEB3F8 /* AccountModel.swift in Sources */,
 				CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */,
@@ -544,14 +552,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AginSquash/core-open2fa";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner";
@@ -568,6 +568,22 @@
 				kind = branch;
 			};
 		};
+		CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lachlanbell/SwiftOTP";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.2;
+			};
+		};
+		CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -581,11 +597,6 @@
 			package = CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */;
 			productName = GAuthDecrypt;
 		};
-		CD74FEFE2BD69DE400D33BD0 /* core_open2fa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */;
-			productName = core_open2fa;
-		};
 		CD9A8F2825B6F58C00DFD47F /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */;
@@ -595,6 +606,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */;
 			productName = IceCream;
+		};
+		CDE763032BD996DF00234D18 /* SwiftOTP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */;
+			productName = SwiftOTP;
+		};
+		CDE763062BD998BE00234D18 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
