@@ -54,8 +54,6 @@ class AccountObject: Object {
     @Persisted var isDeleted = false
 }
 
-extension AccountObject: CKSafeDelete & CKRecordConvertible & CKRecordRecoverable { }
-
 extension AccountObject {
     convenience init(_ dto: AccountData, cm: CryptoModule) {
         self.init()
@@ -64,6 +62,8 @@ extension AccountObject {
         self.account_data = cm.encryptData(encoded)
     }
 }
+
+extension AccountObject: CKSafeDelete & CKRecordConvertible & CKRecordRecoverable { }
 
 protocol CKSafeDelete {
     var isDeleted: Bool { get set }

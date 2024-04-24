@@ -10,10 +10,7 @@ import Foundation
 import CryptoSwift
 
 class CryptoModule {
-    //public static let sharedInstance = CryptoModule()
     
-   // private var key: [UInt8]
-   // private var IV: [UInt8]
     private let aes: AES
     
     static func generateKey(pass: String, salt: String) -> [UInt8] {
