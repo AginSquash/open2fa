@@ -139,7 +139,7 @@ struct PasswordEnterView: View {
                                         self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
                                         _debugPrint(baseURL)
                                         self.core_driver.isActive = true
-                                        self.core_driver.loadCryptoModule(with: enteredPassword)
+                                        self.core_driver.loadCryptoModuleFromPassword(with: enteredPassword)
                                         self.isUnlocked = true
                                     } else {
                                         self.errorDiscription = errorType(error: .passwordIncorrect)
@@ -233,7 +233,7 @@ struct PasswordEnterView: View {
                             self.enteredPassword = pass
                             
                             self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
-                            self.core_driver.loadCryptoModule(with: pass)
+                            self.core_driver.loadCryptoModuleFromKeychain()
                             self.core_driver.setObservers()
                             
                             self.isUnlocked = true

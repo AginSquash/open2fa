@@ -64,6 +64,51 @@
                   endingLineNumber = "128"
                   offsetFromSymbolStart = "48">
                </Location>
+               <Location
+                  uuid = "86E97060-E5D1-4B8C-859C-146EAD253FA9 - d60f17b65d9acd97"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "open2fa.PreferencesView.sendToCloud() -&gt; ()"
+                  moduleName = "open2fa"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/PreferencesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "86E97060-E5D1-4B8C-859C-146EAD253FA9 - 4cdf36dd451952e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable () async -&gt; Swift.Optional&lt;()&gt; in open2fa.PreferencesView.sendToCloud() -&gt; ()"
+                  moduleName = "open2fa"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/PreferencesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  uuid = "86E97060-E5D1-4B8C-859C-146EAD253FA9 - f1aa7f3efb9554ad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;()&gt; in open2fa.PreferencesView.sendToCloud() -&gt; ()"
+                  moduleName = "open2fa"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/PreferencesView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "48">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -77,8 +122,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -93,8 +138,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "fetchAccounts()"
             landmarkType = "7">
          </BreakpointContent>
@@ -109,57 +154,10 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "TEST_readDB()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "879CB5DF-C1A1-49D1-8C66-1D070DF671F8 - 512c7d568629fbb1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.TEST_readDB() -&gt; ()"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "341"
-                  endingLineNumber = "341"
-                  offsetFromSymbolStart = "476">
-               </Location>
-               <Location
-                  uuid = "879CB5DF-C1A1-49D1-8C66-1D070DF671F8 - 512c7d568629fb96"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.TEST_readDB() -&gt; ()"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  uuid = "879CB5DF-C1A1-49D1-8C66-1D070DF671F8 - 512c7d568629fbf7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.TEST_readDB() -&gt; ()"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "339"
-                  endingLineNumber = "339"
-                  offsetFromSymbolStart = "76">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -172,8 +170,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "init()"
             landmarkType = "7">
             <Locations>
@@ -220,28 +218,28 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "init(fileURL:pass:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "AF3C0793-FC9A-401C-BE62-B96F8CD82EBD - b02d97f4040c65be"
+                  uuid = "AF3C0793-FC9A-401C-BE62-B96F8CD82EBD - 36b08856f4b70979"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.init(fileURL: Foundation.URL, pass: Swift.String) -&gt; open2fa.Core2FA_ViewModel"
+                  symbolName = "open2fa.Core2FA_ViewModel.__allocating_init(fileURL: Foundation.URL, pass: Swift.String) -&gt; open2fa.Core2FA_ViewModel"
                   moduleName = "open2fa"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "162"
-                  endingLineNumber = "162"
-                  offsetFromSymbolStart = "1228">
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "32">
                </Location>
                <Location
-                  uuid = "AF3C0793-FC9A-401C-BE62-B96F8CD82EBD - b02d97f4040c65df"
+                  uuid = "AF3C0793-FC9A-401C-BE62-B96F8CD82EBD - b02d97f4040c15ba"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -251,11 +249,27 @@
                   urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "161"
-                  endingLineNumber = "161"
-                  offsetFromSymbolStart = "1228">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "944">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1171587F-CC89-4B43-99C8-6C9C98F6FFA4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "open2fa/KeychainWrapper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "getString(name:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

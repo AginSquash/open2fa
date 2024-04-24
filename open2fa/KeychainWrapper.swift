@@ -102,7 +102,7 @@ class KeychainWrapper {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         guard status != errSecItemNotFound else {
-            _debugPrint("No password with name \(name)")
+            _debugPrint("KeychainWrapper No password with name \(name)")
             return nil
         }
         guard status == errSecSuccess else { fatalError("ERROR UNHANDLER") }
@@ -118,7 +118,9 @@ class KeychainWrapper {
     
     public func getString(name: KeychainTag) -> String? {
         guard let data = getValue(name: name) else { return nil}
-        return String(data: data, encoding: String.Encoding.utf8)
+        let str = String(data: data, encoding: String.Encoding.utf8)
+        
+        return str
     }
     
     public func deleteValue(name: KeychainTag) {
@@ -148,10 +150,10 @@ class KeychainWrapper {
             
             let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
             guard status == errSecSuccess else { fatalError("ERROR \(status)") }
-            _debugPrint("PASSWORD RENAMED with name \(name)")
+            _debugPrint("KeychainWrapper PASSWORD RENAMED with name \(name)")
             return
         }
         guard status == errSecSuccess else { fatalError("ERROR \(status)") }
-        _debugPrint("PASSWORD SAVED with name \(name)")
+        _debugPrint("KeychainWrapper PASSWORD SAVED with name \(name)")
     }
 }
