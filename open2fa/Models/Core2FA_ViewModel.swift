@@ -133,22 +133,21 @@ class Core2FA_ViewModel: ObservableObject {
     
     func loadCryptoModuleFromPassword(with pass: String) {
         let salt: String
-        let saltKC = KeychainWrapper.sharedInstance.getString(name: .salt)
+        let saltKC = KeychainWrapper.shared.getSalt()
         if saltKC == nil {
             salt = CryptoModule.generateSalt()
-            KeychainWrapper.sharedInstance.setValue(name: .salt, value: salt)
+            KeychainWrapper.shared.setSalt(salt: salt)
             _debugPrint("salt: \(salt)")
         } else {
             salt = saltKC!
         }
         
         let key = CryptoModule.generateKey(pass: pass, salt: salt)
-             
         initCryptoModule(key: key)
     }
     
     func loadCryptoModuleFromKeychain() {
-        guard let key = KeychainWrapper.sharedInstance.getValue(name: .key) else {
+        guard let key = KeychainWrapper.shared.getKey() else {
             // must return something
             return
         }
@@ -158,14 +157,15 @@ class Core2FA_ViewModel: ObservableObject {
     
     private func initCryptoModule(key: [UInt8]) {
         var iv: [UInt8]
-        let ivKC: Data? = KeychainWrapper.sharedInstance.getValue(name: .iv)
+        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
         if ivKC == nil {
             iv = CryptoModule.generateIV()
-            KeychainWrapper.sharedInstance.setValue(name: .iv, value: iv)
+            KeychainWrapper.shared.setIV(iv: iv)
         } else {
-            iv = [UInt8](ivKC!)
+            iv = ivKC!
         }
         
+        _debugPrint("saved iv: \(KeychainWrapper.shared.getIV())\n saved salt: \( KeychainWrapper.shared.getSalt())")
         self.cryptoModel = CryptoModule(key: key, IV: iv)
         self.updateAccounts()
     }

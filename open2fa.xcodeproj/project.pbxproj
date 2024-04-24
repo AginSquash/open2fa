@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
+		CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = CD188EBE2BD88CB00029D7E0 /* KeychainAccess */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
@@ -79,6 +80,7 @@
 			files = (
 				CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */,
 				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
+				CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */,
 				CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
 				CD74FEFF2BD69DE400D33BD0 /* core_open2fa in Frameworks */,
@@ -191,6 +193,7 @@
 				CD6A580028E49D930075C0CE /* GAuthDecrypt */,
 				CDDDB67C2BD5C30600FEB3F8 /* IceCream */,
 				CD74FEFE2BD69DE400D33BD0 /* core_open2fa */,
+				CD188EBE2BD88CB00029D7E0 /* KeychainAccess */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -227,6 +230,7 @@
 				CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */,
 				CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */,
 				CD74FEFD2BD69DE400D33BD0 /* XCRemoteSwiftPackageReference "core-open2fa" */,
+				CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -524,6 +528,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/GAuthDecrypt";
@@ -559,6 +571,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD188EBE2BD88CB00029D7E0 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		CD6A580028E49D930075C0CE /* GAuthDecrypt */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */;

@@ -105,7 +105,7 @@ struct PreferencesView: View {
                         if changeTo == false {
                             UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
                             deletePasswordKeychain(name: fileName)
-                            KeychainWrapper.sharedInstance.deleteValue(name: .key)
+                            KeychainWrapper.shared.removeKey()
                         } else {
                             withAnimation { biometricStatusChange = true }
                             UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
@@ -129,11 +129,11 @@ struct PreferencesView: View {
     }
     
     func resetKC() {
-        KeychainWrapper.sharedInstance.deleteValue(name: .key)
+        KeychainWrapper.shared.removeKey()
     }
     
     func printKC() {
-        print(KeychainWrapper.sharedInstance.getValue(name: .key))
+        print(KeychainWrapper.shared.getKey())
     }
     
     func sendToCloud() {
