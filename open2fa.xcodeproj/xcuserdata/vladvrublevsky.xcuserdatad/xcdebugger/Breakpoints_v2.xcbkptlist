@@ -228,9 +228,9 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
-            landmarkName = "fetchAccounts()"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
+            landmarkName = "deleteAccount(id:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

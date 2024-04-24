@@ -54,7 +54,7 @@ class AccountObject: Object {
     @Persisted var isDeleted = false
 }
 
-extension AccountObject: CKRecordConvertible & CKRecordRecoverable { }
+extension AccountObject: CKSafeDelete & CKRecordConvertible & CKRecordRecoverable { }
 
 extension AccountObject {
     convenience init(_ dto: AccountData, cm: CryptoModule) {
@@ -63,4 +63,8 @@ extension AccountObject {
         guard let encoded = try? JSONEncoder().encode(dto) else { self.account_data = nil; return }
         self.account_data = cm.encryptData(encoded)
     }
+}
+
+protocol CKSafeDelete {
+    var isDeleted: Bool { get set }
 }

@@ -358,12 +358,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     func deleteAccount(id: String) {
         _debugPrint("trying to delete \(id)")
-        //let acc = self.accountData.first(where: { $0.id == id })
-        let data = self.storage.fetch(by: AccountObject.self)
-        guard let accIndex = data.firstIndex(where: { $0.id == id }) else { return }
-        let acc = data[accIndex]
-        _debugPrint("acc exists \(id)")
-        try? self.storage.deleteObject(object: acc)
+        try? self.storage.deleteObjectWithId(type: AccountObject.self, id: id)
     }
     
     func fetchAccounts() -> [AccountData] {

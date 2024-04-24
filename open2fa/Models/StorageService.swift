@@ -14,7 +14,7 @@ import CommonCrypto
 final class StorageService {
 
     public let realm: Realm?
-    public static let sharedInstance = StorageService()
+    public static let shared = StorageService()
     
     init(inMemory: Bool = false) {
         let configuration: Realm.Configuration
@@ -40,14 +40,23 @@ final class StorageService {
     }
     
     func deleteObject(object: Object) throws {
-        if let obj = object as? AccountObject {
-            guard let storage = realm else { return }
-            try storage.write {
+        guard let storage = realm else { return }
+        try storage.write {
+            if var obj = object as? CKSafeDelete {
                 obj.isDeleted = true
+            } else {
+                storage.delete(object)
             }
-        } else {
-            guard let storage = realm else { return }
-            try storage.write {
+        }
+    }
+    
+    func deleteObjectWithId<T: Object>(type: T.Type, id: String) throws {
+        guard let storage = realm else { return }
+        try storage.write {
+            guard let object = storage.object(ofType: T.self, forPrimaryKey: id) else { return }
+            if var object = object as? CKSafeDelete {
+                object.isDeleted = true
+            } else {
                 storage.delete(object)
             }
         }
