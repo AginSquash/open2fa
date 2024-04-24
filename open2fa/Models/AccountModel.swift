@@ -38,6 +38,17 @@ extension AccountData {
         modified_date = Date()
     }
     
+    init(name: String, issuer: String, secret: String) {
+        self.id = NSUUID().uuidString
+        self.type = .TOTP
+        self.name = name
+        self.issuer = issuer
+        self.secret = secret
+        self.counter = 0
+        self.creation_date = Date()
+        self.modified_date = self.creation_date
+    }
+    
     init(_ object: AccountObject, cm: CryptoModule) {
         guard let data = object.account_data else { self.init(); return }
         guard let decrypted = cm.decryptData(data) else { self.init(); return }

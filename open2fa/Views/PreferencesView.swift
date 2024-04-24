@@ -32,9 +32,6 @@ struct PreferencesView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    Button("Send to iCloud", action: sendToCloud)
-                    Button("Load from iCloud", action: loadFromCloud)
-                    
                     Button("TEST Add", action: testAdd)
                     Button("TEST Read", action: testreadDB)
                     
@@ -138,18 +135,6 @@ struct PreferencesView: View {
     
     func printKC() {
         print(KeychainWrapper.shared.getKey())
-    }
-    
-    func sendToCloud() {
-        let uploadTask = Task {
-            try? await core_driver.uploadDataToCloud()
-        }
-    }
-    
-    func loadFromCloud() {
-        let loadTask = Task {
-            try? await core_driver.loadCloudStoreData()
-        }
     }
     
     func testAdd() {
