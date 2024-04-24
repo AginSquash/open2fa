@@ -68,6 +68,11 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func deleteService(uuid: String) {
+        try? storage.deleteObjectWithId(type: AccountObject.self, id: uuid)
+        withAnimation {
+            self.codes.removeAll(where: { $0.id == uuid } )
+        }
+        
         /*
         guard self.core.DeleteAccount(id: uuid) == .SUCCEFULL else {
             fatalError("DeleteCode error")
@@ -290,6 +295,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     func updateAccounts() {
         self.accountData = self.fetchAccounts() // Maybe move decryption to background thread?
+        self.codes = getOTPList()
     }
 }
 
