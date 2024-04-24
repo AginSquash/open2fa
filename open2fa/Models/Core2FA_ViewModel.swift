@@ -42,7 +42,7 @@ class Core2FA_ViewModel: ObservableObject {
     var notificationToken: NotificationToken?
     
     /// Crypto
-    private var cryptoModel: CryptoModule?
+    private var cryptoModule: CryptoModule?
     
     private var core: CORE_OPEN2FA
     private var timer: Timer?
@@ -129,45 +129,6 @@ class Core2FA_ViewModel: ObservableObject {
     
     func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
         return core.NoCrypt_ExportAllServicesSECRETS()
-    }
-    
-    func loadCryptoModuleFromPassword(with pass: String) {
-        let salt: String
-        let saltKC = KeychainWrapper.shared.getSalt()
-        if saltKC == nil {
-            salt = CryptoModule.generateSalt()
-            KeychainWrapper.shared.setSalt(salt: salt)
-            _debugPrint("salt: \(salt)")
-        } else {
-            salt = saltKC!
-        }
-        
-        let key = CryptoModule.generateKey(pass: pass, salt: salt)
-        initCryptoModule(key: key)
-    }
-    
-    func loadCryptoModuleFromKeychain() {
-        guard let key = KeychainWrapper.shared.getKey() else {
-            // must return something
-            return
-        }
-        
-        initCryptoModule(key: [UInt8](key))
-    }
-    
-    private func initCryptoModule(key: [UInt8]) {
-        var iv: [UInt8]
-        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
-        if ivKC == nil {
-            iv = CryptoModule.generateIV()
-            KeychainWrapper.shared.setIV(iv: iv)
-        } else {
-            iv = ivKC!
-        }
-        
-        _debugPrint("saved iv: \(KeychainWrapper.shared.getIV())\n saved salt: \( KeychainWrapper.shared.getSalt())")
-        self.cryptoModel = CryptoModule(key: key, IV: iv)
-        self.updateAccounts()
     }
     
     init(fileURL: URL, pass: String) {
@@ -342,14 +303,14 @@ class Core2FA_ViewModel: ObservableObject {
     let iv = "ZRhF3P6KXVzT9jed"
     
     func TEST_addNewRecord() {
-        guard let cryptoModel = self.cryptoModel else { return }
+        guard let cryptoModel = self.cryptoModule else { return }
         let newRecord = AccountData() //AccountDTO(id: NSUUID().uuidString, account_data: nil)
         let object = AccountObject(newRecord, cm: cryptoModel)
         try? storage.saveOrUpdateObject(object: object)
     }
     
     func TEST_readDB() {
-        guard let cryptoModel = self.cryptoModel else { return }
+        guard let cryptoModel = self.cryptoModule else { return }
         let data = storage.fetch(by: AccountObject.self)
         let map = data.map({ AccountData($0, cm: cryptoModel) })
         print("DEBUG: readed from DB: \(map)")
@@ -361,12 +322,55 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func fetchAccounts() -> [AccountData] {
-        guard let cryptoModel = self.cryptoModel else { return [] }
+        guard let cryptoModel = self.cryptoModule else { return [] }
         let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
         return data.map({ AccountData($0, cm: cryptoModel) })
     }
     
     func updateAccounts() {
         self.accountData = self.fetchAccounts() // Maybe move decryption to background thread?
+    }
+}
+
+//MARK: - Crypto module
+extension Core2FA_ViewModel {
+    
+    func loadCryptoModuleFromPassword(with pass: String) {
+        let salt: String
+        let saltKC = KeychainWrapper.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoModule.generateSalt()
+            KeychainWrapper.shared.setSalt(salt: salt)
+            _debugPrint("salt: \(salt)")
+        } else {
+            salt = saltKC!
+        }
+        
+        let key = CryptoModule.generateKey(pass: pass, salt: salt)
+        initCryptoModule(key: key)
+    }
+    
+    func loadCryptoModuleFromKeychain() {
+        guard let key = KeychainWrapper.shared.getKey() else {
+            // must return something
+            return
+        }
+        
+        initCryptoModule(key: [UInt8](key))
+    }
+    
+    private func initCryptoModule(key: [UInt8]) {
+        var iv: [UInt8]
+        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
+        if ivKC == nil {
+            iv = CryptoModule.generateIV()
+            KeychainWrapper.shared.setIV(iv: iv)
+        } else {
+            iv = ivKC!
+        }
+        
+        _debugPrint("saved iv: \(KeychainWrapper.shared.getIV())\n saved salt: \( KeychainWrapper.shared.getSalt())")
+        self.cryptoModule = CryptoModule(key: key, IV: iv)
+        self.updateAccounts()
     }
 }
