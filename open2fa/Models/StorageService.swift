@@ -41,7 +41,10 @@ final class StorageService {
     
     func deleteObject(object: Object) throws {
         if let obj = object as? AccountObject {
-            obj.isDeleted = true
+            guard let storage = realm else { return }
+            try storage.write {
+                obj.isDeleted = true
+            }
         } else {
             guard let storage = realm else { return }
             try storage.write {

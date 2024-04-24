@@ -184,6 +184,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.token = storage.realm!.observe { notification, realm in
+            _debugPrint("realm updated")
             self.updateAccounts()
         }
     }
@@ -355,9 +356,19 @@ class Core2FA_ViewModel: ObservableObject {
         print("DEBUG: readed from DB: \(map)")
     }
     
+    func deleteAccount(id: String) {
+        _debugPrint("trying to delete \(id)")
+        //let acc = self.accountData.first(where: { $0.id == id })
+        let data = self.storage.fetch(by: AccountObject.self)
+        guard let accIndex = data.firstIndex(where: { $0.id == id }) else { return }
+        let acc = data[accIndex]
+        _debugPrint("acc exists \(id)")
+        try? self.storage.deleteObject(object: acc)
+    }
+    
     func fetchAccounts() -> [AccountData] {
         guard let cryptoModel = self.cryptoModel else { return [] }
-        let data = storage.fetch(by: AccountObject.self)
+        let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
         return data.map({ AccountData($0, cm: cryptoModel) })
     }
     

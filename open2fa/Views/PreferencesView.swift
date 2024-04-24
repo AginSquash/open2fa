@@ -41,8 +41,12 @@ struct PreferencesView: View {
                     Button("Reset KC", action: resetKC)
                     Button("Print KC", action: printKC)
                     
+                    Button("Update accouns", action: updateAccounts)
+                    
                     ForEach(core_driver.accountData) { account in
-                        Text(account.name)
+                        Text(account.name).onTapGesture {
+                            self.deleteFromDB(with: account.id)
+                        }
                     }
                     
                     NavigationLink(
@@ -154,6 +158,14 @@ struct PreferencesView: View {
     
     func testreadDB() {
         core_driver.TEST_readDB()
+    }
+    
+    func deleteFromDB(with id: String) {
+        core_driver.deleteAccount(id: id)
+    }
+    
+    func updateAccounts() {
+        core_driver.updateAccounts()
     }
 }
 
