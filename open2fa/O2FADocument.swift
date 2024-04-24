@@ -28,9 +28,9 @@ struct O2FADocument: FileDocument {
             return
         }
         
-        let data = try! Data(contentsOf: url)
-        let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
-        self.cf = decoded
+        //let data = try! Data(contentsOf: url)
+        //let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
+        self.cf = codesFile(core_version: "1.0", IV: "iv")
     }
     
     init(configuration: ReadConfiguration) throws {
