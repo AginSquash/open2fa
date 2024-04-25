@@ -125,22 +125,15 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
-        /*
-        let result = core.EditAccount(id: serviceID, newName: newName, newIssuer: newIssuer)
-        if result == .SUCCEFULL {
-            self.codes = self.core.getListOTP()
-            return nil
-        }
+        guard let cm = cryptoModule else { return nil }
+        guard let index = self.accountData.firstIndex(where: { $0.id == serviceID }) else { return nil }
+        accountData[index].name = newName
+        accountData[index].issuer = newIssuer
         
-        switch result {
-        case .ALREADY_EXIST:
-            return "This name already taken"
-        case .CANNOT_FIND_ID:
-            return "Cannot find this ID"
-        default:
-            return "Unknown error"
-        }
-         */
+        let accountObject = AccountObject(accountData[index], cm: cm)
+        try? storage.saveOrUpdateObject(object: accountObject)
+        
+        self.codes = getOTPList()
         return nil
     }
     
@@ -162,8 +155,8 @@ class Core2FA_ViewModel: ObservableObject {
     
     init() {
         self.storage = StorageService()
-       // self.core = CORE_OPEN2FA()
-       //// self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
+        // self.core = CORE_OPEN2FA()
+        //// self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.token = storage.realm!.observe { notification, realm in
             self.updateAccounts()
