@@ -62,17 +62,6 @@ extension AccountData: Comparable {
 }
 
 extension AccountData {
-    init() {
-        id = "cannot_decode_data" //NSUUID().uuidString
-        type = .TOTP
-        name = "Test 1"
-        issuer = "issuer"
-        secret = Data()
-        counter = 0
-        creation_date = Date()
-        modified_date = Date()
-    }
-    
     init(name: String, issuer: String, secret: Data) {
         self.id = NSUUID().uuidString
         self.type = .TOTP
@@ -84,10 +73,10 @@ extension AccountData {
         self.modified_date = self.creation_date
     }
     
-    init(_ object: AccountObject, cm: CryptoModule) {
-        guard let data = object.account_data else { self.init(); return }
-        guard let decrypted = cm.decryptData(data) else { self.init(); return }
-        guard let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { self.init(); return }
+    init?(_ object: AccountObject, cm: CryptoModule) {
+        guard let data = object.account_data else { return nil }
+        guard let decrypted = cm.decryptData(data) else { return nil }
+        guard let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
         self = decoded
     }
 }

@@ -276,7 +276,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     func TEST_addNewRecord() {
         guard let cryptoModel = self.cryptoModule else { return }
-        let newRecord = AccountData() //AccountDTO(id: NSUUID().uuidString, account_data: nil)
+        let newRecord = AccountData(name: "Test 1", issuer: "issuer", secret: CryptoModule.generateSalt().base32DecodedData ?? Data()) //AccountDTO(id: NSUUID().uuidString, account_data: nil)
         let object = AccountObject(newRecord, cm: cryptoModel)
         try? storage.saveOrUpdateObject(object: object)
     }
@@ -296,7 +296,7 @@ class Core2FA_ViewModel: ObservableObject {
     func fetchAccounts() -> [AccountData] {
         guard let cryptoModel = self.cryptoModule else { return [] }
         let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
-        return data.map({ AccountData($0, cm: cryptoModel) }).sorted()
+        return data.compactMap({ AccountData($0, cm: cryptoModel) }).sorted()
     }
     
     func updateAccounts() {
