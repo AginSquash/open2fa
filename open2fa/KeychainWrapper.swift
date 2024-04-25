@@ -122,6 +122,15 @@ class KeychainWrapper {
         keychainLocal[data: "key"] = nil
     }
     
+    // KVC
+    func getKVC() -> Data? {
+        return try? keychainCloud.getData("kvc")
+    }
+    
+    func setKVC(kvc: Data) {
+        keychainCloud[data: "kvc"] = kvc
+    }
+    
     init() {
         self.keychainCloud = Keychain(service: "com.vladvrublevsky.open2fa.cloud").synchronizable(true)
         self.keychainLocal = Keychain(service: "com.vladvrublevsky.open2fa.local").synchronizable(false)

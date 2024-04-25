@@ -35,8 +35,9 @@ struct PasswordEnterView: View {
     
     @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     @AppStorage("isFirstRun") var storageFirstRun: String = ""
+    
     private var isFirstRun: Bool {
-        return storageFirstRun == ""
+        return Core2FA_ViewModel.isFirstRun()
     }
     
     
@@ -124,6 +125,7 @@ struct PasswordEnterView: View {
                                         _debugPrint(baseURL)
                                         self.core_driver.isActive = true
                                         self.isUnlocked = true
+                                        self.core_driver.loadCryptoModuleFromPassword(with: self.enteredPassword)
                                         return
                                     }
                                     

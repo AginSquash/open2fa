@@ -183,10 +183,12 @@ class Core2FA_ViewModel: ObservableObject {
         }
     }
     
+    static func isFirstRun() -> Bool {
+        return KeychainWrapper.shared.getKVC() == nil
+    }
+    
     static func isPasswordCorrect(password: String) -> Bool {
-        let storage = StorageService()
-        let accountObjects = storage.fetch(by: AccountObject.self)
-        guard let accountObject = accountObjects.first else { return true } // TODO: is it OK ??
+        guard let kvc = KeychainWrapper.shared.getKVC() else { return true }
         
         // Salt
         let salt: String
@@ -214,8 +216,10 @@ class Core2FA_ViewModel: ObservableObject {
         
         let cryptoModule = CryptoModule(key: key, IV: iv)
         
-        let account = AccountData(accountObject, cm: cryptoModule)
-        return account.id != "cannot_decode_data"
+        guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
+        let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
+        _debugPrint("decoded kvc: \(decoded)")
+        return decoded != nil
     }
     
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
@@ -299,6 +303,15 @@ class Core2FA_ViewModel: ObservableObject {
         self.accountsData = self.fetchAccounts() // Maybe move decryption to background thread?
         self.codes = getOTPList()
     }
+    
+    func saveKVC() {
+        guard let cryptoModel = self.cryptoModule else { return }
+        let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoModule.generateSalt().base32DecodedData ?? Data())
+        guard let encoded = try? JSONEncoder().encode(accountData) else { return }
+        guard let kvc = cryptoModel.encryptData(encoded) else { return }
+        
+        KeychainWrapper.shared.setKVC(kvc: kvc)
+    }
 }
 
 //MARK: - Crypto module
@@ -340,6 +353,11 @@ extension Core2FA_ViewModel {
         
         _debugPrint("saved iv: \(KeychainWrapper.shared.getIV())\n saved salt: \( KeychainWrapper.shared.getSalt())")
         self.cryptoModule = CryptoModule(key: key, IV: iv)
+        
+        if KeychainWrapper.shared.getKVC() == nil {
+            self.saveKVC()
+        }
+        
         self.updateAccounts()
     }
 }
