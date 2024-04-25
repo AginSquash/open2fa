@@ -211,6 +211,41 @@ class Core2FA_ViewModel: ObservableObject {
         }
     }
     
+    static func isPasswordCorrect(password: String) -> Bool {
+        let storage = StorageService()
+        let accountObjects = storage.fetch(by: AccountObject.self)
+        guard let accountObject = accountObjects.first else { return true } // TODO: is it OK ??
+        
+        // Salt
+        let salt: String
+        let saltKC = KeychainWrapper.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoModule.generateSalt()
+            KeychainWrapper.shared.setSalt(salt: salt)
+            _debugPrint("salt: \(salt)")
+        } else {
+            salt = saltKC!
+        }
+        
+        // Key
+        let key = CryptoModule.generateKey(pass: password, salt: salt)
+        
+        // IV
+        var iv: [UInt8]
+        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
+        if ivKC == nil {
+            iv = CryptoModule.generateIV()
+            KeychainWrapper.shared.setIV(iv: iv)
+        } else {
+            iv = ivKC!
+        }
+        
+        let cryptoModule = CryptoModule(key: key, IV: iv)
+        
+        let account = AccountData(accountObject, cm: cryptoModule)
+        return account.id != "cannot_decode_data"
+    }
+    
     static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
         return true
         

@@ -127,7 +127,7 @@ struct PasswordEnterView: View {
                                         return
                                     }
                                     
-                                    if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
+                                    if Core2FA_ViewModel.isPasswordCorrect( password: self.enteredPassword) {
                                         
                                         /// need add check for exist
                                         if storageLocalKeyChain == "true" {

@@ -57,11 +57,11 @@ struct AccountData: Codable, Identifiable {
 
 extension AccountData {
     init() {
-        id = NSUUID().uuidString
+        id = "cannot_decode_data" //NSUUID().uuidString
         type = .TOTP
         name = "Test 1"
         issuer = "issuer"
-        secret = "secret".base32DecodedData!
+        secret = Data()
         counter = 0
         creation_date = Date()
         modified_date = Date()
