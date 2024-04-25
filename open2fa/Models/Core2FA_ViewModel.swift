@@ -222,36 +222,6 @@ class Core2FA_ViewModel: ObservableObject {
         return decoded != nil
     }
     
-    static func isPasswordCorrect(fileURL: URL, password: String) -> Bool {
-        return true
-        
-        /*
-        let passcheck = CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
-        switch passcheck {
-        case .PASS_INCORRECT:
-            _debugPrint("PASS_INCORRECT")
-            break
-        case .FILE_NOT_EXIST:
-            _debugPrint("FILE_NOT_EXIST")
-            break
-        case .CANNOT_DECODE:
-            _debugPrint("CANNOT_DECODE")
-            break
-        case .FILE_UNVIABLE:
-            _debugPrint("FILE_UNVIABLE")
-            break
-        case .NO_CODES:
-            _debugPrint("NO_CODES")
-            break
-        case .SUCCEFULL:
-            break
-        default:
-            _debugPrint("no one")
-        }
-        return passcheck == .SUCCEFULL || passcheck == .NO_CODES
-         */
-    }
-    
     /*
     static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
         return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
@@ -272,20 +242,6 @@ class Core2FA_ViewModel: ObservableObject {
         }
         
         return count
-    }
-    
-    func TEST_addNewRecord() {
-        guard let cryptoModel = self.cryptoModule else { return }
-        let newRecord = AccountData(name: "Test 1", issuer: "issuer", secret: CryptoModule.generateSalt().base32DecodedData ?? Data()) //AccountDTO(id: NSUUID().uuidString, account_data: nil)
-        let object = AccountObject(newRecord, cm: cryptoModel)
-        try? storage.saveOrUpdateObject(object: object)
-    }
-    
-    func TEST_readDB() {
-        guard let cryptoModel = self.cryptoModule else { return }
-        let data = storage.fetch(by: AccountObject.self)
-        let map = data.map({ AccountData($0, cm: cryptoModel) })
-        _debugPrint("readed from DB: \(map)")
     }
     
     func deleteAccount(id: String) {
