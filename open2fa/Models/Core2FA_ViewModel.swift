@@ -96,7 +96,10 @@ class Core2FA_ViewModel: ObservableObject {
     
     func addAccount(name: String, issuer: String, secret: String) -> String? {
         guard let cm = cryptoModule else { return nil }
-        guard let baase32Decoded = secret.base32DecodedData else { return nil }
+        guard let baase32Decoded = secret.base32DecodedData else { return "Incorrect secret" } // TODO: result?
+        
+        guard let totp = TOTP(secret: baase32Decoded) else { return "Incorrect secret" }
+        guard let otp = totp.generate(time: Date()) else { return "Incorrect secret" }
         
         let newAccount = AccountData(name: name, issuer: issuer, secret: baase32Decoded)
         let accountObject = AccountObject(newAccount, cm: cm)
@@ -106,22 +109,6 @@ class Core2FA_ViewModel: ObservableObject {
         self.codes = getOTPList()
         
         return nil
-        /*
-        let result = core.AddAccount(account_name: name, issuer: issuer, secret: secret)
-        if result == .SUCCEFULL {
-            self.codes = self.core.getListOTP()
-            return nil
-        }
-        
-        switch result {
-        case .ALREADY_EXIST:
-            return "This name already taken"
-        case .CODE_INCORRECT:
-            return "This code is incorrect"
-        default:
-            return "Unknown error"
-        }
-         */
     }
     
     func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
