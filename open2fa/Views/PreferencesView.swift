@@ -39,7 +39,7 @@ struct PreferencesView: View {
                     
                     Button("Update accouns", action: updateAccounts)
                     
-                    ForEach(core_driver.accountData) { account in
+                    ForEach(core_driver.accountsData) { account in
                         Text(account.name).onTapGesture {
                             self.deleteFromDB(with: account.id)
                         }

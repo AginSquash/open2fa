@@ -21,7 +21,7 @@ class Core2FA_ViewModel: ObservableObject {
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
 
-    @Published var accountData = [AccountData]()
+    @Published var accountsData = [AccountData]()
     //var testCloud: [AccountObject] = StorageService.sharedInstance.fetch(by: AccountObject.self)
     
     var token: NotificationToken?
@@ -58,7 +58,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     func getOTPList() -> [AccountCurrentCode] {
         var accountsCurrentCode: [AccountCurrentCode] = []
-        for account in accountData {
+        for account in accountsData {
             guard let totp = TOTP(secret: account.secret) else { continue }
             guard let currentCode = totp.generate(time: Date()) else { continue }
             let newACC = AccountCurrentCode(account, currentCode: currentCode)
@@ -102,7 +102,7 @@ class Core2FA_ViewModel: ObservableObject {
         let accountObject = AccountObject(newAccount, cm: cm)
         try? storage.saveOrUpdateObject(object: accountObject)
         
-        self.accountData.append(newAccount)
+        self.accountsData.append(newAccount)
         self.codes = getOTPList()
         
         return nil
@@ -126,19 +126,20 @@ class Core2FA_ViewModel: ObservableObject {
     
     func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
         guard let cm = cryptoModule else { return nil }
-        guard let index = self.accountData.firstIndex(where: { $0.id == serviceID }) else { return nil }
-        accountData[index].name = newName
-        accountData[index].issuer = newIssuer
+        guard let index = self.accountsData.firstIndex(where: { $0.id == serviceID }) else { return nil }
+        accountsData[index].name = newName
+        accountsData[index].issuer = newIssuer
         
-        let accountObject = AccountObject(accountData[index], cm: cm)
+        let accountObject = AccountObject(accountsData[index], cm: cm)
         try? storage.saveOrUpdateObject(object: accountObject)
         
         self.codes = getOTPList()
         return nil
     }
     
-    func NoCrypt_ExportService(with id: UUID) -> UNPROTECTED_AccountData? {
-        return nil //core.NoCrypt_ExportServiceSECRET(with: id)
+    func NoCrypt_ExportService(with id: String) -> AccountData? {
+        
+        return accountsData.first(where: { $0.id == id })
     }
     
     func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
@@ -287,7 +288,7 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func updateAccounts() {
-        self.accountData = self.fetchAccounts() // Maybe move decryption to background thread?
+        self.accountsData = self.fetchAccounts() // Maybe move decryption to background thread?
         self.codes = getOTPList()
     }
 }

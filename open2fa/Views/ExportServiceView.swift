@@ -57,7 +57,7 @@ struct ExportServiceView: View {
                 }
                 .navigationTitle(Text("Exporting an Account"))
                 .navigationViewStyle(StackNavigationViewStyle())
-                //.onAppear(perform: startup)
+                .onAppear(perform: startup)
                 .toolbar(content: {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -71,19 +71,20 @@ struct ExportServiceView: View {
             }
         }
     }
-    /*
+    
     func startup() {
         guard let code_secure = core_driver.NoCrypt_ExportService(with: serviceUUID) else {
             fatalError("Auth with incorrect pass/other")
         }
         
-        self.secret = code_secure.secret
+        self.secret = code_secure.secret.base32EncodedString
         getQRCode(cs: code_secure)
     }
     
-    func getQRCode(cs: UNPROTECTED_AccountData) {
+    func getQRCode(cs: AccountData) {
         let name = cs.name.replacingOccurrences(of: " ", with: "%20")
-        var exportText = "otpauth://totp/\(name)?secret=\(cs.secret)"
+        let secret = cs.secret.base32EncodedString
+        var exportText = "otpauth://totp/\(name)?secret=\(secret)"
         if cs.issuer.isNotEmpty() {
             exportText.append("&issuer=\(cs.issuer)")
         }
@@ -105,7 +106,7 @@ struct ExportServiceView: View {
         UIGraphicsEndImageContext();
         self.QRImage = Image(uiImage: image)
     }
-     */
+
 }
 
 struct ExportServiceView_Previews: PreviewProvider {
