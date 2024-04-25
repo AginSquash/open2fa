@@ -22,9 +22,6 @@ class Core2FA_ViewModel: ObservableObject {
     @Published var progress: CGFloat = 1.0
 
     @Published var accountsData = [AccountData]()
-    //var testCloud: [AccountObject] = StorageService.sharedInstance.fetch(by: AccountObject.self)
-    
-    var token: NotificationToken?
 
     /// Realm
     private var storage: StorageService
@@ -34,8 +31,6 @@ class Core2FA_ViewModel: ObservableObject {
     private var cryptoModule: CryptoModule?
     
     private var timer: Timer?
-    
-    let cloudContainer = CKContainer.default()
     
     @objc func updateTime() {
         let date = Date()
@@ -72,15 +67,6 @@ class Core2FA_ViewModel: ObservableObject {
         withAnimation {
             self.codes.removeAll(where: { $0.id == uuid } )
         }
-        
-        /*
-        guard self.core.DeleteAccount(id: uuid) == .SUCCEFULL else {
-            fatalError("DeleteCode error")
-        }
-        withAnimation {
-            self.codes.removeAll(where: { $0.id == uuid } )
-        }
-         */
     }
     
     func DEBUG() {
@@ -126,7 +112,6 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func NoCrypt_ExportService(with id: String) -> AccountData? {
-        
         return accountsData.first(where: { $0.id == id })
     }
     
@@ -147,14 +132,14 @@ class Core2FA_ViewModel: ObservableObject {
         // self.core = CORE_OPEN2FA()
         //// self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.token = storage.realm!.observe { notification, realm in
+        self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
     }
     
     deinit {
         self.timer = nil
-        self.token?.invalidate()
+        self.notificationToken?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
             name: UIApplication.willResignActiveNotification,
@@ -296,7 +281,7 @@ class Core2FA_ViewModel: ObservableObject {
         guard let cryptoModel = self.cryptoModule else { return }
         let data = storage.fetch(by: AccountObject.self)
         let map = data.map({ AccountData($0, cm: cryptoModel) })
-        print("DEBUG: readed from DB: \(map)")
+        _debugPrint("readed from DB: \(map)")
     }
     
     func deleteAccount(id: String) {

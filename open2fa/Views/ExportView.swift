@@ -107,7 +107,7 @@ struct ExportView: View {
 
     
     func exportButton() {
-        guard Core2FA_ViewModel.isPasswordCorrect(fileURL: ExportView.baseURL, password: passwordEntered) else {
+        guard Core2FA_ViewModel.isPasswordCorrect(password: passwordEntered) else {
             passwordEntered = String()
             exportResult = ExportResult(title: "Error", message: "You entered wrong password")
             return

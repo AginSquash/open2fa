@@ -14,8 +14,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "init()"
             landmarkType = "7">
             <Locations>
@@ -62,8 +62,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "init(fileURL:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "addAccount(name:issuer:secret:)"
             landmarkType = "7">
          </BreakpointContent>
