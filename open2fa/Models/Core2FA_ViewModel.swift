@@ -292,7 +292,7 @@ class Core2FA_ViewModel: ObservableObject {
     func fetchAccounts() -> [AccountData] {
         guard let cryptoModel = self.cryptoModule else { return [] }
         let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
-        return data.map({ AccountData($0, cm: cryptoModel) })
+        return data.map({ AccountData($0, cm: cryptoModel) }).sorted()
     }
     
     func updateAccounts() {

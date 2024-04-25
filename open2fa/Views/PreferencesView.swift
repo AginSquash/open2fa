@@ -31,20 +31,6 @@ struct PreferencesView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    Button("TEST Add", action: testAdd)
-                    Button("TEST Read", action: testreadDB)
-                    
-                    Button("Reset KC", action: resetKC)
-                    Button("Print KC", action: printKC)
-                    
-                    Button("Update accouns", action: updateAccounts)
-                    
-                    ForEach(core_driver.accountsData) { account in
-                        Text(account.name).onTapGesture {
-                            self.deleteFromDB(with: account.id)
-                        }
-                    }
-                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {
@@ -60,7 +46,7 @@ struct PreferencesView: View {
                     #endif
                 }.layoutPriority(1)
                 ) {
-                    ForEach (core_driver.codes.sorted()  ) { c in
+                    ForEach(Array(core_driver.codes.enumerated()), id: \.element) { index, c in
                         HStack {
                             VStack(alignment: .leading) {
                                 if c.issuer.isNotEmpty() {
@@ -82,7 +68,15 @@ struct PreferencesView: View {
                                         .frame(width: 20)
                             }).frame(width: 40)
                         }
-                    }.onDelete(perform: callAlert)
+                        .swipeActions {
+                            Button(action: {
+                                callAlert(at: index)
+                            }) {
+                                Text("Delete")
+                            }
+                            .tint(.red)
+                        }
+                    }
                 }
             }
             .padding([.top], 1)
@@ -116,8 +110,8 @@ struct PreferencesView: View {
     
 
     
-    func callAlert(at offset: IndexSet) {
-        self.chosenForDelete = core_driver.codes[offset.first!]
+    func callAlert(at offset: Int) {
+        self.chosenForDelete = core_driver.codes[offset]
     }
     
     func getWrappedDate(date: Date) -> String {
@@ -126,30 +120,6 @@ struct PreferencesView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     
-    }
-    
-    func resetKC() {
-        KeychainWrapper.shared.removeKey()
-    }
-    
-    func printKC() {
-        print(KeychainWrapper.shared.getKey())
-    }
-    
-    func testAdd() {
-        core_driver.TEST_addNewRecord()
-    }
-    
-    func testreadDB() {
-        core_driver.TEST_readDB()
-    }
-    
-    func deleteFromDB(with id: String) {
-        core_driver.deleteAccount(id: id)
-    }
-    
-    func updateAccounts() {
-        core_driver.updateAccounts()
     }
 }
 

@@ -17,7 +17,7 @@ public enum OTP_Type: Codable {
 }
 
 // MARK: - AccountCurrentCode
-struct AccountCurrentCode: Identifiable {
+struct AccountCurrentCode: Identifiable, Hashable {
     let id: String
     let type: OTP_Type
     let name: String
@@ -53,6 +53,12 @@ struct AccountData: Codable, Identifiable {
     var counter: UInt = 0
     var creation_date: Date
     var modified_date: Date
+}
+
+extension AccountData: Comparable {
+    static func < (lhs: AccountData, rhs: AccountData) -> Bool {
+        return lhs.creation_date < rhs.creation_date
+    }
 }
 
 extension AccountData {
