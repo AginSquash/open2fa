@@ -129,6 +129,7 @@ class Core2FA_ViewModel: ObservableObject {
         guard let index = self.accountsData.firstIndex(where: { $0.id == serviceID }) else { return nil }
         accountsData[index].name = newName
         accountsData[index].issuer = newIssuer
+        accountsData[index].modified_date = Date()
         
         let accountObject = AccountObject(accountsData[index], cm: cm)
         try? storage.saveOrUpdateObject(object: accountObject)
