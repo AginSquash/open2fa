@@ -42,7 +42,7 @@ struct AuthView: View {
                     isActive: $isUnlocked,
                                label: {
                     Button("Unlock", action: {
-                        if Core2FA_ViewModel.isPasswordCorrect(password: self.enteredPassword) {
+                        if Core2FA_ViewModel.isPasswordValid(password: self.enteredPassword) {
                             _debugPrint(baseURL)
                             self.core_driver.isActive = true
                             self.isUnlocked = true

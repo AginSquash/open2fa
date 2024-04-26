@@ -119,6 +119,7 @@ class Core2FA_ViewModel: ObservableObject {
         return [] //core.NoCrypt_ExportAllServicesSECRETS()
     }
     
+    
     init(fileURL: URL, pass: String) {
         self.storage = StorageService()
         //self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
@@ -135,6 +136,45 @@ class Core2FA_ViewModel: ObservableObject {
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
+    }
+     
+        
+    init?(key: [UInt8]) {
+        guard Core2FA_ViewModel.isKeyValid(key: key) else { return nil }
+        
+        // IV
+        var iv: [UInt8]
+        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
+        if ivKC == nil {
+            iv = CryptoModule.generateIV()
+            KeychainWrapper.shared.setIV(iv: iv)
+        } else {
+            iv = ivKC!
+        }
+        
+        self.storage = StorageService()
+        self.cryptoModule = CryptoModule(key: key, IV: iv)
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        self.notificationToken = storage.realm!.observe { notification, realm in
+            self.updateAccounts()
+        }
+        self.updateAccounts()
+    }
+    
+    convenience init?(password: String) {
+        // Salt
+        let salt: String
+        let saltKC = KeychainWrapper.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoModule.generateSalt()
+            KeychainWrapper.shared.setSalt(salt: salt)
+        } else {
+            salt = saltKC!
+        }
+        
+        // Key
+        let key = CryptoModule.generateKey(pass: password, salt: salt)
+        self.init(key: key)
     }
     
     deinit {
@@ -187,7 +227,7 @@ class Core2FA_ViewModel: ObservableObject {
         return KeychainWrapper.shared.getKVC() == nil
     }
     
-    static func isPasswordCorrect(password: String) -> Bool {
+    static func isPasswordValid(password: String) -> Bool {
         guard let kvc = KeychainWrapper.shared.getKVC() else { return true }
         
         // Salt
@@ -203,6 +243,38 @@ class Core2FA_ViewModel: ObservableObject {
         
         // Key
         let key = CryptoModule.generateKey(pass: password, salt: salt)
+        
+        // IV
+        var iv: [UInt8]
+        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
+        if ivKC == nil {
+            iv = CryptoModule.generateIV()
+            KeychainWrapper.shared.setIV(iv: iv)
+        } else {
+            iv = ivKC!
+        }
+        
+        let cryptoModule = CryptoModule(key: key, IV: iv)
+        
+        guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
+        let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
+        _debugPrint("decoded kvc: \(decoded)")
+        return decoded != nil
+    }
+    
+    static func isKeyValid(key: [UInt8]) -> Bool {
+        guard let kvc = KeychainWrapper.shared.getKVC() else { return true }
+        
+        // Salt
+        let salt: String
+        let saltKC = KeychainWrapper.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoModule.generateSalt()
+            KeychainWrapper.shared.setSalt(salt: salt)
+            _debugPrint("salt: \(salt)")
+        } else {
+            salt = saltKC!
+        }
         
         // IV
         var iv: [UInt8]

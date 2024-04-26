@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //core_driver.DEBUG()
         
         // Create the SwiftUI view that provides the window contents.
-        let contentView = PasswordEnterView()
+        let contentView = LoginView()
         
         
         // Use a UIHostingController as window root view controller.
