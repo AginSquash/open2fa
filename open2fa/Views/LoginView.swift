@@ -136,15 +136,31 @@ struct LoginView: View {
     }
     
     func getAlert(_ error: errorType) -> Alert {
-        if error.error == .thisFileNotExist {
-            return Alert(title: Text("Error"), message: Text("File not exists"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
+        let message: String
+        let action: ()->()
+        
+        switch error.error {
+        case .passwordDontMatch:
+            message = "Passwords don't match"
+            action = {
+                self.vm.enteredPassword = ""
+                self.vm.enteredPasswordSecond = ""
+            }
+        case .passwordIncorrect:
+            message = "Password is incorrect"
+            action = {
+                self.vm.enteredPassword = ""
+            }
+        default:
+            message = "Unexpected error"
+            action = {
+                self.vm.enteredPassword = ""
+            }
         }
         
-        if error.error == .passwordDontMatch {
-            return Alert(title: Text("Error"), message: Text("Passwords don't match"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = ""; self.vm.enteredPasswordSecond = "" }))
-        }
-        
-        return Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
+        return Alert(title: Text("Error"), 
+                     message: Text(NSLocalizedString(message, comment: message)),
+                     dismissButton: .default(Text("Retry"), action: action))
     }
     
 }
