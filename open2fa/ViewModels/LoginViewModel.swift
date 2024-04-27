@@ -47,7 +47,7 @@ class LoginViewModel: ObservableObject {
     init() {
         let defaults = UserDefaults.standard
         self.isEnablelocalKeychain = defaults.bool(forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
-        self.isFirstRun = ( KeychainWrapper.shared.getKVC() == nil )
+        self.isFirstRun = ( KeychainService.shared.getKVC() == nil )
     }
     
     func loginButtonAction() {
@@ -95,7 +95,7 @@ class LoginViewModel: ObservableObject {
             do {
                 try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
                 DispatchQueue.main.async {
-                    guard let key = KeychainWrapper.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
+                    guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
                     guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
                     self.core = core
                     self.pushView()

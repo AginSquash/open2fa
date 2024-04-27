@@ -79,11 +79,11 @@ enum KeychainTag: String {
     case iv = "IV"
 }
 
-class KeychainWrapper {
+class KeychainService {
     private let keychainCloud: Keychain
     private let keychainLocal: Keychain
     
-    static public let shared = KeychainWrapper()
+    static public let shared = KeychainService()
     
     
     // IV

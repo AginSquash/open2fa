@@ -9,7 +9,7 @@
 import Foundation
 import CryptoSwift
 
-class CryptoModule {
+class CryptoService {
     
     private let aes: AES
     

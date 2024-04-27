@@ -30,12 +30,14 @@
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
+		CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F52BDD453E00583AC6 /* AccountData.swift */; };
+		CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */; };
 		CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD6703124EC13C40097D45D /* TimeLeftView.swift */; };
-		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
+		CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainService.swift */; };
 		CDDDB67A2BD5BD9B00FEB3F8 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */; };
 		CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */ = {isa = PBXBuildFile; productRef = CDDDB67C2BD5C30600FEB3F8 /* IceCream */; };
 		CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */; };
-		CDDDB6812BD5EBB900FEB3F8 /* CryptoModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */; };
+		CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */; };
 		CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763032BD996DF00234D18 /* SwiftOTP */; };
 		CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763062BD998BE00234D18 /* CryptoSwift */; };
 		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
@@ -69,11 +71,13 @@
 		CDA02C92263ACCFE0097882E /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceView.swift; sourceTree = "<group>"; };
 		CDB61AF42804614C001A0FA9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		CDD361F52BDD453E00583AC6 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
+		CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCurrentCode.swift; sourceTree = "<group>"; };
 		CDD6703124EC13C40097D45D /* TimeLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftView.swift; sourceTree = "<group>"; };
-		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		CDDBFE6524A61A2000EE41AF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoModule.swift; sourceTree = "<group>"; };
+		CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
 		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,12 +120,13 @@
 		CD87B4CE246F53B800E04D70 /* open2fa */ = {
 			isa = PBXGroup;
 			children = (
+				CDD361F92BDD45C100583AC6 /* Services */,
+				CDDDB6732BD5BB3A00FEB3F8 /* Models */,
+				CDD361F42BDD450400583AC6 /* ViewModels */,
+				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
-				CDB6AB8624D6E91E00F552E7 /* Views */,
-				CDDDB6732BD5BB3A00FEB3F8 /* Models */,
-				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
 				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
@@ -167,15 +172,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CDDDB6732BD5BB3A00FEB3F8 /* Models */ = {
+		CDD361F42BDD450400583AC6 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
-				CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */,
-				CDDDB6802BD5EBB900FEB3F8 /* CryptoModule.swift */,
-				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
-				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
 				CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CDD361F92BDD45C100583AC6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CDDBFE6524A61A2000EE41AF /* KeychainService.swift */,
+				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
+				CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CDDDB6732BD5BB3A00FEB3F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */,
+				CDD361F52BDD453E00583AC6 /* AccountData.swift */,
+				CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */,
+				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -278,11 +300,12 @@
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */,
 				CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */,
+				CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
-				CDDDB6812BD5EBB900FEB3F8 /* CryptoModule.swift in Sources */,
-				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,
+				CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */,
+				CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
@@ -291,6 +314,7 @@
 				CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */,
 				CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
+				CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

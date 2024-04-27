@@ -39,7 +39,7 @@ struct PreferencesView: View {
                     Button("Disable KC") {
                         let def = UserDefaults.standard
                         def.set(nil, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
-                        KeychainWrapper.shared.removeKey()
+                        KeychainService.shared.removeKey()
                     }
                     
                     NavigationLink(
@@ -110,7 +110,7 @@ struct PreferencesView: View {
                         if changeTo == false {
                             UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
                             deletePasswordKeychain(name: fileName)
-                            KeychainWrapper.shared.removeKey()
+                            KeychainService.shared.removeKey()
                         } else {
                             withAnimation { biometricStatusChange = true }
                             UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
