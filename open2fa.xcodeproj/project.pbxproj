@@ -13,7 +13,6 @@
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */; };
-		CD5ADD6C2BDC5A16004956F8 /* LAContext+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD6B2BDC5A16004956F8 /* LAContext+Extension.swift */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
@@ -52,7 +51,6 @@
 		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
 		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		CD5ADD6B2BDC5A16004956F8 /* LAContext+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LAContext+Extension.swift"; sourceTree = "<group>"; };
 		CD6786FA24AB7F3C00422233 /* open2fa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = open2fa.entitlements; sourceTree = "<group>"; };
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
@@ -98,14 +96,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CD5ADD6A2BDC59E3004956F8 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				CD5ADD6B2BDC5A16004956F8 /* LAContext+Extension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		CD87B4C3246F53B800E04D70 = {
 			isa = PBXGroup;
 			children = (
@@ -131,7 +121,6 @@
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CDDDB6732BD5BB3A00FEB3F8 /* Models */,
-				CD5ADD6A2BDC59E3004956F8 /* Extensions */,
 				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
 				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
@@ -291,7 +280,6 @@
 				CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
-				CD5ADD6C2BDC5A16004956F8 /* LAContext+Extension.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
 				CDDDB6812BD5EBB900FEB3F8 /* CryptoModule.swift in Sources */,
 				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,

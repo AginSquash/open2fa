@@ -31,6 +31,11 @@ struct PreferencesView: View {
                             .foregroundColor(.secondary)
                     }
                     
+                    Button("Enable KC") {
+                        let def = UserDefaults.standard
+                        def.set(true, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+                    }
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {
@@ -92,7 +97,7 @@ struct PreferencesView: View {
             .onAppear(perform: {
                 isEnableLocalKeyChain = Binding<Bool>(
                     get: {
-                        let value = UserDefaults.standard.string(forKey: "isEnableLocalKeyChain")
+                        let value = UserDefaults.standard.string(forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
                         return value != "false" && value != ""
                         },
                     set: { changeTo in
