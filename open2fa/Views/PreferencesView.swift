@@ -104,13 +104,7 @@ struct PreferencesView: View {
             .padding([.top], 1)
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
-            .alert(item: $chosenForDelete) { codeDelete in
-                Alert(title: Text( NSLocalizedString("Are you sure want to delete", comment: "delete verification") + " \(codeDelete.name)?"), message: Text("This action is irreversible"),
-                      primaryButton: .destructive(Text("Delete"), action: {
-                        self.core_driver.deleteService(uuid: codeDelete.id )
-                          self.chosenForDelete = nil }),
-                      secondaryButton: .cancel())
-            }
+            .alert(item: $chosenForDelete, content: deletionAlert)
             .alert("This action will also delete all the saved data in icloud",
                    isPresented: $showConfirmCloudSyncAlert) {
                 Button("Cancel", role: .cancel) { self.isEnableCloudSync.toggle() }
@@ -124,6 +118,18 @@ struct PreferencesView: View {
         _isEnableCloudSync = State(initialValue: 
                                     UserDefaultsService.get(key: .cloudSync))
     }
+    
+    func deletionAlert(_ codeDelete: AccountCurrentCode) -> Alert {
+        Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"),
+              message: Text("This action is irreversible"),
+              primaryButton:
+                .destructive(Text("Delete"), action: {
+                    self.core_driver.deleteService(uuid: codeDelete.id )
+                    self.chosenForDelete = nil
+                }),
+                secondaryButton: .cancel())
+    }
+    
     
     func callAlert(at offset: Int) {
         self.chosenForDelete = core_driver.codes[offset]
