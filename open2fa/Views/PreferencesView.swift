@@ -16,8 +16,9 @@ struct PreferencesView: View {
     @State private var isEnableLocalKeychain: Bool = false
     @State private var isEnableCloudSync: Bool = false
     
-    @State private var showKeychainAlert: Bool = false
-    @State private var showCloudSyncAlert: Bool = false
+    @State private var showKeychainText: Bool = false
+    @State private var showCloudSyncText: Bool = false
+    @State private var showConfirmCloudSyncAlert: Bool = false
     
     var body: some View {
             Form {
@@ -27,7 +28,7 @@ struct PreferencesView: View {
                         Text("Enable FaceID / TouchID")
                     }
                     .onChange(of: isEnableLocalKeychain, perform: onChangeLocalKeychain)
-                    if showKeychainAlert {
+                    if showKeychainText {
                         Text("Please, restart app and enter password to appear change")
                             .foregroundColor(.secondary)
                     }
@@ -36,7 +37,7 @@ struct PreferencesView: View {
                         Text("Enable Cloud Sync")
                     }
                     .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
-                    if showCloudSyncAlert {
+                    if showCloudSyncText {
                         Text("Please, restart app to appear change")
                             .foregroundColor(.secondary)
                     }
@@ -110,6 +111,11 @@ struct PreferencesView: View {
                           self.chosenForDelete = nil }),
                       secondaryButton: .cancel())
             }
+            .alert("This action will also delete all the saved data in icloud",
+                   isPresented: $showConfirmCloudSyncAlert) {
+                Button("Cancel", role: .cancel) { self.isEnableCloudSync.toggle() }
+                Button("Delete from iCloud", role: .destructive, action: disableICloud)
+            }
     }
     
     init() {
@@ -135,18 +141,24 @@ struct PreferencesView: View {
         if !value {
             KeychainService.shared.removeKey()
         }
-        showKeychainAlert.toggle()
+        showKeychainText.toggle()
     }
     
     func onChangeCloudSync(_ value: Bool) {
-        UserDefaultsService.set(value, forKey: .cloudSync)
         if value {
+            UserDefaultsService.set(true, forKey: .cloudSync)
             CloudService.createZone()
-            UserDefaultsService.set(value, forKey: .shouldSyncCloudKit)
+            UserDefaultsService.set(true, forKey: .shouldSyncCloudKit)
+            showCloudSyncText = true
         } else {
-            CloudService.deleteZone()
+            showConfirmCloudSyncAlert.toggle()
         }
-        showCloudSyncAlert.toggle()
+    }
+    
+    func disableICloud() {
+        CloudService.deleteZone()
+        UserDefaultsService.set(false, forKey: .cloudSync)
+        showCloudSyncText = true
     }
 }
 
