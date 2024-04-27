@@ -114,7 +114,7 @@ struct PreferencesView: View {
             .alert("This action will also delete all the saved data in icloud",
                    isPresented: $showConfirmCloudSyncAlert) {
                 Button("Cancel", role: .cancel) { self.isEnableCloudSync.toggle() }
-                Button("Delete from iCloud", role: .destructive, action: disableICloud)
+                Button("Delete from iCloud", role: .destructive, action: disableCloud)
             }
     }
     
@@ -155,7 +155,7 @@ struct PreferencesView: View {
         }
     }
     
-    func disableICloud() {
+    func disableCloud() {
         CloudService.deleteZone()
         UserDefaultsService.set(false, forKey: .cloudSync)
         showCloudSyncText = true
