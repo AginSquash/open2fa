@@ -104,21 +104,6 @@ class LoginViewModel: ObservableObject {
                 print(error.localizedDescription)
             }
         }
-        
-        /*
-        let policy = LAPolicy.deviceOwnerAuthenticationWithBiometrics
-        let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-        let task = Task {
-            guard let result = try? await context.evaluatePolicy(policy, localizedReason: reason) else { return }
-            DispatchQueue.main.async {
-                if result {
-                    guard let key = KeychainWrapper.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
-                    guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
-                    self.core = core
-                    self.pushView()
-                }
-            }
-        } */
     }
     
     private func pushView() {

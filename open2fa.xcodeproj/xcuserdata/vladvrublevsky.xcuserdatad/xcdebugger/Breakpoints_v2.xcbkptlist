@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
             endingLineNumber = "132"
-            landmarkName = "init()"
-            landmarkType = "7">
+            landmarkName = "Core2FA_ViewModel"
+            landmarkType = "3">
             <Locations>
                <Location
                   uuid = "D2F2BDF3-EF0E-42ED-89BD-22DDA9EEDEA2 - 66e6cce90f15b9f4"
@@ -64,8 +64,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "124"
             endingLineNumber = "124"
-            landmarkName = "init(fileURL:pass:)"
-            landmarkType = "7">
+            landmarkName = "Core2FA_ViewModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -87,54 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "97594C1E-490A-496B-AC3B-A576102A2A96"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "open2fa/Models/LoginViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "loginButtonAction()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "97594C1E-490A-496B-AC3B-A576102A2A96 - 49b17d059b0ee4c0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.LoginViewModel.loginButtonAction() -&gt; ()"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/LoginViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "39"
-                  endingLineNumber = "39"
-                  offsetFromSymbolStart = "82">
-               </Location>
-               <Location
-                  uuid = "97594C1E-490A-496B-AC3B-A576102A2A96 - 49b17d059b0ee4e1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.LoginViewModel.loginButtonAction() -&gt; ()"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/LoginViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "66">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B5EE9790-240B-4026-B7C0-F2AED5A7F735"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -142,8 +94,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "init?(password:saveKey:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +110,8 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "init?(password:saveKey:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,25 +126,9 @@
             filePath = "open2fa/Models/Core2FA_ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "init?(key:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "52525B78-0B4E-4EBE-82DF-C24AE785F69E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "open2fa/Models/LoginViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "loginButtonAction()"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "init?(key:inMemory:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
