@@ -8,6 +8,18 @@
 
 import Foundation
 import LocalAuthentication
+import SwiftUI
+
+enum errorTypeEnum {
+    case passwordIncorrect
+    case thisFileNotExist
+    case passwordDontMatch
+    case keyNotSaved
+}
+struct errorType: Identifiable {
+    let id = UUID()
+    let error: errorTypeEnum
+}
 
 class LoginViewModel: ObservableObject {
     enum UserDefaultsTags: String {
@@ -51,69 +63,42 @@ class LoginViewModel: ObservableObject {
             */
         }
         
-        
-        tryBiometricAuth()
-        
-        guard let core = Core2FA_ViewModel(password: self.enteredPassword) else { return }
+        guard let core = Core2FA_ViewModel(password: self.enteredPassword) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
-        self.isUnlocked = true
+        pushView()
+    }
+    
+    func onAppear() {
+        if isEnablelocalKeychain {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: biometricAuth)
+        }
     }
     
     func tryBiometricAuth() {
         if isEnablelocalKeychain {
-            let context = LAContext()
-            let policy = LAPolicy.deviceOwnerAuthenticationWithBiometrics
-            let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-            let task = Task {
-                guard let result = try? await context.evaluatePolicy(policy, localizedReason: reason) else { return }
-                if result {
-                    guard let key = KeychainWrapper.shared.getKey() else { return }
-                    guard let core = Core2FA_ViewModel(key: key) else { return }
-                    self.core = core
-                    self.isUnlocked = true
-                }
+            biometricAuth()
+        }
+    }
+    
+    private func biometricAuth() {
+        let context = LAContext()
+        let policy = LAPolicy.deviceOwnerAuthenticationWithBiometrics
+        let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
+        let task = Task {
+            guard let result = try? await context.evaluatePolicy(policy, localizedReason: reason) else { return }
+            if result {
+                guard let key = KeychainWrapper.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
+                guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
+                self.core = core
+                self.pushView()
             }
         }
     }
     
-    private func biometricAuth2() {
-        guard isFirstRun == false else {
-            return
-        }
-        
-        /*
-        guard storageLocalKeyChain == "true" else {
-            return
-        }
-        */
-        let context = LAContext()
-        var error: NSError?
-
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                
-                DispatchQueue.main.async {
-                    if success {
-                        if let key = KeychainWrapper.shared.getKey() {
-                            
-                        } else { return }
-                        /*
-                        if let pass = getPasswordFromKeychain(name: fileName) {
-                            self.enteredPassword = pass
-                            
-                            self.core_driver.updateCore(fileURL: self.baseURL, pass: self.enteredPassword)
-                            self.core_driver.loadCryptoModuleFromKeychain()
-                            self.core_driver.setObservers()
-                            
-                            self.isUnlocked = true
-                        } else { return }
-                         */
-                    }
-                }
-            }
+    private func pushView() {
+        withAnimation {
+             self.isUnlocked = true
         }
     }
+    
 }

@@ -13,16 +13,6 @@ func _debugPrint(_ obj: Any) {
     print("DEBUG: \(obj)")
 }
 
-enum errorTypeEnum {
-    case passwordIncorrect
-    case thisFileNotExist
-    case passwordDontMatch
-}
-struct errorType: Identifiable {
-    let id = UUID()
-    let error: errorTypeEnum
-}
-
 struct EmptyView: View {
     var body: some View {
         Text("Some text")
@@ -31,8 +21,6 @@ struct EmptyView: View {
 
 struct LoginView: View {
     @ObservedObject private var vm = LoginViewModel()
-    
-    @State private var errorDiscription: errorType? = nil
         
     var body: some View {
         NavigationView {
@@ -89,28 +77,14 @@ struct LoginView: View {
                         }.padding(.horizontal)
                         
                     VStack {
-                        NavigationLink(
-                            destination:
-                                Group {
-                                    if let core = vm.core {
-                                        ContentView().environmentObject(core)
-                                            .navigationBarTitle("")
-                                            .navigationBarHidden(true)
-                                    } else {
-                                        EmptyView()
-                                    }
-                                },
-                            isActive: self.$vm.isUnlocked,
-                            label: {
-                                Button(action: vm.loginButtonAction, label: {
-                                    VStack {
-                                        Text( vm.isFirstRun ? "Create" : "Unlock")
-                                            .padding(.top, geo.size.height / 50 )
-                                    }
-                                })
-                            })
+                        Button(action: vm.loginButtonAction, label: {
+                            VStack {
+                                Text( vm.isFirstRun ? "Create" : "Unlock")
+                                    .padding(.top, geo.size.height / 50 )
+                            }
+                        })
                         .disabled(vm.isDisableLoginButton)
-                        
+                                                
                         if !vm.isFirstRun && vm.isEnablelocalKeychain {
                             VStack {
                                 Text("- or -")
@@ -144,25 +118,39 @@ struct LoginView: View {
                         }
                     }
                     .navigationBarTitle("")
-                .navigationBarHidden(true)
+                    .navigationBarHidden(true)
+                
+                // Programmatically push to main view
+                if let core = vm.core {
+                    NavigationLink(
+                        destination:
+                            ContentView()
+                                .environmentObject(core)
+                                .navigationBarTitle("")
+                                .navigationBarHidden(true),
+                        isActive: $vm.isUnlocked) {
+                            EmptyView()
+                        }
+                    .hidden()
+                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: vm.tryBiometricAuth)
-        })
-        .alert(item: $errorDiscription) { error in
-            if error.error == .thisFileNotExist {
-                return Alert(title: Text("Error"), message: Text("File not exists"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
-            }
-            
-            if error.error == .passwordDontMatch {
-                return Alert(title: Text("Error"), message: Text("Passwords don't match"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = ""; self.vm.enteredPasswordSecond = "" }))
-            }
-            
-            return Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
-        }
+        .onAppear(perform: vm.onAppear)
+        .alert(item: $vm.errorDiscription, content: getAlert)
 
+    }
+    
+    func getAlert(_ error: errorType) -> Alert {
+        if error.error == .thisFileNotExist {
+            return Alert(title: Text("Error"), message: Text("File not exists"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
+        }
+        
+        if error.error == .passwordDontMatch {
+            return Alert(title: Text("Error"), message: Text("Passwords don't match"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = ""; self.vm.enteredPasswordSecond = "" }))
+        }
+        
+        return Alert(title: Text("Error"), message: Text("Password is incorrect"), dismissButton: .default(Text("Retry"), action: { self.vm.enteredPassword = "" }))
     }
     
 }
