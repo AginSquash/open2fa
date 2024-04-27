@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = CD188EBE2BD88CB00029D7E0 /* KeychainAccess */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		CD20FCCF24D0F175008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				CDDBFE6524A61A2000EE41AF /* KeychainService.swift */,
 				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
 				CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */,
+				CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */,
+				CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */,
 				CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */,
 				CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */,
 				CDDDB67A2BD5BD9B00FEB3F8 /* AccountModel.swift in Sources */,

@@ -9,25 +9,35 @@
 import SwiftUI
 
 struct PreferencesView: View {
-    
-    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
+
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     
     @State private var chosenForDelete: AccountCurrentCode? = nil
-    @State private var biometricStatusChange: Bool = false
-    @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
+    @State private var isEnableLocalKeychain: Bool = false
+    @State private var isEnableCloudSync: Bool = false
     
-    let fileName = "encrypted.o2fa"
+    @State private var showKeychainAlert: Bool = false
+    @State private var showCloudSyncAlert: Bool = false
     
     var body: some View {
             Form {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
-                    Toggle(isOn: isEnableLocalKeyChain) {
+                    Toggle(isOn: $isEnableLocalKeychain) {
                         Text("Enable FaceID / TouchID")
                     }
-                    if biometricStatusChange {
+                    .onChange(of: isEnableLocalKeychain, perform: onChangeLocalKeychain)
+                    if showKeychainAlert {
                         Text("Please, restart app and enter password to appear change")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Toggle(isOn: $isEnableCloudSync) {
+                        Text("Enable Cloud Sync")
+                    }
+                    .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
+                    if showCloudSyncAlert {
+                        Text("Please, restart app to appear change")
                             .foregroundColor(.secondary)
                     }
                     
@@ -100,26 +110,14 @@ struct PreferencesView: View {
                           self.chosenForDelete = nil }),
                       secondaryButton: .cancel())
             }
-            .onAppear(perform: {
-                isEnableLocalKeyChain = Binding<Bool>(
-                    get: {
-                        let value = UserDefaults.standard.string(forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
-                        return value != "false" && value != ""
-                        },
-                    set: { changeTo in
-                        if changeTo == false {
-                            UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
-                            deletePasswordKeychain(name: fileName)
-                            KeychainService.shared.removeKey()
-                        } else {
-                            withAnimation { biometricStatusChange = true }
-                            UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
-                        }
-                        })
-            })
     }
     
-
+    init() {
+        _isEnableLocalKeychain = State(initialValue: 
+                                        UserDefaultsService.get(key: .storageLocalKeychainEnable))
+        _isEnableCloudSync = State(initialValue: 
+                                    UserDefaultsService.get(key: .cloudSync))
+    }
     
     func callAlert(at offset: Int) {
         self.chosenForDelete = core_driver.codes[offset]
@@ -130,7 +128,22 @@ struct PreferencesView: View {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
+    }
     
+    func onChangeLocalKeychain(_ value: Bool) {
+        UserDefaultsService.set(value, forKey: .storageLocalKeychainEnable)
+        if !value {
+            KeychainService.shared.removeKey()
+        }
+        showKeychainAlert.toggle()
+    }
+    
+    func onChangeCloudSync(_ value: Bool) {
+        UserDefaultsService.set(value, forKey: .cloudSync)
+        if value {
+            UserDefaultsService.set(value, forKey: .shouldSyncCloudKit)
+        }
+        showCloudSyncAlert.toggle()
     }
 }
 

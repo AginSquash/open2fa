@@ -26,6 +26,7 @@ struct errorType: Identifiable {
 enum UserDefaultsTags: String {
     case storageLocalKeychainEnable = "isEnableLocalKeyChain"
     case cloudSync = "isEnableCloudSync"
+    case shouldSyncCloudKit = "shouldSyncCloudKit"
 }
 
 class LoginViewModel: ObservableObject {
@@ -45,16 +46,14 @@ class LoginViewModel: ObservableObject {
     }
     
     init() {
-        let defaults = UserDefaults.standard
-        self.isEnablelocalKeychain = defaults.bool(forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+        self.isEnablelocalKeychain =  UserDefaultsService.get(key: .storageLocalKeychainEnable)
         self.isFirstRun = ( KeychainService.shared.getKVC() == nil )
     }
     
     func loginButtonAction() {
         
         if self.isFirstRun {
-            let defaults = UserDefaults.standard
-            defaults.set(isEnablelocalKeychain, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+            UserDefaultsService.set(isEnablelocalKeychain, forKey: .storageLocalKeychainEnable)
             
             if isEnablelocalKeychain {
                 guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: true) else { self.errorDiscription = .init(error: .cannotCreateCore2FA); return }

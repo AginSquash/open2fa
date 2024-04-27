@@ -132,7 +132,9 @@ class KeychainService {
     }
     
     init() {
-        self.keychainCloud = Keychain(service: "com.vladvrublevsky.open2fa.cloud").synchronizable(true)
+        let isEnableCloudSync = UserDefaultsService.get(key: .cloudSync)
+        self.keychainCloud = Keychain(service: "com.vladvrublevsky.open2fa.cloud")
+                                                                .synchronizable(isEnableCloudSync)
         self.keychainLocal = Keychain(service: "com.vladvrublevsky.open2fa.local")
                                                                 .synchronizable(false)
                                                                 .accessibility(.whenUnlockedThisDeviceOnly)

@@ -21,9 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// Check for xcode preview
         guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { return true }
         
+        guard UserDefaultsService.get(key: .cloudSync) else { return true }
         syncEngine = SyncEngine(objects: [
             SyncObject(type: AccountObject.self)
         ])
+        
+        if UserDefaultsService.get(key: .shouldSyncCloudKit) {
+            syncEngine?.pushAll()
+            UserDefaultsService.set(false, forKey: .shouldSyncCloudKit)
+        }
+        
         application.registerForRemoteNotifications()
         return true
     }
