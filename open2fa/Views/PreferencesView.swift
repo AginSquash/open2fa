@@ -105,7 +105,7 @@ struct PreferencesView: View {
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete, content: deletionAlert)
-            .alert("This action will also delete all the saved data in icloud",
+            .alert("This action will also delete all the saved data in iCloud",
                    isPresented: $showConfirmCloudSyncAlert) {
                 Button("Cancel", role: .cancel) { self.isEnableCloudSync.toggle() }
                 Button("Delete from iCloud", role: .destructive, action: disableCloud)
