@@ -10,21 +10,25 @@ import Foundation
 import LocalAuthentication
 import SwiftUI
 
-enum errorTypeEnum {
-    case passwordIncorrect
-    case thisFileNotExist
-    case passwordDontMatch
-    case keyNotSaved
-}
 struct errorType: Identifiable {
+    enum errorTypeEnum {
+        case passwordIncorrect
+        case thisFileNotExist
+        case passwordDontMatch
+        case keyNotSaved
+        case cannotCreateCore2FA
+    }
+    
     let id = UUID()
     let error: errorTypeEnum
 }
 
+enum UserDefaultsTags: String {
+    case storageLocalKeychainEnable = "isEnableLocalKeyChain"
+    case cloudSync = "isEnableCloudSync"
+}
+
 class LoginViewModel: ObservableObject {
-    enum UserDefaultsTags: String {
-        case storageLocalKeyChainEnable = "isEnableLocalKeyChain"
-    }
     
     @Published var isUnlocked: Bool = false
     @Published var isEnablelocalKeychain: Bool
@@ -42,28 +46,25 @@ class LoginViewModel: ObservableObject {
     
     init() {
         let defaults = UserDefaults.standard
-        self.isEnablelocalKeychain = defaults.bool(forKey: UserDefaultsTags.storageLocalKeyChainEnable.rawValue)
-        self.isFirstRun = Core2FA_ViewModel.isFirstRun()
+        self.isEnablelocalKeychain = defaults.bool(forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+        self.isFirstRun = ( KeychainWrapper.shared.getKVC() == nil )
     }
     
     func loginButtonAction() {
         
         if self.isFirstRun {
             let defaults = UserDefaults.standard
-            //defaults.set(localKeychainEnable, forKey: UserDefaultsTags.storageLocalKeyChainEnable.rawValue)
+            defaults.set(isEnablelocalKeychain, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
             
-            /*
-            storageFirstRun = baseURL.absoluteString
-            if isEnableLocalKeyChain {
-                storageLocalKeyChain = "true"
-                setPasswordKeychain(name: fileName, password: self.enteredPassword)
-            } else {
-                storageLocalKeyChain = "false"
+            if isEnablelocalKeychain {
+                guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: true) else { self.errorDiscription = .init(error: .cannotCreateCore2FA); return }
+                self.core = core
+                pushView()
+                return
             }
-            */
         }
         
-        guard let core = Core2FA_ViewModel(password: self.enteredPassword) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
+        guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
         pushView()
     }

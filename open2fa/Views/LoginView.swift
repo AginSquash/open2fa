@@ -13,12 +13,6 @@ func _debugPrint(_ obj: Any) {
     print("DEBUG: \(obj)")
 }
 
-struct EmptyView: View {
-    var body: some View {
-        Text("Some text")
-    }
-}
-
 struct LoginView: View {
     @ObservedObject private var vm = LoginViewModel()
         
@@ -129,7 +123,7 @@ struct LoginView: View {
                                 .navigationBarTitle("")
                                 .navigationBarHidden(true),
                         isActive: $vm.isUnlocked) {
-                            EmptyView()
+                            Text("Programmatically push view")
                         }
                     .hidden()
                 }

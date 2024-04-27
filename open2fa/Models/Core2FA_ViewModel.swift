@@ -161,7 +161,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.updateAccounts()
     }
     
-    convenience init?(password: String) {
+    convenience init?(password: String, saveKey: Bool = false) {
         // Salt
         let salt: String
         let saltKC = KeychainWrapper.shared.getSalt()
@@ -174,6 +174,9 @@ class Core2FA_ViewModel: ObservableObject {
         
         // Key
         let key = CryptoModule.generateKey(pass: password, salt: salt)
+        if saveKey {
+            KeychainWrapper.shared.setKey(key: key)
+        }
         self.init(key: key)
     }
     
