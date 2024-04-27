@@ -51,7 +51,7 @@
 "Enable FaceID / TouchID" = "Включить FaceID / TouchID";
 "delete" = "удалить";
 "Delete" = "Удалить";
-"Are you sure want to delete" = "Вы уверены, что хотите удалить";
+"Are you sure want to delete %@?" = "Вы уверены, что хотите удалить %@?";
 "This action is irreversible" = "Это действие необратимо";
 /// ContentView
 "Add your accounts using the button above" = "Добавьте свои учетные записи, используя кнопку выше";
