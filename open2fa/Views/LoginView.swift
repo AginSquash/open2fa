@@ -45,7 +45,7 @@ struct LoginView: View {
                         .padding(.top, geo.size.height / 20)
                         .padding(.bottom, 10)
                     
-                        VStack {
+                        Group {
                             Spacer()
                             if vm.isFirstRun {
                                 Text("For start using Open2FA, create a password")
