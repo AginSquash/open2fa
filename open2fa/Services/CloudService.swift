@@ -24,7 +24,7 @@ class CloudService {
         let cloudContainer = CKContainer.default()
         let privateDatabase = cloudContainer.privateCloudDatabase
         let zone = CKRecordZone(zoneName: CloudService.zoneName)
-        let deleteOperation = CKModifyRecordZonesOperation(recordZonesToSave: [], recordZoneIDsToDelete: [zone.zoneID])
+        let deleteOperation = CKModifyRecordZonesOperation(recordZoneIDsToDelete: [zone.zoneID])
         privateDatabase.add(deleteOperation)
-        }
+    }
 }
