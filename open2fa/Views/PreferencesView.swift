@@ -136,9 +136,7 @@ extension String {
 
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
-
-        core_driver.DEBUG()
+        let core_driver = Core2FA_ViewModel.TestModel
         
         return PreferencesView().environmentObject(core_driver)
     }

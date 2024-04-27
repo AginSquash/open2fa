@@ -111,9 +111,8 @@ struct ExportServiceView: View {
 
 struct ExportServiceView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel.TestModel
 
-        core_driver.DEBUG()
         let firstID = "somerandomID" //core_driver.codes.first!.id
         
         return ExportServiceView(serviceUUID: firstID, isCloseExport: .constant(false)).environmentObject(core_driver)

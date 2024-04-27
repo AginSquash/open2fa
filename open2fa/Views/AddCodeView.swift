@@ -224,7 +224,8 @@ struct AddCodeView: View {
 
 struct AddCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel.TestModel
+        
         return AddCodeView().environmentObject(core_driver)
     }
 }

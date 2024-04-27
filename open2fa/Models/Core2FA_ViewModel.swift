@@ -119,7 +119,7 @@ class Core2FA_ViewModel: ObservableObject {
         return [] //core.NoCrypt_ExportAllServicesSECRETS()
     }
     
-    
+    /*
     init(fileURL: URL, pass: String) {
         self.storage = StorageService()
         //self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
@@ -137,10 +137,40 @@ class Core2FA_ViewModel: ObservableObject {
             self.updateAccounts()
         }
     }
-     
+     */
+    
+    static var TestModel: Core2FA_ViewModel {
+        let pass = "1234"
         
-    init?(key: [UInt8]) {
-        guard Core2FA_ViewModel.isKeyValid(key: key) else { return nil }
+        let salt: String
+        let saltKC = KeychainWrapper.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoModule.generateSalt()
+            KeychainWrapper.shared.setSalt(salt: salt)
+        } else {
+            salt = saltKC!
+        }
+        
+        let key: [UInt8]
+        let keyKC = KeychainWrapper.shared.getKey()
+        if  keyKC == nil {
+            key = CryptoModule.generateKey(pass: pass, salt: salt)
+            KeychainWrapper.shared.setKey(key: key)
+        } else {
+            key = keyKC!
+        }
+        
+        let core = Core2FA_ViewModel(key: key, inMemory: true)!
+        //core.storage = StorageService(inMemory: true)
+        core.addAccount(name: "Test 1", issuer: "TestIssuer 1", secret: "q4qghrcn2c42bgbz")
+        core.addAccount(name: "Test 2", issuer: "TestIssuer 2", secret: "q4qghrcn2c42bgbz")
+        core.addAccount(name: "Test 3", issuer: "TestIssuer 3", secret: "q4qghrcn2c42bgbz")
+        return core
+    }
+        
+    init?(key: [UInt8], inMemory: Bool = false) {
+        guard Core2FA_ViewModel.isKeyValid(key: key) || inMemory else { return nil }
+        
         
         // IV
         var iv: [UInt8]
@@ -152,7 +182,7 @@ class Core2FA_ViewModel: ObservableObject {
             iv = ivKC!
         }
         
-        self.storage = StorageService()
+        self.storage = StorageService(inMemory: inMemory)
         self.cryptoModule = CryptoModule(key: key, IV: iv)
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.notificationToken = storage.realm!.observe { notification, realm in
@@ -224,10 +254,6 @@ class Core2FA_ViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 0.2)) {
             self.isActive = true
         }
-    }
-    
-    static func isFirstRun() -> Bool {
-        return KeychainWrapper.shared.getKVC() == nil
     }
     
     static func isPasswordValid(password: String) -> Bool {
@@ -320,7 +346,6 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func deleteAccount(id: String) {
-        _debugPrint("trying to delete \(id)")
         try? self.storage.deleteObjectWithId(type: AccountObject.self, id: id)
     }
     
@@ -342,53 +367,5 @@ class Core2FA_ViewModel: ObservableObject {
         guard let kvc = cryptoModel.encryptData(encoded) else { return }
         
         KeychainWrapper.shared.setKVC(kvc: kvc)
-    }
-}
-
-//MARK: - Crypto module
-extension Core2FA_ViewModel {
-    
-    func loadCryptoModuleFromPassword(with pass: String) {
-        let salt: String
-        let saltKC = KeychainWrapper.shared.getSalt()
-        if saltKC == nil {
-            salt = CryptoModule.generateSalt()
-            KeychainWrapper.shared.setSalt(salt: salt)
-            _debugPrint("salt: \(salt)")
-        } else {
-            salt = saltKC!
-        }
-        
-        let key = CryptoModule.generateKey(pass: pass, salt: salt)
-        initCryptoModule(key: key)
-    }
-    
-    func loadCryptoModuleFromKeychain() {
-        guard let key = KeychainWrapper.shared.getKey() else {
-            // must return something
-            return
-        }
-        
-        initCryptoModule(key: [UInt8](key))
-    }
-    
-    private func initCryptoModule(key: [UInt8]) {
-        var iv: [UInt8]
-        let ivKC: [UInt8]? = KeychainWrapper.shared.getIV()
-        if ivKC == nil {
-            iv = CryptoModule.generateIV()
-            KeychainWrapper.shared.setIV(iv: iv)
-        } else {
-            iv = ivKC!
-        }
-        
-        _debugPrint("saved iv: \(KeychainWrapper.shared.getIV())\n saved salt: \( KeychainWrapper.shared.getSalt())")
-        self.cryptoModule = CryptoModule(key: key, IV: iv)
-        
-        if KeychainWrapper.shared.getKVC() == nil {
-            self.saveKVC()
-        }
-        
-        self.updateAccounts()
     }
 }

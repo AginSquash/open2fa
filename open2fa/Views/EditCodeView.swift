@@ -158,7 +158,7 @@ struct EditCodeView: View {
 
 struct EditCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel.TestModel
 
         //core_driver.DEBUG()
         let service = AccountCurrentCode(id: "id", type: .TOTP, name: "Name", issuer: "Issuer", currentCode: "code", creation_date: Date())
