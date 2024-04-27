@@ -205,7 +205,9 @@ class Core2FA_ViewModel: ObservableObject {
         // Key
         let key = CryptoModule.generateKey(pass: password, salt: salt)
         if saveKey {
-            KeychainWrapper.shared.setKey(key: key)
+            if (KeychainWrapper.shared.getKey() == nil) && Core2FA_ViewModel.isKeyValid(key: key) {
+                KeychainWrapper.shared.setKey(key: key)
+            }
         }
         self.init(key: key)
     }

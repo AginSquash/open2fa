@@ -36,6 +36,12 @@ struct PreferencesView: View {
                         def.set(true, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
                     }
                     
+                    Button("Disable KC") {
+                        let def = UserDefaults.standard
+                        def.set(nil, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+                        KeychainWrapper.shared.removeKey()
+                    }
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {

@@ -151,6 +151,9 @@ struct LoginView: View {
             action = {
                 self.vm.enteredPassword = ""
             }
+        case .keyNotSaved:
+            message = "Please enter your password for further login with Face ID"
+            action = { }
         default:
             message = "Unexpected error"
             action = {
