@@ -39,13 +39,11 @@ struct PreferencesView: View {
                     .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
                     
                     Button("Enable KC") {
-                        let def = UserDefaults.standard
-                        def.set(true, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+                        UserDefaultsService.set(true, forKey: .storageLocalKeychainEnable)
                     }
                     
                     Button("Disable KC") {
-                        let def = UserDefaults.standard
-                        def.set(nil, forKey: UserDefaultsTags.storageLocalKeychainEnable.rawValue)
+                        UserDefaultsService.set(false, forKey: .storageLocalKeychainEnable)
                         KeychainService.shared.removeKey()
                     }
                     

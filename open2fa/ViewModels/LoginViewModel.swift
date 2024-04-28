@@ -24,11 +24,6 @@ struct errorType: Identifiable {
     let error: errorTypeEnum
 }
 
-enum UserDefaultsTags: String {
-    case storageLocalKeychainEnable = "isEnableLocalKeyChain"
-    case cloudSync = "isEnableCloudSync"
-}
-
 class LoginViewModel: ObservableObject {
     
     @Published var isUnlocked: Bool = false
@@ -50,19 +45,16 @@ class LoginViewModel: ObservableObject {
     }
     
     init() {
-        self.isFirstRun = ( KeychainService.shared.getKVC() == nil )
-        if !isFirstRun {
-            self.isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
-        }
+        self.isFirstRun = !UserDefaultsService.get(key: .alreadyInited)
         
         Task {
             await loadCloudSyncAvailable()
         }
         
-        if true { // isFirstRun
-            Task {
-                await getSavedFromCloud()
-            }
+        if isFirstRun {
+            Task { await getSavedFromCloud() }
+        } else {
+            self.isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
         }
     }
     
@@ -71,6 +63,8 @@ class LoginViewModel: ObservableObject {
         if self.isFirstRun {
             UserDefaultsService.set(isEnablelocalKeychain, forKey: .storageLocalKeychainEnable)
             UserDefaultsService.set(isEnableCloudSync, forKey: .cloudSync)
+            UserDefaultsService.set(true, forKey: .alreadyInited)
+            KeychainService.shared.reset()
             
             if isEnablelocalKeychain {
                 guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: true) else { self.errorDiscription = .init(error: .cannotCreateCore2FA); return }
@@ -98,13 +92,11 @@ class LoginViewModel: ObservableObject {
     }
     
     func onAppear() {
-        if isEnablelocalKeychain {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: biometricAuth)
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: tryBiometricAuth)
     }
     
     func tryBiometricAuth() {
-        if isEnablelocalKeychain {
+        if isEnablelocalKeychain && !isFirstRun {
             biometricAuth()
         }
     }
