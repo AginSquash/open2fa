@@ -26,13 +26,14 @@ struct errorType: Identifiable {
 enum UserDefaultsTags: String {
     case storageLocalKeychainEnable = "isEnableLocalKeyChain"
     case cloudSync = "isEnableCloudSync"
-    case shouldSyncCloudKit = "shouldSyncCloudKit"
 }
 
 class LoginViewModel: ObservableObject {
     
     @Published var isUnlocked: Bool = false
-    @Published var isEnablelocalKeychain: Bool
+    @Published var isEnablelocalKeychain: Bool = true
+    @Published var isEnableCloudSync: Bool = true
+    @Published var cloudSyncAvailable: Bool = true
     @Published var enteredPassword: String = ""
     @Published var enteredPasswordSecond = ""
     @Published var errorDiscription: errorType? = nil
@@ -48,9 +49,16 @@ class LoginViewModel: ObservableObject {
     }
     
     init() {
-        self.isEnablelocalKeychain =  UserDefaultsService.get(key: .storageLocalKeychainEnable)
         self.isFirstRun = ( KeychainService.shared.getKVC() == nil )
-        if true {
+        if !isFirstRun {
+            self.isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
+        }
+        
+        Task {
+            await loadCloudSyncAvailable()
+        }
+        
+        if true { // isFirstRun
             Task {
                 await getSavedFromCloud()
             }
@@ -61,10 +69,14 @@ class LoginViewModel: ObservableObject {
         
         if self.isFirstRun {
             UserDefaultsService.set(isEnablelocalKeychain, forKey: .storageLocalKeychainEnable)
+            UserDefaultsService.set(isEnableCloudSync, forKey: .cloudSync)
             
             if isEnablelocalKeychain {
                 guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: true) else { self.errorDiscription = .init(error: .cannotCreateCore2FA); return }
                 self.core = core
+                if isEnableCloudSync {
+                    core.savePublicEncryptData()
+                }
                 pushView()
                 return
             }
@@ -72,6 +84,10 @@ class LoginViewModel: ObservableObject {
         
         guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
+        
+        if isFirstRun && isEnableCloudSync {
+            core.savePublicEncryptData()
+        }
         pushView()
     }
     
@@ -123,6 +139,15 @@ class LoginViewModel: ObservableObject {
         guard let records = records else { return }
         await MainActor.run {
             publicEncryptData = records.first
+        }
+    }
+    
+    func loadCloudSyncAvailable() async {
+        let result = try? await CloudKitService.checkAccountStatus()
+        guard let result = result else { return }
+        await MainActor.run {
+            cloudSyncAvailable = (result == .available)
+            isEnableCloudSync = cloudSyncAvailable
         }
     }
 }

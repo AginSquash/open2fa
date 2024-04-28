@@ -259,7 +259,6 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     static func isPasswordValid(password: String) -> Bool {
-        guard let kvc = KeychainService.shared.getKVC() else { return true }
         
         // Salt
         let salt: String
@@ -285,6 +284,11 @@ class Core2FA_ViewModel: ObservableObject {
             iv = ivKC!
         }
         
+        guard let kvc = KeychainService.shared.getKVC() else { 
+            Core2FA_ViewModel.saveKVC(key: key, IV: iv)
+            return true
+        }
+        
         let cryptoModule = CryptoService(key: key, IV: iv)
         
         guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
@@ -294,7 +298,6 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     static func isKeyValid(key: [UInt8]) -> Bool {
-        guard let kvc = KeychainService.shared.getKVC() else { return true }
         
         // Salt
         let salt: String
@@ -315,6 +318,11 @@ class Core2FA_ViewModel: ObservableObject {
             KeychainService.shared.setIV(iv: iv)
         } else {
             iv = ivKC!
+        }
+        
+        guard let kvc = KeychainService.shared.getKVC() else {
+            Core2FA_ViewModel.saveKVC(key: key, IV: iv)
+            return true
         }
         
         let cryptoModule = CryptoService(key: key, IV: iv)
@@ -361,9 +369,9 @@ class Core2FA_ViewModel: ObservableObject {
         self.accountsData = self.fetchAccounts() // Maybe move decryption to background thread?
         self.codes = getOTPList()
     }
-    
-    func saveKVC() {
-        guard let cryptoModel = self.cryptoModule else { return }
+        
+    static func saveKVC(key: [UInt8], IV: [UInt8]) {
+        let cryptoModel = CryptoService(key: key, IV: IV)
         let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
         guard let encoded = try? JSONEncoder().encode(accountData) else { return }
         guard let kvc = cryptoModel.encryptData(encoded) else { return }

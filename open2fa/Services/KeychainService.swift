@@ -80,7 +80,6 @@ enum KeychainTag: String {
 }
 
 class KeychainService {
-    private let keychainCloud: Keychain
     private let keychainLocal: Keychain
     
     static public let shared = KeychainService()
@@ -88,23 +87,23 @@ class KeychainService {
     
     // IV
     func getIV() -> [UInt8]? {
-        guard let ivKC = try? keychainCloud.getData("iv") else { return nil }
+        guard let ivKC = try? keychainLocal.getData("iv") else { return nil }
         return [UInt8](ivKC)
     }
     
     func setIV(iv: [UInt8]) {
-        keychainCloud[data: "iv"] = Data(iv)
+        keychainLocal[data: "iv"] = Data(iv)
     }
     
     
     // Salt
     func getSalt() -> String? {
-        guard let saltKC = try? keychainCloud.getString("salt") else { return nil }
+        guard let saltKC = try? keychainLocal.getString("salt") else { return nil }
         return saltKC
     }
     
     func setSalt(salt: String) {
-        keychainCloud["salt"] = salt
+        keychainLocal["salt"] = salt
     }
     
     
@@ -124,17 +123,24 @@ class KeychainService {
     
     // KVC
     func getKVC() -> Data? {
-        return try? keychainCloud.getData("kvc")
+        return try? keychainLocal.getData("kvc")
     }
     
     func setKVC(kvc: Data) {
-        keychainCloud[data: "kvc"] = kvc
+        keychainLocal[data: "kvc"] = kvc
+    }
+    
+    
+    // Reset on first launch
+    func reset() {
+        keychainLocal[data: "iv"] = nil
+        keychainLocal[data: "kvc"] = nil
+        keychainLocal["salt"] = nil
+        removeKey()
     }
     
     init() {
         let isEnableCloudSync = UserDefaultsService.get(key: .cloudSync)
-        self.keychainCloud = Keychain(service: "com.vladvrublevsky.open2fa.cloud")
-                                                                .synchronizable(isEnableCloudSync)
         self.keychainLocal = Keychain(service: "com.vladvrublevsky.open2fa.local")
                                                                 .synchronizable(false)
                                                                 .accessibility(.whenUnlockedThisDeviceOnly)

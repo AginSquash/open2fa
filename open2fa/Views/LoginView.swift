@@ -55,11 +55,8 @@ struct LoginView: View {
                                 
                                 VStack {
                                     Toggle("🔐 Enable FaceID / TouchID", isOn: $vm.isEnablelocalKeychain.animation(.default))
-                                    
-                                    if !vm.isEnablelocalKeychain {
-                                        Text("FaceID and TouchID will be not available")
-                                            .foregroundColor(.secondary)
-                                    }
+                                    Toggle("☁️ Enable iCloud", isOn: $vm.isEnableCloudSync)
+                                        .disabled(!vm.cloudSyncAvailable)
                                     
                                 }
                             }  else {
