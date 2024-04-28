@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */; };
-		CD0EF0262BDD74CC00F4FEB1 /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0252BDD74CC00F4FEB1 /* CloudService.swift */; };
+		CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = CD188EBE2BD88CB00029D7E0 /* KeychainAccess */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */; };
+		CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
@@ -48,7 +49,7 @@
 
 /* Begin PBXFileReference section */
 		CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
-		CD0EF0252BDD74CC00F4FEB1 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
+		CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		CD20FCCF24D0F175008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
 		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicEncryptData.swift; sourceTree = "<group>"; };
 		CD6786FA24AB7F3C00422233 /* open2fa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = open2fa.entitlements; sourceTree = "<group>"; };
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
 				CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */,
 				CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */,
-				CD0EF0252BDD74CC00F4FEB1 /* CloudService.swift */,
+				CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -204,6 +206,7 @@
 				CDD361F52BDD453E00583AC6 /* AccountData.swift */,
 				CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */,
 				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
+				CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -299,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */,
-				CD0EF0262BDD74CC00F4FEB1 /* CloudService.swift in Sources */,
+				CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */,
 				CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */,
 				CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */,
 				CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */,
@@ -316,6 +319,7 @@
 				CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
+				CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
 				CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */,
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
