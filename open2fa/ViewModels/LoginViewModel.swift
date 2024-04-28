@@ -119,8 +119,7 @@ class LoginViewModel: ObservableObject {
     }
     
     func getSavedFromCloud() async {
-        let cloud = CloudKitService()
-        let records = try? await cloud.fetchPublicEncryptData()
+        let records = try? await CloudKitService.fetchPublicEncryptData()
         guard let records = records else { return }
         await MainActor.run {
             publicEncryptData = records.first

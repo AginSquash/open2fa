@@ -377,16 +377,14 @@ class Core2FA_ViewModel: ObservableObject {
         guard let iv = KeychainService.shared.getIV() else { return }
 
         let publicED = PublicEncryptData(salt: salt, iv: iv, kvc: kvc)
-        let cloud = CloudKitService()
         Task {
-            try? await cloud.save(publicED.record)
+            try? await CloudKitService.save(publicED.record)
         }
     }
     
     func removePublicEncryptData() {
-        let cloud = CloudKitService()
         Task {
-            try? await cloud.removeAllPublicEncryptData()
+            try? await CloudKitService.removeAllPublicEncryptData()
         }
     }
 }
