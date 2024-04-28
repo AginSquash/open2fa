@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import IceCream
 
 struct PreferencesView: View {
 
@@ -17,7 +18,6 @@ struct PreferencesView: View {
     @State private var isEnableCloudSync: Bool = false
     
     @State private var showKeychainText: Bool = false
-    @State private var showCloudSyncText: Bool = false
     @State private var showConfirmCloudSyncAlert: Bool = false
     
     var body: some View {
@@ -37,10 +37,6 @@ struct PreferencesView: View {
                         Text("Enable Cloud Sync")
                     }
                     .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
-                    if showCloudSyncText {
-                        Text("Please, restart app to appear change")
-                            .foregroundColor(.secondary)
-                    }
                     
                     Button("Enable KC") {
                         let def = UserDefaults.standard
@@ -59,6 +55,10 @@ struct PreferencesView: View {
                     
                     Button("Remove all PED") {
                         core_driver.removePublicEncryptData()
+                    }
+                    
+                    Button("Clean all kc") {
+                        KeychainService.shared.reset()
                     }
                     
                     NavigationLink(
@@ -161,18 +161,23 @@ struct PreferencesView: View {
     func onChangeCloudSync(_ value: Bool) {
         if value {
             UserDefaultsService.set(true, forKey: .cloudSync)
-            CloudKitService.createZone()
-            UserDefaultsService.set(true, forKey: .shouldSyncCloudKit)
-            showCloudSyncText = true
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.syncEngine = SyncEngine(objects: [
+                SyncObject(type: AccountObject.self)
+            ])
+            appDelegate.syncEngine?.pushAll()
         } else {
             showConfirmCloudSyncAlert.toggle()
         }
     }
     
     func disableCloud() {
-        CloudKitService.deleteZone()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.syncEngine = nil
+        Task {
+            try? await CloudKitService.removeAllAccounts()
+        }
         UserDefaultsService.set(false, forKey: .cloudSync)
-        showCloudSyncText = true
     }
 }
 

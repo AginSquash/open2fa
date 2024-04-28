@@ -131,7 +131,7 @@ class KeychainService {
     }
     
     
-    // Reset on first launch
+    // Reset on first launch TODO: Fix on first startup
     func reset() {
         keychainLocal[data: "iv"] = nil
         keychainLocal[data: "kvc"] = nil

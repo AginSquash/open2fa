@@ -9,6 +9,7 @@
 import Foundation
 import LocalAuthentication
 import SwiftUI
+import IceCream
 
 struct errorType: Identifiable {
     enum errorTypeEnum {
@@ -76,6 +77,11 @@ class LoginViewModel: ObservableObject {
                 self.core = core
                 if isEnableCloudSync {
                     core.savePublicEncryptData()
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.syncEngine = SyncEngine(objects: [
+                        SyncObject(type: AccountObject.self)
+                    ])
                 }
                 pushView()
                 return
