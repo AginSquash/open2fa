@@ -153,7 +153,7 @@ struct PreferencesView: View {
     func onChangeCloudSync(_ value: Bool) {
         if value {
             UserDefaultsService.set(true, forKey: .cloudSync)
-            CloudService.createZone()
+            CloudKitService.createZone()
             UserDefaultsService.set(true, forKey: .shouldSyncCloudKit)
             showCloudSyncText = true
         } else {
@@ -162,7 +162,7 @@ struct PreferencesView: View {
     }
     
     func disableCloud() {
-        CloudService.deleteZone()
+        CloudKitService.deleteZone()
         UserDefaultsService.set(false, forKey: .cloudSync)
         showCloudSyncText = true
     }

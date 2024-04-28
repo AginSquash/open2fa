@@ -9,8 +9,6 @@
 import Foundation
 import CloudKit
 
-class CloudService {
-    private static let zoneName: String = "AccountObjectsZone"
     
     static func createZone() {
         let cloudContainer = CKContainer.default()
