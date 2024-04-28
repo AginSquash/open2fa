@@ -39,6 +39,8 @@ class LoginViewModel: ObservableObject {
     
     @Published var core: Core2FA_ViewModel?
     
+    @Published var publicEncryptData: PublicEncryptData? = nil
+    
     let isFirstRun: Bool
     
     var isDisableLoginButton: Bool {
@@ -48,6 +50,11 @@ class LoginViewModel: ObservableObject {
     init() {
         self.isEnablelocalKeychain =  UserDefaultsService.get(key: .storageLocalKeychainEnable)
         self.isFirstRun = ( KeychainService.shared.getKVC() == nil )
+        if true {
+            Task {
+                await getSavedFromCloud()
+            }
+        }
     }
     
     func loginButtonAction() {
@@ -111,4 +118,12 @@ class LoginViewModel: ObservableObject {
         }
     }
     
+    func getSavedFromCloud() async {
+        let cloud = CloudKitService()
+        let records = try? await cloud.fetchPublicEncryptData()
+        guard let records = records else { return }
+        await MainActor.run {
+            publicEncryptData = records.first
+        }
+    }
 }

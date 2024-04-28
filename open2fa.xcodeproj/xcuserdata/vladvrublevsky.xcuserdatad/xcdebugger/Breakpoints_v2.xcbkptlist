@@ -18,38 +18,6 @@
             endingLineNumber = "132"
             landmarkName = "Core2FA_ViewModel"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "D2F2BDF3-EF0E-42ED-89BD-22DDA9EEDEA2 - 66e6cce90f15b9f4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.init() -&gt; open2fa.Core2FA_ViewModel"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "170"
-                  endingLineNumber = "170"
-                  offsetFromSymbolStart = "1272">
-               </Location>
-               <Location
-                  uuid = "D2F2BDF3-EF0E-42ED-89BD-22DDA9EEDEA2 - 66e6cce90f15b9d5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "open2fa.Core2FA_ViewModel.init() -&gt; open2fa.Core2FA_ViewModel"
-                  moduleName = "open2fa"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Models/Core2FA_ViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "169"
-                  endingLineNumber = "169"
-                  offsetFromSymbolStart = "1272">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -120,7 +88,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E90E07AA-9FBD-4112-AA4B-FF150AAB2946"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "open2fa/AppDelegate.swift"

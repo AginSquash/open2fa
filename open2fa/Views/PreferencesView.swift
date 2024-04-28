@@ -53,6 +53,14 @@ struct PreferencesView: View {
                         KeychainService.shared.removeKey()
                     }
                     
+                    Button("Upload iCloud PED") {
+                        core_driver.savePublicEncryptData()
+                    }
+                    
+                    Button("Remove all PED") {
+                        core_driver.removePublicEncryptData()
+                    }
+                    
                     NavigationLink(
                         destination: CreditsView(),
                         label: {

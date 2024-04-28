@@ -97,7 +97,11 @@ struct LoginView: View {
                         }
                         Spacer()
                     }
-                        
+                    
+                    if vm.publicEncryptData != nil {
+                        Text("icloud data loading")
+                    }
+                    
                     if vm.isFirstRun {
                             VStack {
                                 Spacer(minLength: 5)

@@ -35,11 +35,21 @@ class CloudKitService {
     func save(_ record: CKRecord) async throws {
         try await CKContainer.default().privateCloudDatabase.save(record)
     }
-    
+        
     func fetchPublicEncryptData() async throws -> [PublicEncryptData] {
-        let query = CKQuery(recordType: PublicEncryptData.RecordKeys.type.rawValue, predicate: NSPredicate(value: true))
-        let result = try await CKContainer.default().privateCloudDatabase.records(matching: query)
-        let records = result.matchResults.compactMap({ try? $0.1.get() })
+        let records = try await self.fecth(recordType: PublicEncryptData.RecordKeys.type.rawValue)
         return records.compactMap(PublicEncryptData.init)
+    }
+    
+    private func fecth(recordType: String) async throws -> [CKRecord] {
+        let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
+        let result = try await CKContainer.default().privateCloudDatabase.records(matching: query)
+        return result.matchResults.compactMap({ try? $0.1.get() })
+    }
+    
+    func removeAllPublicEncryptData() async throws {
+        let records = try await self.fecth(recordType:  PublicEncryptData.RecordKeys.type.rawValue)
+        let ids = records.map { $0.recordID }
+        _ = try await CKContainer.default().privateCloudDatabase.modifyRecords(saving: [], deleting: ids)
     }
 }

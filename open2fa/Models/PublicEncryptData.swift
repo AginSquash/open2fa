@@ -19,7 +19,7 @@ struct PublicEncryptData: Hashable {
     
     let salt: String
     let iv: [UInt8]
-    let kvc: [UInt8]
+    let kvc: Data
 }
 
 extension PublicEncryptData {
@@ -37,7 +37,7 @@ extension PublicEncryptData {
         guard
             let salt = record[Self.RecordKeys.salt.rawValue] as? String,
             let iv = record[Self.RecordKeys.iv.rawValue] as? [UInt8],
-            let kvc = record[Self.RecordKeys.kvc.rawValue] as? [UInt8]
+            let kvc = record[Self.RecordKeys.kvc.rawValue] as? Data
         else { return nil }
         self = .init(salt: salt, iv: iv, kvc: kvc)
     }
