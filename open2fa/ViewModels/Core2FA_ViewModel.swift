@@ -62,13 +62,6 @@ class Core2FA_ViewModel: ObservableObject {
         return accountsCurrentCode
     }
     
-    func deleteService(uuid: String) {
-        try? storage.deleteObjectWithId(type: AccountObject.self, id: uuid)
-        withAnimation {
-            self.codes.removeAll(where: { $0.id == uuid } )
-        }
-    }
-    
     func addAccount(name: String, issuer: String, secret: String) -> String? {
         guard let baase32Decoded = secret.base32DecodedData else { return "Incorrect secret" } // TODO: result?
         
@@ -85,6 +78,16 @@ class Core2FA_ViewModel: ObservableObject {
         return nil
     }
     
+    func fetchAccounts() -> [AccountData] {
+        let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
+        return data.compactMap({ AccountData($0, cm: cryptoModule) }).sorted()
+    }
+    
+    func updateAccounts() {
+        self.accountsData = self.fetchAccounts() // Maybe move decryption to background thread?
+        self.codes = getOTPList()
+    }
+    
     func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
         guard let index = self.accountsData.firstIndex(where: { $0.id == serviceID }) else { return nil }
         accountsData[index].name = newName
@@ -96,6 +99,13 @@ class Core2FA_ViewModel: ObservableObject {
         
         self.codes = getOTPList()
         return nil
+    }
+    
+    func deleteService(uuid: String) {
+        try? storage.deleteObjectWithId(type: AccountObject.self, id: uuid)
+        withAnimation {
+            self.codes.removeAll(where: { $0.id == uuid } )
+        }
     }
     
     func NoCrypt_ExportService(with id: String) -> AccountData? {
@@ -283,20 +293,6 @@ class Core2FA_ViewModel: ObservableObject {
         }
         
         return count
-    }
-    
-    func deleteAccount(id: String) {
-        try? self.storage.deleteObjectWithId(type: AccountObject.self, id: id)
-    }
-    
-    func fetchAccounts() -> [AccountData] {
-        let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
-        return data.compactMap({ AccountData($0, cm: cryptoModule) }).sorted()
-    }
-    
-    func updateAccounts() {
-        self.accountsData = self.fetchAccounts() // Maybe move decryption to background thread?
-        self.codes = getOTPList()
     }
         
     static func saveKVC(key: [UInt8], IV: [UInt8]) {
