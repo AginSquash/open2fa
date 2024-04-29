@@ -11,21 +11,7 @@ import LocalAuthentication
 import SwiftUI
 import IceCream
 
-struct errorType: Identifiable {
-    enum errorTypeEnum {
-        case passwordIncorrect
-        case thisFileNotExist
-        case passwordDontMatch
-        case keyNotSaved
-        case cannotCreateCore2FA
-    }
-    
-    let id = UUID()
-    let error: errorTypeEnum
-}
-
 class LoginViewModel: ObservableObject {
-    
     @Published var isUnlocked: Bool = false
     @Published var isEnablelocalKeychain: Bool = true
     @Published var isEnableCloudSync: Bool = true
@@ -80,6 +66,22 @@ class LoginViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: tryBiometricAuth)
     }
     
+    func setPublicEncryptData() {
+        guard let publicED = publicEncryptData else { return }
+        KeychainService.shared.setSalt(salt: publicED.salt)
+        KeychainService.shared.setIV(iv: publicED.iv)
+        KeychainService.shared.setKVC(kvc: publicED.kvc)
+        
+        isEnableCloudSync = true
+        isFirstRun = false
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.syncEngine = SyncEngine(objects: [
+            SyncObject(type: AccountObject.self)
+        ])
+        delegate.syncEngine?.pull()
+    }
+    
     func tryBiometricAuth() {
         if isEnablelocalKeychain && !isFirstRun {
             biometricAuth()
@@ -117,23 +119,7 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    func setPublicEncryptData() {
-        guard let publicED = publicEncryptData else { return }
-        KeychainService.shared.setSalt(salt: publicED.salt)
-        KeychainService.shared.setIV(iv: publicED.iv)
-        KeychainService.shared.setKVC(kvc: publicED.kvc)
-        
-        isEnableCloudSync = true
-        isFirstRun = false
-        
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.syncEngine = SyncEngine(objects: [
-            SyncObject(type: AccountObject.self)
-        ])
-        delegate.syncEngine?.pull()
-    }
-    
-    func getSavedFromCloud() async {
+    private func getSavedFromCloud() async {
         let records = try? await CloudKitService.fetchPublicEncryptData()
         guard let records = records else { return }
         await MainActor.run {
@@ -142,12 +128,27 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    func loadCloudSyncAvailable() async {
+    private func loadCloudSyncAvailable() async {
         let result = try? await CloudKitService.checkAccountStatus()
         guard let result = result else { return }
         await MainActor.run {
             cloudSyncAvailable = (result == .available)
             isEnableCloudSync = cloudSyncAvailable
         }
+    }
+}
+
+extension LoginViewModel {
+    struct errorType: Identifiable {
+        enum errorTypeEnum {
+            case passwordIncorrect
+            case thisFileNotExist
+            case passwordDontMatch
+            case keyNotSaved
+            case cannotCreateCore2FA
+        }
+        
+        let id = UUID()
+        let error: errorTypeEnum
     }
 }
