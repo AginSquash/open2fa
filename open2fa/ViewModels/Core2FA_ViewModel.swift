@@ -379,7 +379,7 @@ class Core2FA_ViewModel: ObservableObject {
         KeychainService.shared.setKVC(kvc: kvc)
     }
     
-    func savePublicEncryptData() {
+    func uploadPublicEncryptData() {
         guard let kvc = KeychainService.shared.getKVC() else { return  }
         guard let salt = KeychainService.shared.getSalt() else { return }
         guard let iv = KeychainService.shared.getIV() else { return }

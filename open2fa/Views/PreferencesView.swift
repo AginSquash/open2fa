@@ -48,7 +48,7 @@ struct PreferencesView: View {
                     }
                     
                     Button("Upload iCloud PED") {
-                        core_driver.savePublicEncryptData()
+                        core_driver.uploadPublicEncryptData()
                     }
                     
                     Button("Remove all PED") {
@@ -164,6 +164,7 @@ struct PreferencesView: View {
                 SyncObject(type: AccountObject.self)
             ])
             appDelegate.syncEngine?.pushAll()
+            core_driver.uploadPublicEncryptData()
         } else {
             showConfirmCloudSyncAlert.toggle()
         }
@@ -176,6 +177,7 @@ struct PreferencesView: View {
             try? await CloudKitService.removeAllAccounts()
         }
         UserDefaultsService.set(false, forKey: .cloudSync)
+        core_driver.removePublicEncryptData()
     }
 }
 

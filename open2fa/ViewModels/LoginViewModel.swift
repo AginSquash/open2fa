@@ -67,7 +67,7 @@ class LoginViewModel: ObservableObject {
         self.core = core
         
         if isFirstRun && isEnableCloudSync {
-            core.savePublicEncryptData()
+            core.uploadPublicEncryptData()
             let delegate = UIApplication.shared.delegate as! AppDelegate
             delegate.syncEngine = SyncEngine(objects: [
                 SyncObject(type: AccountObject.self)
