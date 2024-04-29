@@ -53,7 +53,7 @@ class LoginViewModel: ObservableObject {
         self.core = core
         
         if isFirstRun && isEnableCloudSync {
-            core.uploadPublicEncryptData()
+            Task { try? await CloudKitService.uploadPublicEncryptData() }
             let delegate = UIApplication.shared.delegate as! AppDelegate
             delegate.syncEngine = SyncEngine(objects: [
                 SyncObject(type: AccountObject.self)

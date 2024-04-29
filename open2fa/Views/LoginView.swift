@@ -142,7 +142,7 @@ struct LoginView: View {
             })
     }
     
-    func getErrorAlert(_ error: errorType) -> Alert {
+    func getErrorAlert(_ error: LoginViewModel.errorType) -> Alert {
         let message: String
         let action: ()->()
         

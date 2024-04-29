@@ -12,7 +12,6 @@ import CloudKit
 class CloudKitService {
     private static let accountObjectZoneName: String = "AccountObjectsZone"
     private static let objectRecordName: String = "AccountObject"
-    
 
     static func checkAccountStatus() async throws -> CKAccountStatus {
         try await CKContainer.default().accountStatus()
@@ -21,11 +20,6 @@ class CloudKitService {
     static func save(_ record: CKRecord) async throws {
         try await CKContainer.default().privateCloudDatabase.save(record)
     }
-        
-    static func fetchPublicEncryptData() async throws -> [PublicEncryptData] {
-        let records = try await self.fecth(recordType: PublicEncryptData.RecordKeys.type.rawValue)
-        return records.compactMap(PublicEncryptData.init)
-    }
     
     static private func fecth(recordType: String, zoneID: CKRecordZone.ID? = nil) async throws -> [CKRecord] {
         let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
@@ -33,18 +27,34 @@ class CloudKitService {
         return result.matchResults.compactMap({ try? $0.1.get() })
     }
     
-    static func removeAllPublicEncryptData() async throws {
-        let records = try await self.fecth(recordType:  PublicEncryptData.RecordKeys.type.rawValue)
-        let ids = records.map { $0.recordID }
-        _ = try await CKContainer.default().privateCloudDatabase.modifyRecords(saving: [], deleting: ids)
-    }
-    
-    static func removeAllAccounts() async throws {
+    static func deleteAllAccounts() async throws {
         let zone = CKRecordZone(zoneName: CloudKitService.accountObjectZoneName)
         let records = try await CloudKitService.fecth(recordType: objectRecordName, zoneID: zone.zoneID)
         let ids = records.map { $0.recordID }
         _ = try await CKContainer.default().privateCloudDatabase.modifyRecords(saving: [], deleting: ids)
     }
+    
+    // MARK: - PublicEncryptData CRD
+    static func fetchPublicEncryptData() async throws -> [PublicEncryptData] {
+        let records = try await self.fecth(recordType: PublicEncryptData.RecordKeys.type.rawValue)
+        return records.compactMap(PublicEncryptData.init)
+    }
+    
+    static func uploadPublicEncryptData() async throws {
+        guard let kvc = KeychainService.shared.getKVC() else { return  }
+        guard let salt = KeychainService.shared.getSalt() else { return }
+        guard let iv = KeychainService.shared.getIV() else { return }
+
+        let publicED = PublicEncryptData(salt: salt, iv: iv, kvc: kvc)
+        try await CloudKitService.save(publicED.record)
+    }
+    
+    static func deleteAllPublicEncryptData() async throws {
+        let records = try await self.fecth(recordType:  PublicEncryptData.RecordKeys.type.rawValue)
+        let ids = records.map { $0.recordID }
+        _ = try await CKContainer.default().privateCloudDatabase.modifyRecords(saving: [], deleting: ids)
+    }
+    
     
     // Not used rn
     static func createZone() {

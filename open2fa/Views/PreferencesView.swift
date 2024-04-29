@@ -15,9 +15,8 @@ struct PreferencesView: View {
     
     @State private var chosenForDelete: AccountCurrentCode? = nil
     @State private var isEnableLocalKeychain: Bool = false
-    @State private var isEnableCloudSync: Bool = false
-    
     @State private var showKeychainText: Bool = false
+    @State private var isEnableCloudSync: Bool = false
     @State private var showConfirmCloudSyncAlert: Bool = false
     
     var body: some View {
@@ -37,27 +36,6 @@ struct PreferencesView: View {
                         Text("Enable Cloud Sync")
                     }
                     .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
-                    
-                    Button("Enable KC") {
-                        UserDefaultsService.set(true, forKey: .storageLocalKeychainEnable)
-                    }
-                    
-                    Button("Disable KC") {
-                        UserDefaultsService.set(false, forKey: .storageLocalKeychainEnable)
-                        KeychainService.shared.removeKey()
-                    }
-                    
-                    Button("Upload iCloud PED") {
-                        core_driver.uploadPublicEncryptData()
-                    }
-                    
-                    Button("Remove all PED") {
-                        core_driver.removePublicEncryptData()
-                    }
-                    
-                    Button("Clean all kc") {
-                        KeychainService.shared.reset()
-                    }
                     
                     NavigationLink(
                         destination: CreditsView(),
@@ -136,7 +114,6 @@ struct PreferencesView: View {
                 secondaryButton: .cancel())
     }
     
-    
     func callAlert(at offset: Int) {
         self.chosenForDelete = core_driver.codes[offset]
     }
@@ -158,27 +135,30 @@ struct PreferencesView: View {
     
     func onChangeCloudSync(_ value: Bool) {
         if value {
-            UserDefaultsService.set(true, forKey: .cloudSync)
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.syncEngine = SyncEngine(objects: [
-                SyncObject(type: AccountObject.self)
-            ])
-            appDelegate.syncEngine?.pushAll()
-            core_driver.uploadPublicEncryptData()
+            enableCloud()
         } else {
             showConfirmCloudSyncAlert.toggle()
         }
     }
     
     func disableCloud() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.syncEngine = nil
-        Task {
-            try? await CloudKitService.removeAllAccounts()
-        }
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.syncEngine = nil
         UserDefaultsService.set(false, forKey: .cloudSync)
-        core_driver.removePublicEncryptData()
+        Task { try? await CloudKitService.deleteAllAccounts() }
+        Task { try? await CloudKitService.deleteAllPublicEncryptData() }
     }
+    
+    func enableCloud() {
+        UserDefaultsService.set(true, forKey: .cloudSync)
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.syncEngine = SyncEngine(objects: [
+            SyncObject(type: AccountObject.self)
+        ])
+        delegate.syncEngine?.pushAll()
+        Task { try? await CloudKitService.uploadPublicEncryptData() }
+    }
+    
 }
 
 extension String {
