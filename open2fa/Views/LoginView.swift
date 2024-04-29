@@ -135,7 +135,10 @@ struct LoginView: View {
         .alert("iCloud data found",
                isPresented: $vm.showCloudLoadedAlert,
                actions: {
-                 Button("Cancel") {}
+                 Button("Cancel") {
+                    vm.cloudSyncAvailable = false // Remake to .sheet()
+                    vm.isEnableCloudSync = false
+                 }
                  Button("Restore & Sync with iCloud") { vm.setPublicEncryptData() }
             }, message: {
                  Text("Restore data from iCloud and enable synchronization?")
