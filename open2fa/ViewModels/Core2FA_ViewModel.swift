@@ -28,7 +28,7 @@ class Core2FA_ViewModel: ObservableObject {
     var notificationToken: NotificationToken?
     
     /// Crypto
-    private var cryptoModule: CryptoService?
+    private var cryptoModule: CryptoService
     
     private var timer: Timer?
     
@@ -69,26 +69,14 @@ class Core2FA_ViewModel: ObservableObject {
         }
     }
     
-    func DEBUG() {
-        /*
-        _ = core.AddAccount(account_name: "Test1", issuer: "Google", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test2", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test3", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test4", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test5", secret: "q4qghrcn2c42bgbz")
-        _ = core.AddAccount(account_name: "Test6_extralargenamewillbehere", issuer: "CompanyWExtraLargeName", secret: "q4qghrcn2c42bgbz")
-         */
-    }
-    
     func addAccount(name: String, issuer: String, secret: String) -> String? {
-        guard let cm = cryptoModule else { return nil }
         guard let baase32Decoded = secret.base32DecodedData else { return "Incorrect secret" } // TODO: result?
         
         guard let totp = TOTP(secret: baase32Decoded) else { return "Incorrect secret" }
-        guard let otp = totp.generate(time: Date()) else { return "Incorrect secret" }
+        guard let _ = totp.generate(time: Date()) else { return "Incorrect secret" }
         
         let newAccount = AccountData(name: name, issuer: issuer, secret: baase32Decoded)
-        let accountObject = AccountObject(newAccount, cm: cm)
+        let accountObject = AccountObject(newAccount, cm: cryptoModule)
         try? storage.saveOrUpdateObject(object: accountObject)
         
         self.accountsData.append(newAccount)
@@ -98,13 +86,12 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func editAccount(serviceID: String, newName: String, newIssuer: String) -> String? {
-        guard let cm = cryptoModule else { return nil }
         guard let index = self.accountsData.firstIndex(where: { $0.id == serviceID }) else { return nil }
         accountsData[index].name = newName
         accountsData[index].issuer = newIssuer
         accountsData[index].modified_date = Date()
         
-        let accountObject = AccountObject(accountsData[index], cm: cm)
+        let accountObject = AccountObject(accountsData[index], cm: cryptoModule)
         try? storage.saveOrUpdateObject(object: accountObject)
         
         self.codes = getOTPList()
@@ -117,55 +104,6 @@ class Core2FA_ViewModel: ObservableObject {
     
     func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
         return [] //core.NoCrypt_ExportAllServicesSECRETS()
-    }
-    
-    /*
-    init(fileURL: URL, pass: String) {
-        self.storage = StorageService()
-        //self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        //self.codes = core.getListOTP()
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.loadCryptoModuleFromPassword(with: pass)
-    }
-    
-    init() {
-        self.storage = StorageService()
-        // self.core = CORE_OPEN2FA()
-        //// self.codes = [Account_Code(id: UUID(), date: Date(), name: "NULL INIT", issuer: "NULL ISSUER", codeSingle: "111 111")]
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.notificationToken = storage.realm!.observe { notification, realm in
-            self.updateAccounts()
-        }
-    }
-     */
-    
-    static var TestModel: Core2FA_ViewModel {
-        let pass = "1234"
-        
-        let salt: String
-        let saltKC = KeychainService.shared.getSalt()
-        if saltKC == nil {
-            salt = CryptoService.generateSalt()
-            KeychainService.shared.setSalt(salt: salt)
-        } else {
-            salt = saltKC!
-        }
-        
-        let key: [UInt8]
-        let keyKC = KeychainService.shared.getKey()
-        if  keyKC == nil {
-            key = CryptoService.generateKey(pass: pass, salt: salt)
-            KeychainService.shared.setKey(key: key)
-        } else {
-            key = keyKC!
-        }
-        
-        let core = Core2FA_ViewModel(key: key, inMemory: true)!
-        //core.storage = StorageService(inMemory: true)
-        core.addAccount(name: "Test 1", issuer: "TestIssuer 1", secret: "q4qghrcn2c42bgbz")
-        core.addAccount(name: "Test 2", issuer: "TestIssuer 2", secret: "q4qghrcn2c42bgbz")
-        core.addAccount(name: "Test 3", issuer: "TestIssuer 3", secret: "q4qghrcn2c42bgbz")
-        return core
     }
         
     init?(key: [UInt8], inMemory: Bool = false) {
@@ -225,14 +163,6 @@ class Core2FA_ViewModel: ObservableObject {
             object: nil)
         
         _debugPrint("DEINT")
-    }
-    
-    func updateCore(fileURL: URL, pass: String) {
-        self.setObservers()
-        
-       // self.core = CORE_OPEN2FA(fileURL: fileURL, password: pass)
-        self.codes = getOTPList()
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
     }
     
     
@@ -360,9 +290,8 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func fetchAccounts() -> [AccountData] {
-        guard let cryptoModel = self.cryptoModule else { return [] }
         let data = storage.fetch(by: AccountObject.self).filter({ !$0.isDeleted })
-        return data.compactMap({ AccountData($0, cm: cryptoModel) }).sorted()
+        return data.compactMap({ AccountData($0, cm: cryptoModule) }).sorted()
     }
     
     func updateAccounts() {
@@ -377,5 +306,36 @@ class Core2FA_ViewModel: ObservableObject {
         guard let kvc = cryptoModel.encryptData(encoded) else { return }
         
         KeychainService.shared.setKVC(kvc: kvc)
+    }
+}
+
+extension Core2FA_ViewModel {
+    static var TestModel: Core2FA_ViewModel {
+        let pass = "1234"
+        
+        let salt: String
+        let saltKC = KeychainService.shared.getSalt()
+        if saltKC == nil {
+            salt = CryptoService.generateSalt()
+            KeychainService.shared.setSalt(salt: salt)
+        } else {
+            salt = saltKC!
+        }
+        
+        let key: [UInt8]
+        let keyKC = KeychainService.shared.getKey()
+        if  keyKC == nil {
+            key = CryptoService.generateKey(pass: pass, salt: salt)
+            KeychainService.shared.setKey(key: key)
+        } else {
+            key = keyKC!
+        }
+        
+        let core = Core2FA_ViewModel(key: key, inMemory: true)!
+        //core.storage = StorageService(inMemory: true)
+        core.addAccount(name: "Test 1", issuer: "TestIssuer 1", secret: "q4qghrcn2c42bgbz")
+        core.addAccount(name: "Test 2", issuer: "TestIssuer 2", secret: "q4qghrcn2c42bgbz")
+        core.addAccount(name: "Test 3", issuer: "TestIssuer 3", secret: "q4qghrcn2c42bgbz")
+        return core
     }
 }
