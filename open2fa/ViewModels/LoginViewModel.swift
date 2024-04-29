@@ -33,12 +33,12 @@ class LoginViewModel: ObservableObject {
     @Published var enteredPassword: String = ""
     @Published var enteredPasswordSecond = ""
     @Published var errorDiscription: errorType? = nil
+    @Published var showCloudLoadedAlert: Bool = false
     
     @Published var core: Core2FA_ViewModel?
     
     @Published var publicEncryptData: PublicEncryptData? = nil
-    
-    let isFirstRun: Bool
+    @Published var isFirstRun: Bool
     
     var isDisableLoginButton: Bool {
         return (enteredPassword != enteredPasswordSecond && isFirstRun) || ( enteredPassword.isEmpty )
@@ -47,11 +47,9 @@ class LoginViewModel: ObservableObject {
     init() {
         self.isFirstRun = !UserDefaultsService.get(key: .alreadyInited)
         
-        Task {
-            await loadCloudSyncAvailable()
-        }
-        
         if isFirstRun {
+            KeychainService.shared.reset() //Just in case reinstall for "fresh" init
+            Task { await loadCloudSyncAvailable() }
             Task { await getSavedFromCloud() }
         } else {
             self.isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
@@ -59,27 +57,10 @@ class LoginViewModel: ObservableObject {
     }
     
     func loginButtonAction() {
-        
-        if self.isFirstRun {
+        if isFirstRun || publicEncryptData != nil {
             UserDefaultsService.set(isEnablelocalKeychain, forKey: .storageLocalKeychainEnable)
             UserDefaultsService.set(isEnableCloudSync, forKey: .cloudSync)
             UserDefaultsService.set(true, forKey: .alreadyInited)
-            KeychainService.shared.reset()
-            
-            if isEnablelocalKeychain {
-                guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: true) else { self.errorDiscription = .init(error: .cannotCreateCore2FA); return }
-                self.core = core
-                if isEnableCloudSync {
-                    core.savePublicEncryptData()
-                    
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.syncEngine = SyncEngine(objects: [
-                        SyncObject(type: AccountObject.self)
-                    ])
-                }
-                pushView()
-                return
-            }
         }
         
         guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
@@ -87,8 +68,12 @@ class LoginViewModel: ObservableObject {
         
         if isFirstRun && isEnableCloudSync {
             core.savePublicEncryptData()
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            delegate.syncEngine = SyncEngine(objects: [
+                SyncObject(type: AccountObject.self)
+            ])
         }
-        pushView()
+        pushMainView()
     }
     
     func onAppear() {
@@ -118,7 +103,7 @@ class LoginViewModel: ObservableObject {
                     guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
                     guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
                     self.core = core
-                    self.pushView()
+                    self.pushMainView()
                 }
             } catch let error {
                 print(error.localizedDescription)
@@ -126,10 +111,26 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    private func pushView() {
+    private func pushMainView() {
         withAnimation {
              self.isUnlocked = true
         }
+    }
+    
+    func setPublicEncryptData() {
+        guard let publicED = publicEncryptData else { return }
+        KeychainService.shared.setSalt(salt: publicED.salt)
+        KeychainService.shared.setIV(iv: publicED.iv)
+        KeychainService.shared.setKVC(kvc: publicED.kvc)
+        
+        isEnableCloudSync = true
+        isFirstRun = false
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.syncEngine = SyncEngine(objects: [
+            SyncObject(type: AccountObject.self)
+        ])
+        delegate.syncEngine?.pull()
     }
     
     func getSavedFromCloud() async {
@@ -137,6 +138,7 @@ class LoginViewModel: ObservableObject {
         guard let records = records else { return }
         await MainActor.run {
             publicEncryptData = records.first
+            showCloudLoadedAlert = true
         }
     }
     

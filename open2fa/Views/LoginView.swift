@@ -64,6 +64,9 @@ struct LoginView: View {
                                     .padding(.bottom, geo.size.height / 50 )
                                 SecureField("Password", text: $vm.enteredPassword)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                if vm.publicEncryptData != nil {
+                                    Toggle("🔐 Enable FaceID / TouchID", isOn: $vm.isEnablelocalKeychain.animation(.default))
+                                }
                             }
                         }.padding(.horizontal)
                         
@@ -93,10 +96,6 @@ struct LoginView: View {
                             }
                         }
                         Spacer()
-                    }
-                    
-                    if vm.publicEncryptData != nil {
-                        Text("icloud data loading")
                     }
                     
                     if vm.isFirstRun {
@@ -132,11 +131,18 @@ struct LoginView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: vm.onAppear)
-        .alert(item: $vm.errorDiscription, content: getAlert)
-
+        .alert(item: $vm.errorDiscription, content: getErrorAlert)
+        .alert("iCloud data found",
+               isPresented: $vm.showCloudLoadedAlert,
+               actions: {
+                 Button("Cancel") {}
+                 Button("Restore & Sync with iCloud") { vm.setPublicEncryptData() }
+            }, message: {
+                 Text("Restore data from iCloud and enable synchronization?")
+            })
     }
     
-    func getAlert(_ error: errorType) -> Alert {
+    func getErrorAlert(_ error: errorType) -> Alert {
         let message: String
         let action: ()->()
         
@@ -165,6 +171,14 @@ struct LoginView: View {
         return Alert(title: Text("Error"), 
                      message: Text(NSLocalizedString(message, comment: message)),
                      dismissButton: .default(Text("Retry"), action: action))
+    }
+    
+    func getCloudAlert(_ publicED: PublicEncryptData) -> Alert {
+        Alert(title: Text("iCloud data found"),
+              message: Text("Restore data from iCloud and enable synchronization?"),
+              primaryButton:
+                .default(Text("Enable"), action: vm.setPublicEncryptData),
+              secondaryButton: .cancel())
     }
     
 }

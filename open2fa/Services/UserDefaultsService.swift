@@ -10,9 +10,9 @@ import Foundation
 
 class UserDefaultsService {
     enum UserDefaultsTags: String {
-        case storageLocalKeychainEnable = "isEnableLocalKeyChain"
-        case cloudSync = "isEnableCloudSync"
-        case alreadyInited = "alreadyInited"
+        case storageLocalKeychainEnable
+        case cloudSync
+        case alreadyInited
     }
     
     static func set(_ value: Bool, forKey key: UserDefaultsTags) {
