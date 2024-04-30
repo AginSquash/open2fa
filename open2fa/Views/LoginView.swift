@@ -133,20 +133,8 @@ struct LoginView: View {
         .onAppear(perform: vm.onAppear)
         .alert(item: $vm.errorDiscription, content: getErrorAlert)
         .sheet(isPresented: $vm.showCloudLoadedAlert, content: {
-            CloudImportView(deleteHandler: {}, restoreHandler: {}, disableHandler: {})
+            CloudImportView(deleteAction: vm.deleteCloudData, restoreAction: vm.restoreCloudData, disableAction: vm.disableCloud)
         })
-        /*
-        .alert("iCloud data found",
-               isPresented: $vm.showCloudLoadedAlert,
-               actions: {
-                 Button("Cancel") {
-                    vm.cloudSyncAvailable = false // Remake to .sheet()
-                    vm.isEnableCloudSync = false
-                 }
-                 Button("Restore & Sync with iCloud") { vm.setPublicEncryptData() }
-            }, message: {
-                 Text("Restore data from iCloud and enable synchronization?")
-            }) */
     }
     
     func getErrorAlert(_ error: LoginViewModel.errorType) -> Alert {
@@ -184,7 +172,7 @@ struct LoginView: View {
         Alert(title: Text("iCloud data found"),
               message: Text("Restore data from iCloud and enable synchronization?"),
               primaryButton:
-                .default(Text("Enable"), action: vm.setPublicEncryptData),
+                .default(Text("Enable"), action: vm.restoreCloudData),
               secondaryButton: .cancel())
     }
     

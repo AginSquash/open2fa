@@ -8,17 +8,10 @@
 
 import SwiftUI
 
-struct CustomButton: View {
-    
-    var body: some View {
-       Text("Text")
-    }
-}
-
 struct CloudImportView: View {
-    let deleteHandler: ()->()
-    let restoreHandler: ()->()
-    let disableHandler: ()->()
+    let deleteAction: ()->()
+    let restoreAction: ()->()
+    let disableAction: ()->()
     
     @Environment(\.dismiss) var dismiss
     @State private var maxWidth: CGFloat = .zero
@@ -27,42 +20,39 @@ struct CloudImportView: View {
     var body: some View {
         VStack {
             HStack {
-               /* Text("☁️")
-                    .font(.largeTitle) */
                 Image(systemName: "icloud")
-                    .foregroundColor(.blue)
+                    .renderingMode(.original)
                     .font(.largeTitle)
                 Text("iCloud")
                     .font(.title)
-                    .padding(.bottom, 1)
             }
+            .padding(.bottom)
+            
             Group {
                 Text("Open2FA data has been found in iCloud.\nYou can:\n - Delete them and start from scratch.\n - Restore the data from iCloud & enable sync\n - Disable iCloud sync on this device.")
             }
             .padding(.horizontal, 0)
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal)
-                .padding(.bottom, 10)
+            .multilineTextAlignment(.leading)
+            .padding(.horizontal)
+            .padding(.bottom)
             
-            Group {
-                HStack {
-                    Button(action: { self.isShowDeleteAlert = true }, label: {
-                        Text("Delete")
-                            .frame(maxWidth: .infinity)
-                            .background(rectReader($maxWidth))
-                    })
-                        .buttonStyle(.bordered)
-                        .tint(.red)
-                        .padding(.trailing, 2)
-                    Button(action: restoreCloud, label: {
-                        Text("Restore")
-                            .frame(maxWidth: .infinity)
-                    })
-                        .buttonStyle(.borderedProminent)
-                        .padding(.leading, 2)
-                }
-                .padding(.bottom, 4)
+            HStack {
+                Button(action: { self.isShowDeleteAlert = true }, label: {
+                    Text("Delete")
+                        .frame(maxWidth: .infinity)
+                        .background(rectReader($maxWidth))
+                })
+                    .buttonStyle(.bordered)
+                    .tint(.red)
+                    .padding(.trailing, 2)
+                Button(action: restoreCloud, label: {
+                    Text("Restore")
+                        .frame(maxWidth: .infinity)
+                })
+                    .buttonStyle(.borderedProminent)
+                    .padding(.leading, 2)
             }
+            .padding(.bottom, 4)
             .padding(.horizontal)
             
             Button(action: disableCloud, label: {
@@ -94,21 +84,21 @@ struct CloudImportView: View {
     }
     
     func deleteCloud() {
-        deleteHandler()
+        deleteAction()
         dismiss()
     }
     
     func restoreCloud() {
-        restoreHandler()
+        restoreAction()
         dismiss()
     }
     
     func disableCloud() {
-        disableHandler()
+        disableAction()
         dismiss()
     }
 }
 
 #Preview {
-    CloudImportView(deleteHandler: { }, restoreHandler: { }, disableHandler: { })
+    CloudImportView(deleteAction: { }, restoreAction: { }, disableAction: { })
 }

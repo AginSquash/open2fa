@@ -66,7 +66,14 @@ class LoginViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: tryBiometricAuth)
     }
     
-    func setPublicEncryptData() {
+    func deleteCloudData() {
+        Task {
+            try? await CloudKitService.deleteAllAccounts()
+            try? await CloudKitService.deleteAllPublicEncryptData()
+        }
+    }
+    
+    func restoreCloudData() {
         guard let publicED = publicEncryptData else { return }
         KeychainService.shared.setSalt(salt: publicED.salt)
         KeychainService.shared.setIV(iv: publicED.iv)
@@ -81,6 +88,12 @@ class LoginViewModel: ObservableObject {
         ])
         delegate.syncEngine?.pull()
     }
+    
+    func disableCloud() {
+        isEnableCloudSync = false
+        cloudSyncAvailable = false
+    }
+    
     
     func tryBiometricAuth() {
         if isEnablelocalKeychain && !isFirstRun {
@@ -124,7 +137,7 @@ class LoginViewModel: ObservableObject {
         guard let records = records else { return }
         await MainActor.run {
             publicEncryptData = records.first
-            showCloudLoadedAlert = true
+            showCloudLoadedAlert = publicEncryptData != nil
         }
     }
     
