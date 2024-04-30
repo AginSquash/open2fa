@@ -11,10 +11,10 @@ import LocalAuthentication
 
 extension LAContext {
     enum BiometricType: String {
-        case none
-        case touchID
-        case faceID
-        case opticID
+        case none = ""
+        case touchID = "TouchID"
+        case faceID = "FaceID"
+        case opticID = "OpticID"
     }
 
     var biometricType: BiometricType {

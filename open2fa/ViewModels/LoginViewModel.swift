@@ -36,20 +36,9 @@ class LoginViewModel: ObservableObject {
     init() {
         self.isFirstRun = !UserDefaultsService.get(key: .alreadyInited)
         
-        switch LAContext().biometricType {
-        case .none:
-            availableBiometricAuth = ""
-            availableBiometricAuthImg = ""
-        case .touchID:
-            availableBiometricAuthImg = "touchid"
-            availableBiometricAuth = "TouchID"
-        case .faceID:
-            availableBiometricAuthImg = "faceid"
-            availableBiometricAuth = "FaceID"
-        case .opticID:
-            availableBiometricAuthImg = "opticid"
-            availableBiometricAuth = "OpticID"
-        }
+        let biometricType = LAContext().biometricType
+        availableBiometricAuth = biometricType.rawValue
+        availableBiometricAuthImg = biometricType.rawValue.lowercased()
         
         if isFirstRun {
             KeychainService.shared.reset() //Just in case reinstall for "fresh" init
