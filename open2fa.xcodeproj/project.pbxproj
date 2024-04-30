@@ -31,6 +31,7 @@
 		CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */; };
 		CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = CD9A8F2825B6F58C00DFD47F /* CodeScanner */; };
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
+		CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
 		CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F52BDD453E00583AC6 /* AccountData.swift */; };
@@ -75,6 +76,7 @@
 		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CDA02C92263ACCFE0097882E /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudImportView.swift; sourceTree = "<group>"; };
 		CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceView.swift; sourceTree = "<group>"; };
 		CDB61AF42804614C001A0FA9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		CDD361F52BDD453E00583AC6 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				CDA02C92263ACCFE0097882E /* CreditsView.swift */,
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CDD6703124EC13C40097D45D /* TimeLeftView.swift */,
+				CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
+				CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
 				CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */,
 				CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */,

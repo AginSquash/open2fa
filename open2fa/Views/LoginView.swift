@@ -132,6 +132,10 @@ struct LoginView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: vm.onAppear)
         .alert(item: $vm.errorDiscription, content: getErrorAlert)
+        .sheet(isPresented: $vm.showCloudLoadedAlert, content: {
+            CloudImportView(deleteHandler: {}, restoreHandler: {}, disableHandler: {})
+        })
+        /*
         .alert("iCloud data found",
                isPresented: $vm.showCloudLoadedAlert,
                actions: {
@@ -142,7 +146,7 @@ struct LoginView: View {
                  Button("Restore & Sync with iCloud") { vm.setPublicEncryptData() }
             }, message: {
                  Text("Restore data from iCloud and enable synchronization?")
-            })
+            }) */
     }
     
     func getErrorAlert(_ error: LoginViewModel.errorType) -> Alert {
