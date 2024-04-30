@@ -32,6 +32,7 @@
 		CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = CD9A8F2825B6F58C00DFD47F /* CodeScanner */; };
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
 		CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */; };
+		CDA74CC22BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
 		CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F52BDD453E00583AC6 /* AccountData.swift */; };
@@ -77,6 +78,7 @@
 		CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CDA02C92263ACCFE0097882E /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudImportView.swift; sourceTree = "<group>"; };
+		CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthentication+BiometricType.swift"; sourceTree = "<group>"; };
 		CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceView.swift; sourceTree = "<group>"; };
 		CDB61AF42804614C001A0FA9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		CDD361F52BDD453E00583AC6 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				CDDDB6732BD5BB3A00FEB3F8 /* Models */,
 				CDD361F42BDD450400583AC6 /* ViewModels */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
+				CDA74CC02BE08E98007C8D62 /* Extensions */,
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
@@ -151,6 +154,14 @@
 				CD87B4D8246F53B900E04D70 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CDA74CC02BE08E98007C8D62 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		CDB6AB8624D6E91E00F552E7 /* Views */ = {
@@ -328,6 +339,7 @@
 				CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */,
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
 				CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */,
+				CDA74CC22BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift in Sources */,
 				CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
 				CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */,

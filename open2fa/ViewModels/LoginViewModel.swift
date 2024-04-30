@@ -30,8 +30,26 @@ class LoginViewModel: ObservableObject {
         return (enteredPassword != enteredPasswordSecond && isFirstRun) || ( enteredPassword.isEmpty )
     }
     
+    var availableBiometricAuth: String
+    var availableBiometricAuthImg: String
+    
     init() {
         self.isFirstRun = !UserDefaultsService.get(key: .alreadyInited)
+        
+        switch LAContext().biometricType {
+        case .none:
+            availableBiometricAuth = ""
+            availableBiometricAuthImg = ""
+        case .touchID:
+            availableBiometricAuthImg = "touchid"
+            availableBiometricAuth = "TouchID"
+        case .faceID:
+            availableBiometricAuthImg = "faceid"
+            availableBiometricAuth = "FaceID"
+        case .opticID:
+            availableBiometricAuthImg = "opticid"
+            availableBiometricAuth = "OpticID"
+        }
         
         if isFirstRun {
             KeychainService.shared.reset() //Just in case reinstall for "fresh" init

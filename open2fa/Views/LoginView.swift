@@ -54,7 +54,9 @@ struct LoginView: View {
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
                                 
                                 VStack {
-                                    Toggle("🔐 Enable FaceID / TouchID", isOn: $vm.isEnablelocalKeychain.animation(.default))
+                                    if !vm.availableBiometricAuth.isEmpty {
+                                        Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
+                                    }
                                     Toggle("☁️ Enable iCloud", isOn: $vm.isEnableCloudSync)
                                         .disabled(!vm.cloudSyncAvailable)
                                     
@@ -64,8 +66,9 @@ struct LoginView: View {
                                     .padding(.bottom, geo.size.height / 50 )
                                 SecureField("Password", text: $vm.enteredPassword)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                                if vm.publicEncryptData != nil {
-                                    Toggle("🔐 Enable FaceID / TouchID", isOn: $vm.isEnablelocalKeychain.animation(.default))
+                           
+                                if (vm.publicEncryptData != nil)&&(!vm.availableBiometricAuth.isEmpty) {
+                                    Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
                                 }
                             }
                         }.padding(.horizontal)
@@ -87,7 +90,7 @@ struct LoginView: View {
                                 Button(action: vm.tryBiometricAuth, label: {
                                     HStack {
                                         Text("Retry")
-                                        Image(systemName: "faceid")
+                                        Image(systemName: vm.availableBiometricAuthImg)
                                             .resizable()
                                             .frame(width: 30, height: 30)
                                     }
