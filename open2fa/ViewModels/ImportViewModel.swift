@@ -10,23 +10,8 @@ import Foundation
 import CryptoSwift
 
 class ImportViewModel: ObservableObject {
-    struct AlertObject: Identifiable {
-        let id = UUID()
-        var title: String
-        var message: String
-        var isSuccessful: Bool = false
-    }
     
-    enum AlertType: String {
-        case ReadFileError = "Unable to read file"
-        case DecryptError = "Unable to decrypt file"
-        case WrongFormat = "File is not in the correct format or is corrupted"
-    }
-    
-    let fileName = "encrypted.o2fa"
-    var baseURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
-    }
+    static let core_version = "7.0.0"
     
     @Published var alertObject: AlertObject? = nil
     @Published var isEnableLocalKeyChain: Bool = true
@@ -40,8 +25,10 @@ class ImportViewModel: ObservableObject {
                 guard file.startAccessingSecurityScopedResource() else { showError(.ReadFileError); return }
                 guard let data = try? Data(contentsOf: file.absoluteURL) else { showError(.ReadFileError); return }
                 file.stopAccessingSecurityScopedResource()
-                guard let codesFile = try? JSONDecoder().decode(CodesFile.self, from: data) else { showError(.WrongFormat); return }
-                create(codesFile: codesFile)
+                guard let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data) else { showError(.WrongFormat); return }
+                guard let decrypted = decryptLegacyFile(codesFile: codesFile) else { showError(.DecryptError); return }
+                let accounts = decrypted.compactMap(AccountData.init)
+                saveAccounts(accountsData: accounts)
             case .failure(let error):
                 self.alertObject = AlertObject(title: "Error", message: error.localizedDescription)
             }
@@ -55,31 +42,42 @@ class ImportViewModel: ObservableObject {
         self.alertObject = AlertObject(title: "Imported", message: "Successfully imported \(importedAccountCount) accounts", isSuccessful: true)
     }
     
-    private func create(codesFile: CodesFile) {
-        guard let coreAccounts = checkPassword(codesFile: codesFile) else { showError(.DecryptError); return }
+    private func saveAccounts(accountsData: [AccountData]) {
         guard let core = Core2FA_ViewModel(password: enteredPassword, saveKey: isEnableLocalKeyChain) else { return }
-        let accountsData = coreAccounts.compactMap(AccountData.init)
         core.importAccounts(accounts: accountsData)
-        _debugPrint("Imported \(accountsData.count) accounts")
         UserDefaultsService.set(true, forKey: .alreadyInited)
         UserDefaultsService.set(isEnableLocalKeyChain, forKey: .storageLocalKeychainEnable)
         showSuccessAlert(importedAccountCount: accountsData.count)
     }
     
-    private func checkPassword(codesFile: CodesFile) -> [CoreOpen2FA_AccountData]? {
-        // if version ()
-        guard let decrypted = decryptLegacyFile(codesFile: codesFile) else { return nil }
-        guard let decoded = try? JSONDecoder().decode([CoreOpen2FA_AccountData].self, from: decrypted) else { return nil }
-        return decoded
-    }
-    
-    private func decryptLegacyFile(codesFile: CodesFile) -> Data? {
+    private func decryptLegacyFile(codesFile: CodesFile_legacy) -> [CoreOpen2FA_AccountData]? {
         guard let codes = codesFile.codes else { return nil }
         let key = enteredPassword.md5()
         do {
             let aes = try AES(key: key, iv: codesFile.IV) // aes256
             let textUint8 = try aes.decrypt( [UInt8](codes))
-            return Data(hex: textUint8.toHexString())
+            let decrypted = Data(hex: textUint8.toHexString())
+            guard let decoded = try? JSONDecoder().decode([CoreOpen2FA_AccountData].self, from: decrypted) else { return nil }
+            return decoded
         } catch { return nil }
+    }
+    
+    private func decryptFile(accountsFile: AccountsFileStruct) {
+        
+    }
+}
+
+// MARK: - Alerts
+extension ImportViewModel {
+    struct AlertObject: Identifiable {
+        let id = UUID()
+        var title: String
+        var message: String
+        var isSuccessful: Bool = false
+    }
+    enum AlertType: String {
+        case ReadFileError = "Unable to read file"
+        case DecryptError = "Wrong password"
+        case WrongFormat = "File is not in the correct format or is corrupted"
     }
 }

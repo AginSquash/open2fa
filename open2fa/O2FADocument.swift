@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct CodesFile: Codable {
+struct CodesFile_legacy: Codable {
     var core_version: String
     var IV: String
     var passcheck: Data?
@@ -20,22 +20,22 @@ struct CodesFile: Codable {
 struct O2FADocument: FileDocument {
     static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
     
-    var cf: CodesFile
+    var cf: CodesFile_legacy
     
     init(url: URL) {
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            self.cf = CodesFile(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
+            self.cf = CodesFile_legacy(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
             return
         }
         
         //let data = try! Data(contentsOf: url)
         //let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
-        self.cf = CodesFile(core_version: "1.0", IV: "iv")
+        self.cf = CodesFile_legacy(core_version: "1.0", IV: "iv")
     }
     
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
-              let codesFile = try? JSONDecoder().decode(CodesFile.self, from: data)
+              let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data)
             else {
                 throw CocoaError(.fileReadCorruptFile)
         }

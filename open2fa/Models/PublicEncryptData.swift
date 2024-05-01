@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-struct PublicEncryptData: Hashable {
+struct PublicEncryptData: Hashable, Codable {
     enum RecordKeys: String {
         case type = "PublicEncryptData"
         case salt

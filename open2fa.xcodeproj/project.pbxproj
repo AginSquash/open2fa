@@ -34,6 +34,8 @@
 		CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */; };
 		CDA74CC22BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */; };
 		CDA74CC62BE1E05F007C8D62 /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC52BE1E05F007C8D62 /* ImportViewModel.swift */; };
+		CDA74CC82BE1F87E007C8D62 /* AccountsFileStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */; };
+		CDA74CCA2BE1FFE1007C8D62 /* ImportExportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC92BE1FFE1007C8D62 /* ImportExportModel.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
 		CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F52BDD453E00583AC6 /* AccountData.swift */; };
@@ -81,6 +83,8 @@
 		CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudImportView.swift; sourceTree = "<group>"; };
 		CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthentication+BiometricType.swift"; sourceTree = "<group>"; };
 		CDA74CC52BE1E05F007C8D62 /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
+		CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsFileStruct.swift; sourceTree = "<group>"; };
+		CDA74CC92BE1FFE1007C8D62 /* ImportExportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportModel.swift; sourceTree = "<group>"; };
 		CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceView.swift; sourceTree = "<group>"; };
 		CDB61AF42804614C001A0FA9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		CDD361F52BDD453E00583AC6 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 				CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */,
 				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
 				CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */,
+				CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */,
+				CDA74CC92BE1FFE1007C8D62 /* ImportExportModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA74CCA2BE1FFE1007C8D62 /* ImportExportModel.swift in Sources */,
 				CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */,
 				CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */,
 				CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */,
@@ -327,6 +334,7 @@
 				CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */,
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */,
+				CDA74CC82BE1F87E007C8D62 /* AccountsFileStruct.swift in Sources */,
 				CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */,
 				CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
