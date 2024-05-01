@@ -13,6 +13,7 @@ import GAuthDecrypt
 import CloudKit
 import RealmSwift
 import SwiftOTP
+import Combine
 
 class Core2FA_ViewModel: ObservableObject {
     
@@ -21,7 +22,7 @@ class Core2FA_ViewModel: ObservableObject {
     @Published var isActive: Bool = true
     @Published var progress: CGFloat = 1.0
 
-    @Published var accountsData = [AccountData]()
+    private var accountsData = [AccountData]()
 
     /// Realm
     private var storage: StorageService
@@ -33,21 +34,12 @@ class Core2FA_ViewModel: ObservableObject {
     private var timer: Timer?
     
     @objc func updateTime() {
-        let date = Date()
-        let df = DateFormatter()
-        df.dateFormat = "ss"
-        let time = Int(df.string(from: date))!
+        timeRemaning -= 1
         
-        if (time == 0 || time == 30) {
+        if timeRemaning <= 0 {
+            timeRemaning = 30
             self.codes = self.getOTPList()
         }
-        
-        if time > 30 {
-            timeRemaning = 60 - time
-        } else {
-            timeRemaning = 30 - time
-        }
-        
         progress = CGFloat( Double(timeRemaning) / 30 )
     }
     
@@ -132,7 +124,10 @@ class Core2FA_ViewModel: ObservableObject {
         
         self.storage = StorageService(inMemory: inMemory)
         self.cryptoModule = CryptoService(key: key, IV: iv)
+        
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        self.syncTimer()
+        
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
@@ -175,6 +170,14 @@ class Core2FA_ViewModel: ObservableObject {
         _debugPrint("DEINT")
     }
     
+    private func syncTimer() {
+        let date = Date()
+        let df = DateFormatter()
+        df.dateFormat = "ss"
+        let time = Int(df.string(from: date))!
+        
+        self.timeRemaning = (time > 30) ? 60 - time : 30 - time
+    }
     
     func setObservers() {
         NotificationCenter.default.addObserver(self,
