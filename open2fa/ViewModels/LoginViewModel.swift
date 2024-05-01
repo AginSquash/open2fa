@@ -24,6 +24,7 @@ class LoginViewModel: ObservableObject {
     @Published var core: Core2FA_ViewModel?
     
     @Published var publicEncryptData: PublicEncryptData? = nil
+    @Published var isLoadedFromCloud: Bool = false
     @Published var isFirstRun: Bool
     
     var isDisableLoginButton: Bool {
@@ -88,6 +89,7 @@ class LoginViewModel: ObservableObject {
         
         isEnableCloudSync = true
         isFirstRun = false
+        isLoadedFromCloud = true
         
         let delegate = UIApplication.shared.delegate as! AppDelegate
         delegate.syncEngine = SyncEngine(objects: [
@@ -105,6 +107,14 @@ class LoginViewModel: ObservableObject {
     func tryBiometricAuth() {
         if isEnablelocalKeychain && !isFirstRun {
             biometricAuth()
+        }
+    }
+    
+    func importHandler(_ result: Bool) {
+        if result {
+            isFirstRun = false
+            isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
+            tryBiometricAuth()
         }
     }
     

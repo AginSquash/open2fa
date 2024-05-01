@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// Code with secret for 2FA generation
-public struct UNPROTECTED_AccountData: Identifiable, Codable, Equatable {
+/// Legacy code with secret for 2FA generation
+public struct CoreOpen2FA_AccountData: Identifiable, Codable, Equatable {
     public let id: UUID
     public let type: OTP_Type
     public let date: Date
@@ -30,5 +30,19 @@ public struct UNPROTECTED_AccountData: Identifiable, Codable, Equatable {
     
     mutating func updateHOTP() {
         self.counter += 1
+    }
+}
+
+extension AccountData {
+    init?(_ coreData: CoreOpen2FA_AccountData) {
+        self.id = NSUUID().uuidString
+        self.type = coreData.type
+        self.name = coreData.name
+        self.issuer = coreData.issuer
+        guard let secret = coreData.secret.base32DecodedData else { return nil }
+        self.secret = secret
+        self.counter = coreData.counter
+        self.creation_date = coreData.date
+        self.modified_date = self.creation_date
     }
 }

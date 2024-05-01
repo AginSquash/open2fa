@@ -67,7 +67,7 @@ struct LoginView: View {
                                 SecureField("Password", text: $vm.enteredPassword)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                            
-                                if (vm.publicEncryptData != nil)&&(!vm.availableBiometricAuth.isEmpty) {
+                                if (vm.isLoadedFromCloud) && (!vm.availableBiometricAuth.isEmpty) {
                                     Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
                                 }
                             }
@@ -105,7 +105,7 @@ struct LoginView: View {
                             VStack {
                                 Spacer(minLength: 5)
                                 Text("Already used Open2fa?")
-                                NavigationLink("Import", destination: ImportView())
+                                NavigationLink("Import", destination: ImportView( importedSuccessfully: vm.importHandler))
                                     .padding(.bottom, geo.size.height / 15)
                             }
                         } else {

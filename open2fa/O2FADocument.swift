@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct codesFile: Codable {
+struct CodesFile: Codable {
     var core_version: String
     var IV: String
     var passcheck: Data?
@@ -20,22 +20,22 @@ struct codesFile: Codable {
 struct O2FADocument: FileDocument {
     static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
     
-    var cf: codesFile
+    var cf: CodesFile
     
     init(url: URL) {
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            self.cf = codesFile(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
+            self.cf = CodesFile(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
             return
         }
         
         //let data = try! Data(contentsOf: url)
         //let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
-        self.cf = codesFile(core_version: "1.0", IV: "iv")
+        self.cf = CodesFile(core_version: "1.0", IV: "iv")
     }
     
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
-              let codesFile = try? JSONDecoder().decode(codesFile.self, from: data)
+              let codesFile = try? JSONDecoder().decode(CodesFile.self, from: data)
             else {
                 throw CocoaError(.fileReadCorruptFile)
         }
@@ -53,15 +53,15 @@ struct O2FADocument: FileDocument {
 
 struct O2FA_Unencrypted: FileDocument {
     static var readableContentTypes: [UTType] { [.json] }
-    var accountsUnencrypted: [UNPROTECTED_AccountData]
+    var accountsUnencrypted: [CoreOpen2FA_AccountData]
     
-    init(accounts: [UNPROTECTED_AccountData]) {
+    init(accounts: [CoreOpen2FA_AccountData]) {
         self.accountsUnencrypted = accounts
     }
     
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
-              let accounts = try? JSONDecoder().decode([UNPROTECTED_AccountData].self, from: data)
+              let accounts = try? JSONDecoder().decode([CoreOpen2FA_AccountData].self, from: data)
             else {
                 throw CocoaError(.fileReadCorruptFile)
         }

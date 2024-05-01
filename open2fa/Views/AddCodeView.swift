@@ -112,8 +112,8 @@ struct AddCodeView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 VStack {
-                        CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { result in
-                            switch result {
+                        CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { alertObject in
+                            switch alertObject {
                             case .success(let code):
                                 self.showScaner = false
                                 handleCode(code: code)

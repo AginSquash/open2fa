@@ -104,7 +104,7 @@ class Core2FA_ViewModel: ObservableObject {
         return accountsData.first(where: { $0.id == id })
     }
     
-    func NoCrypt_ExportALLService() -> [UNPROTECTED_AccountData] {
+    func NoCrypt_ExportALLService() -> [CoreOpen2FA_AccountData] {
         return [] //core.NoCrypt_ExportAllServicesSECRETS()
     }
         
@@ -305,6 +305,11 @@ class Core2FA_ViewModel: ObservableObject {
         guard let kvc = cryptoModel.encryptData(encoded) else { return }
         
         KeychainService.shared.setKVC(kvc: kvc)
+    }
+    
+    public func importAccounts(accounts: [AccountData]) {
+        let accountObjects = accounts.map({ AccountObject($0, cm: cryptoModule) })
+        try? storage.saveOrUpdateAllObjects(objects: accountObjects)
     }
 }
 
