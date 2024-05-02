@@ -7,35 +7,32 @@
 //
 
 import SwiftUI
-import IceCream
 
 struct PreferencesView: View {
 
     @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject private var viewModel = PreferencesViewModel()
     
     @State private var chosenForDelete: AccountCurrentCode? = nil
-    @State private var isEnableLocalKeychain: Bool = false
-    @State private var showKeychainText: Bool = false
-    @State private var isEnableCloudSync: Bool = false
-    @State private var showConfirmCloudSyncAlert: Bool = false
     
     var body: some View {
             Form {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
-                    Toggle(isOn: $isEnableLocalKeychain) {
+                    Toggle(isOn: $viewModel.isEnableLocalKeychain) {
                         Text("Enable FaceID / TouchID")
                     }
-                    .onChange(of: isEnableLocalKeychain, perform: onChangeLocalKeychain)
-                    if showKeychainText {
+                    .onChange(of: viewModel.isEnableLocalKeychain, perform: viewModel.onChangeLocalKeychain)
+                    if viewModel.showKeychainText {
                         Text("Please, restart app and enter password to appear change")
                             .foregroundColor(.secondary)
                     }
                     
-                    Toggle(isOn: $isEnableCloudSync) {
+                    Toggle(isOn: $viewModel.isEnableCloudSync) {
                         Text("Enable Cloud Sync")
                     }
-                    .onChange(of: isEnableCloudSync, perform: onChangeCloudSync)
+                    .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
+                    .disabled(!viewModel.cloudSyncAvailable)
                     
                     NavigationLink(
                         destination: CreditsView(),
@@ -90,17 +87,20 @@ struct PreferencesView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete, content: deletionAlert)
             .alert("This action will also delete all the saved data in iCloud",
-                   isPresented: $showConfirmCloudSyncAlert) {
-                Button("Cancel", role: .cancel) { self.isEnableCloudSync.toggle() }
-                Button("Delete from iCloud", role: .destructive, action: disableCloud)
+                   isPresented: $viewModel.showConfirmCloudSyncAlert) {
+                Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
+                Button("Delete from iCloud", role: .destructive, action: viewModel.disableCloud)
             }
-    }
-    
-    init() {
-        _isEnableLocalKeychain = State(initialValue: 
-                                        UserDefaultsService.get(key: .storageLocalKeychainEnable))
-        _isEnableCloudSync = State(initialValue: 
-                                    UserDefaultsService.get(key: .cloudSync))
+            .alert("Found iCloud data",
+                   isPresented: $viewModel.showDeleteCloudAlert,
+                   actions: {
+                Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
+                Button("Delete data from iCloud", role: .destructive,
+                       action: viewModel.deleteFromCloudAndEnableSync)
+                    },
+                   message: {
+                Text("You already have data in iCloud. To continue, you must delete the data from the cloud.")
+            })
     }
     
     func deletionAlert(_ codeDelete: AccountCurrentCode) -> Alert {
@@ -124,41 +124,6 @@ struct PreferencesView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     }
-    
-    func onChangeLocalKeychain(_ value: Bool) {
-        UserDefaultsService.set(value, forKey: .storageLocalKeychainEnable)
-        if !value {
-            KeychainService.shared.removeKey()
-        }
-        showKeychainText.toggle()
-    }
-    
-    func onChangeCloudSync(_ value: Bool) {
-        if value {
-            enableCloud()
-        } else {
-            showConfirmCloudSyncAlert.toggle()
-        }
-    }
-    
-    func disableCloud() {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.syncEngine = nil
-        UserDefaultsService.set(false, forKey: .cloudSync)
-        Task { try? await CloudKitService.deleteAllAccounts() }
-        Task { try? await CloudKitService.deleteAllPublicEncryptData() }
-    }
-    
-    func enableCloud() {
-        UserDefaultsService.set(true, forKey: .cloudSync)
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.syncEngine = SyncEngine(objects: [
-            SyncObject(type: AccountObject.self)
-        ])
-        delegate.syncEngine?.pushAll()
-        Task { try? await CloudKitService.uploadPublicEncryptData() }
-    }
-    
 }
 
 extension String {
