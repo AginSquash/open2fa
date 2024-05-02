@@ -24,9 +24,11 @@ struct ExportView: View {
             }
             
             Section {
+                /*
                 Toggle(isOn: $viewModel.isSecureExport, label: {
                     Text("Encrypted export")
                 })
+                 */
                 if !viewModel.isSecureExport {
                     Text("⚠️ Warning! Your file with account keys will be exported in json format WITHOUT encryption!")
                 } else {
@@ -38,10 +40,13 @@ struct ExportView: View {
                 HStack {
                     Spacer()
                     Text("Export")
-                        .foregroundColor(.red)
+                        .foregroundColor(
+                            viewModel.passwordEntered.isEmpty ? .secondary : .red
+                        )
                     Spacer()
                 }
             })
+            .disabled(viewModel.passwordEntered.isEmpty)
         }
         .padding([.top], 1) //Fix for bug with form in center of screen, not on top
         .navigationBarTitle("Export", displayMode: .inline)
