@@ -34,8 +34,6 @@
 	<string>We need  access to import file</string>
 	<key>NSFileProviderPresenceUsageDescription</key>
 	<string>We need  access to import file</string>
-	<key>UIApplicationExitsOnSuspend</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
