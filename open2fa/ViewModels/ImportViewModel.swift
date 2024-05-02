@@ -11,8 +11,6 @@ import CryptoSwift
 
 class ImportViewModel: ObservableObject {
     
-    static let core_version = "7.0.0"
-    
     @Published var alertObject: AlertObject? = nil
     @Published var isEnableLocalKeyChain: Bool = true
     @Published var enteredPassword = String()
@@ -82,6 +80,7 @@ class ImportViewModel: ObservableObject {
         
         let iv = accountsFile.publicEncryptData.iv
         let cryptoModule = CryptoService(key: key, IV: iv)
+        
         
         if let accountsEncrypted =  accountsFile.accounts {
             guard let decrypted = cryptoModule.decryptData(accountsEncrypted) else { return nil }

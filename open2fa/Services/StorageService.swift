@@ -18,7 +18,7 @@ final class StorageService {
     
     init(inMemory: Bool = false) {
         let configuration: Realm.Configuration
-        if inMemory {
+        if inMemory || ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             configuration = Realm.Configuration( inMemoryIdentifier: "inMemory" )
         } else {
             configuration = Realm.Configuration()

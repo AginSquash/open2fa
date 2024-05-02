@@ -122,7 +122,7 @@ class Core2FA_ViewModel: ObservableObject {
             iv = ivKC!
         }
         
-        self.storage = StorageService(inMemory: inMemory)
+        self.storage = StorageService.shared
         self.cryptoModule = CryptoService(key: key, IV: iv)
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)

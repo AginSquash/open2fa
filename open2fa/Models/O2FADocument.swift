@@ -20,31 +20,24 @@ struct CodesFile_legacy: Codable {
 struct O2FADocument: FileDocument {
     static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
     
-    var cf: CodesFile_legacy
+    var accountsFileStruct: AccountsFileStruct
     
-    init(url: URL) {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            self.cf = CodesFile_legacy(core_version: "3.0", IV: "IV", passcheck: nil, codes: nil)
-            return
-        }
-        
-        //let data = try! Data(contentsOf: url)
-        //let decoded = try! JSONDecoder().decode(codesFile.self, from: data)
-        self.cf = CodesFile_legacy(core_version: "1.0", IV: "iv")
+    init(accountsFileStruct: AccountsFileStruct) {
+        self.accountsFileStruct = accountsFileStruct
     }
     
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
-              let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data)
+              let accountsFileStruct = try? JSONDecoder().decode(AccountsFileStruct.self, from: data)
             else {
                 throw CocoaError(.fileReadCorruptFile)
         }
         
-       cf = codesFile
+        self.accountsFileStruct = accountsFileStruct
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let encoded = try! JSONEncoder().encode(cf)
+        let encoded = try! JSONEncoder().encode(accountsFileStruct)
         return FileWrapper(regularFileWithContents: encoded)
     }
     
