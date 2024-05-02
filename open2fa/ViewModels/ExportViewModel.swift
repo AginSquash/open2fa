@@ -19,6 +19,8 @@ class ExportViewModel: ObservableObject {
     @Published var encryptedFile: O2FADocument? = nil
     @Published var unEncryptedFile: O2FA_Unencrypted? = nil
     
+    private var exportedCount: Int = 0
+    
     func exportButtonAction() {
         guard Core2FA_ViewModel.isPasswordValid(password: passwordEntered) else { showError(.DecryptError); return }
         guard let salt = KeychainService.shared.getSalt() else { showError(.noSalt); return }
@@ -31,12 +33,17 @@ class ExportViewModel: ObservableObject {
         let key = CryptoService.generateKey(pass: passwordEntered, salt: salt)
         let cryptoModule = CryptoService(key: key, IV: iv)
         let accountsData = fetchedAccountsObj.compactMap({ AccountData($0, cm: cryptoModule) })
+        self.exportedCount = accountsData.count
         guard let encodedAccounts = try? JSONEncoder().encode(accountsData) else { showError(.cannotEncode); return }
         let encrypted = cryptoModule.encryptData(encodedAccounts)
         
         let accounts = AccountsFileStruct(publicEncryptData: publicED, accounts: encrypted)
         self.encryptedFile = O2FADocument(accountsFileStruct: accounts)
         self.showExportView = true
+    }
+    
+    func showSuccessAlert() {
+        self.exportResult = ExportResult(title: "Exported!", message: "Successfully exported \(exportedCount) accounts", isSuccessful: true)
     }
     
     func showError(_ type: AlertType) {
@@ -47,6 +54,8 @@ class ExportViewModel: ObservableObject {
         switch result {
         case .success(let success):
             _debugPrint(success.absoluteURL)
+            passwordEntered = ""
+            showSuccessAlert()
         case .failure(let error):
             self.exportResult = ExportResult(title: "Error", message: error.localizedDescription )
         }
@@ -58,6 +67,7 @@ extension ExportViewModel {
         let id = UUID()
         var title: String
         var message: String
+        var isSuccessful: Bool = false
     }
     
     enum AlertType: String {

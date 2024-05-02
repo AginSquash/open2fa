@@ -15,15 +15,6 @@ struct ImportView: View {
     
     @StateObject var viewModel = ImportViewModel()
     var importedSuccessfully: (Bool)->()
-    /*
-    @AppStorage("isFirstRun") var storageFirstRun: String = ""
-    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
-    
-    let fileName = "encrypted.o2fa"
-    var baseURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
-    }
-     */
     
     var body: some View {
             Form {
@@ -54,7 +45,9 @@ struct ImportView: View {
                 }
                 .navigationBarTitle("Import", displayMode: .inline)
                 .alert(item: $viewModel.alertObject) { result in
-                    Alert(title: Text(result.title), message: Text(result.message), dismissButton: .default(Text("OK"), action: {
+                    Alert(title: Text(result.title), 
+                          message: Text(result.message),
+                          dismissButton: .default(Text("OK"), action: {
                         if result.isSuccessful {
                             self.importedSuccessfully(true)
                             self.presentationMode.wrappedValue.dismiss()
@@ -64,44 +57,6 @@ struct ImportView: View {
             }
             .fileImporter(isPresented: $viewModel.showImportAction, allowedContentTypes: [UTType(filenameExtension: "o2fa")!], onCompletion: viewModel.fileImportHandler)
     }
-    
-    /*
-    func handleCheckResult(_ checkResult: FUNC_RESULT) {
-        var title = NSLocalizedString("Error", comment: "Error")
-        var message = String()
-        switch checkResult {
-        case .PASS_INCORRECT:
-            message = "Entered password is incorrect"
-            break
-        case .FILE_NOT_EXIST:
-            message = "FILE_NOT_EXIST"
-            break
-        case .CANNOT_DECODE:
-            message = "File damaged"
-            break
-        case .FILE_UNVIABLE:
-            message = "File damaged"
-            break
-        case .SUCCEFULL:
-            title = NSLocalizedString("Imported!", comment: "Imported!")
-            message =  NSLocalizedString("Your o2fa file was imported successfully!", comment: "successfully import")
-            storageFirstRun = baseURL.absoluteString
-            if isEnableLocalKeyChain {
-                storageLocalKeyChain = "true"
-                setPasswordKeychain(name: fileName, password: self.enteredPassword)
-            } else {
-                storageLocalKeyChain = "false"
-            }
-            break
-        default:
-            _debugPrint("no one")
-        }
-        if title == "Error" {
-            try? FileManager.default.removeItem(atPath: baseURL.absoluteString)
-        }
-        self.result = IVResult(title: title, message: message, isSuccessful: title == "Error" ? false : true)
-    }
-     */
 }
 
 struct ImportView_Previews: PreviewProvider {

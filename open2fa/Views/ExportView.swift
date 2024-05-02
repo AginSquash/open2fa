@@ -46,8 +46,13 @@ struct ExportView: View {
         }
         .padding([.top], 1) //Fix for bug with form in center of screen, not on top
         .navigationBarTitle("Export", displayMode: .inline)
-        .alert(item: $viewModel.exportResult) { error in
-            Alert(title: Text(error.title), message: Text(error.message), dismissButton: .default(Text("Ok"), action: { if error.title == NSLocalizedString("Success", comment: "Success") { self.presentationMode.wrappedValue.dismiss() } }) )
+        .alert(item: $viewModel.exportResult) { alert in
+            Alert(title: Text(alert.title), 
+                  message: Text(alert.message),
+                  dismissButton: 
+                    .default(Text("OK"),
+                             action: { isDismiss(alert.isSuccessful) })
+            )
         }
         .fileExporter(
             isPresented: $viewModel.showExportView,
@@ -69,7 +74,12 @@ struct ExportView: View {
                     print("Oops: \(result)")
                   } }) */
     }
-
+    
+    func isDismiss(_ input: Bool) {
+        if input {
+            presentationMode.wrappedValue.dismiss()
+        }
+    }
     
     /*
     func exportButton() {
