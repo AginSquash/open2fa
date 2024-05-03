@@ -232,6 +232,7 @@ class Core2FA_ViewModel: ObservableObject {
             return true
         }
         
+        // TODO: refactor this
         let cryptoModule = CryptoService(key: key, IV: iv)
         
         guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
@@ -302,7 +303,7 @@ class Core2FA_ViewModel: ObservableObject {
         let cryptoModel = CryptoService(key: key, IV: IV)
         let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
         guard let encoded = try? JSONEncoder().encode(accountData) else { return }
-        guard let kvc = cryptoModel.encryptData(encoded) else { return }
+        guard let kvc = cryptoModel.encryptData(iv: IV, inputData: encoded) else { return }
         
         KeychainService.shared.setKVC(kvc: kvc)
     }

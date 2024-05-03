@@ -39,7 +39,8 @@ extension AccountData {
     
     init?(_ object: AccountObject, cm: CryptoService) {
         guard let data = object.account_data else { return nil }
-        guard let decrypted = cm.decryptData(data) else { return nil }
+        let iv = [UInt8](object.iv)
+        guard let decrypted = cm.decryptData(iv: iv, inputData: data) else { return nil }
         guard let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
         self = decoded
     }

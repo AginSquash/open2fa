@@ -13,6 +13,7 @@ import IceCream
 // MARK: - AccountObject
 class AccountObject: Object {
     @Persisted(primaryKey: true) var id = NSUUID().uuidString
+    @Persisted var iv: Data
     @Persisted var account_data: Data?
     
     /// IceCream safe delete
@@ -23,8 +24,10 @@ extension AccountObject {
     convenience init(_ dto: AccountData, cm: CryptoService) {
         self.init()
         self.id = dto.id
+        let iv = CryptoService.generateIV()
+        self.iv = Data(iv)
         guard let encoded = try? JSONEncoder().encode(dto) else { self.account_data = nil; return }
-        self.account_data = cm.encryptData(encoded)
+        self.account_data = cm.encryptData(iv: iv, inputData: encoded)
     }
 }
 
