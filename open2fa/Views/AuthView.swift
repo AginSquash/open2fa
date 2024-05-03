@@ -110,11 +110,11 @@ struct AuthView: View {
                 
                 DispatchQueue.main.async {
                     if success {
-                        if let pass = getPasswordFromKeychain(name: fileName) {
-                            self.enteredPassword = pass
-                            
-                            self.isUnlocked = true
-                        }
+                        // TODO: fix this
+                       // if let pass = getPasswordFromKeychain(name: fileName) {
+                       //     self.enteredPassword = pass
+                      //      self.isUnlocked = true
+                      //  }
                     }
                 }
             }

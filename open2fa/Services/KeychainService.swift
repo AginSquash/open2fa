@@ -9,133 +9,69 @@
 import Foundation
 import KeychainAccess
 
-enum KeychainError: Error {
-    case noPassword
-    case unexpectedPasswordData
-    case unhandledError(status: OSStatus)
-}
-
-func getPasswordFromKeychain(name: String) -> String? {
-    let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-        kSecAttrService as String: "open2fa_FILE_\(name)",
-        kSecMatchLimit as String: kSecMatchLimitOne,
-        kSecReturnAttributes as String: true,
-        kSecReturnData as String: true]
-    
-    var item: CFTypeRef?
-    let status = SecItemCopyMatching(query as CFDictionary, &item)
-    guard status != errSecItemNotFound else {
-        _debugPrint("No password with name \(name)")
-        return nil
-    }
-    guard status == errSecSuccess else { fatalError("ERROR UNHANDLER") }
-    
-    guard let existingItem = item as? [String : Any],
-        let passwordData = existingItem[kSecValueData as String] as? Data,
-        let password = String(data: passwordData, encoding: String.Encoding.utf8),
-        let account = existingItem[kSecAttrAccount as String] as? String
-    else {
-        fatalError("unexpectedPasswordData")
-    }
-    return password
-}
-
-func setPasswordKeychain(name: String, password: String) {
-    let account = name
-    let passwordData = password.data(using: String.Encoding.utf8)!
-    var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                kSecAttrAccount as String: account,
-                                kSecAttrService as String: "open2fa_FILE_\(name)",
-                                kSecValueData as String: passwordData]
-    
-    let status = SecItemAdd(query as CFDictionary, nil)
-    if status == errSecDuplicateItem {
-        let attributes: [String: Any] = [kSecAttrAccount as String: account,
-                                         kSecValueData as String: passwordData]
-        
-        let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-        guard status == errSecSuccess else { fatalError("ERROR \(status)") }
-        _debugPrint("PASSWORD RENAMED with name \(name)")
-        return
-    }
-    guard status == errSecSuccess else { fatalError("ERROR \(status)") }
-    _debugPrint("PASSWORD SAVED with name \(name)")
-}
-
-func deletePasswordKeychain(name: String) {
-    
-    var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                kSecAttrAccount as String: name,
-                                kSecAttrService as String: "open2fa_FILE_\(name)"]
-                                
-    let status = SecItemDelete(query as CFDictionary)
-    guard status == errSecSuccess || status == errSecItemNotFound else { fatalError("ERROR: \(status)") }
-}
-
-
-enum KeychainTag: String {
-    case key = "key"
-    case salt = "salt"
-    case iv = "IV"
-}
-
 class KeychainService {
-    private let keychainLocal: Keychain
+    enum KTag: String {
+        case key = "key"
+        case salt = "salt"
+        case iv = "iv"
+        case kvc = "kvc"
+    }
     
+    private let keychainLocal: Keychain
     static public let shared = KeychainService()
     
     
     // IV
     func getIV() -> [UInt8]? {
-        guard let ivKC = try? keychainLocal.getData("iv") else { return nil }
+        guard let ivKC = try? keychainLocal.getData(KTag.iv.rawValue) else { return nil }
         return [UInt8](ivKC)
     }
     
     func setIV(iv: [UInt8]) {
-        keychainLocal[data: "iv"] = Data(iv)
+        keychainLocal[data: KTag.iv.rawValue] = Data(iv)
     }
     
     
     // Salt
     func getSalt() -> String? {
-        guard let saltKC = try? keychainLocal.getString("salt") else { return nil }
+        guard let saltKC = try? keychainLocal.getString(KTag.salt.rawValue) else { return nil }
         return saltKC
     }
     
     func setSalt(salt: String) {
-        keychainLocal["salt"] = salt
+        keychainLocal[KTag.salt.rawValue] = salt
     }
     
     
     // Key
     func getKey() -> [UInt8]? {
-        guard let keyKC = try? keychainLocal.getData("key") else { return nil }
+        guard let keyKC = try? keychainLocal.getData(KTag.key.rawValue) else { return nil }
         return [UInt8](keyKC)
     }
     
     func setKey(key: [UInt8]) {
-        keychainLocal[data: "key"] = Data(key)
+        keychainLocal[data: KTag.key.rawValue] = Data(key)
     }
     
     func removeKey() {
-        keychainLocal[data: "key"] = nil
+        keychainLocal[data: KTag.key.rawValue] = nil
     }
     
     // KVC
     func getKVC() -> Data? {
-        return try? keychainLocal.getData("kvc")
+        return try? keychainLocal.getData(KTag.kvc.rawValue)
     }
     
     func setKVC(kvc: Data) {
-        keychainLocal[data: "kvc"] = kvc
+        keychainLocal[data: KTag.kvc.rawValue] = kvc
     }
     
     
     // Reset on first launch TODO: Fix on first startup
     func reset() {
-        keychainLocal[data: "iv"] = nil
-        keychainLocal[data: "kvc"] = nil
-        keychainLocal["salt"] = nil
+        keychainLocal[data: KTag.iv.rawValue] = nil
+        keychainLocal[data: KTag.kvc.rawValue] = nil
+        keychainLocal[KTag.salt.rawValue] = nil
         removeKey()
     }
     
