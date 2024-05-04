@@ -36,6 +36,11 @@ All dependencies in this project are added through SPM. Links to them:
 - https://github.com/krzyzanowskim/CryptoSwift
 - https://github.com/twostraws/CodeScanner
 
+## Support
+Need help with the app? Feel free to contact me via: <br>
+Email: <vladislav.vrublevsky@gmail.com> <br>
+Telegram: http://t.me/aginsquash
+
 ## Notes
 This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
 Also i want to thank all the libraries developers and of course the wonderful SwiftUI community.
@@ -43,7 +48,7 @@ Also i want to thank all the libraries developers and of course the wonderful Sw
 
 ## License
 
-Copyright (C) 2020 Vladislav Vrublevsky <agins.main@gmail.com>
+Copyright (C) 2020 Vladislav Vrublevsky <avladislav.vrublevsky@gmail.com>
 
 This software is provided 'as-is', without any express or implied warranty.
 
