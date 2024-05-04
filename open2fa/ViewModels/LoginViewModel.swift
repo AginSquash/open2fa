@@ -57,8 +57,10 @@ class LoginViewModel: ObservableObject {
             UserDefaultsService.set(true, forKey: .alreadyInited)
         }
         
+        self.core = nil
         guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
+        self.enteredPassword = ""
         
         if isFirstRun && isEnableCloudSync {
             Task { try? await CloudKitService.uploadPublicEncryptData() }
@@ -105,8 +107,19 @@ class LoginViewModel: ObservableObject {
     
     
     func tryBiometricAuth() {
-        if isEnablelocalKeychain && !isFirstRun {
-            biometricAuth()
+        self.core = nil
+        if !isFirstRun {
+            BiometricAuthService.biometricAuth { result in
+                switch result {
+                case .successful:
+                    guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
+                    guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
+                    self.core = core
+                    self.pushMainView()
+                default:
+                    _debugPrint("Biometric error")
+                }
+            }
         }
     }
     
@@ -115,31 +128,6 @@ class LoginViewModel: ObservableObject {
             isFirstRun = false
             isEnablelocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
             tryBiometricAuth()
-        }
-    }
-    
-    private func biometricAuth() {
-        let context = LAContext()
-        let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-        
-        var error: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-            print(error?.localizedDescription ?? "Can't evaluate policy")
-            return
-        }
-        
-        Task {
-            do {
-                try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
-                DispatchQueue.main.async {
-                    guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
-                    guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
-                    self.core = core
-                    self.pushMainView()
-                }
-            } catch let error {
-                print(error.localizedDescription)
-            }
         }
     }
     

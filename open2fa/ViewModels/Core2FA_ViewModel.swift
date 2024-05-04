@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
 import GAuthDecrypt
 import CloudKit
@@ -30,6 +29,15 @@ class Core2FA_ViewModel: ObservableObject {
     
     /// Crypto
     private var cryptoModule: CryptoService
+    
+    private var willResignActiveDate: Date? = nil
+    var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
+    private var shouldPopView = false {
+        didSet {
+            self.free()
+            viewDismissalModePublisher.send(shouldPopView)
+        }
+    }
     
     private var timer: Timer?
     
@@ -126,7 +134,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.cryptoModule = CryptoService(key: key)
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        //self.syncTimer()
+        self.setObservers()
         
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
@@ -193,12 +201,44 @@ class Core2FA_ViewModel: ObservableObject {
     
     @objc func willResignActiveNotification() {
             self.isActive = false
+            self.willResignActiveDate = Date()
     }
     
     @objc func didBecomeActiveNotification() {
+        syncTimer()
+        checkShouldPopView()
         withAnimation(.easeInOut(duration: 0.2)) {
             self.isActive = true
         }
+    }
+    
+    private func checkShouldPopView() {
+        guard let willResignActiveDate = willResignActiveDate else { return }
+        if Date() > willResignActiveDate.addingTimeInterval(60.0) {
+            BiometricAuthService.biometricAuth { result in
+                switch result {
+                case .successful:
+                    self.isActive = true
+                default:
+                    self.shouldPopView = true
+                }
+            }
+        }
+    }
+    
+    private func free() {
+        self.timer?.invalidate()
+        self.notificationToken?.invalidate()
+    
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+        
+        _debugPrint("core free")
     }
     
     static func isPasswordValid(password: String) -> Bool {

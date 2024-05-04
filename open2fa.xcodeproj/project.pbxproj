@@ -51,6 +51,7 @@
 		CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763062BD998BE00234D18 /* CryptoSwift */; };
 		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
+		CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
 		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
+		CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 				CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */,
 				CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */,
 				CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */,
+				CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
 				CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */,
+				CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
 				CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */,
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,

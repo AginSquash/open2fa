@@ -121,8 +121,8 @@ struct LoginView: View {
                 if let core = vm.core {
                     NavigationLink(
                         destination:
-                            ContentView()
-                                .environmentObject(core)
+                            ContentView(core_driver: core)
+                                //.environmentObject(core)
                                 .navigationBarTitle("")
                                 .navigationBarHidden(true),
                         isActive: $vm.isUnlocked) {

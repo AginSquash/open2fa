@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject var core_driver: Core2FA_ViewModel
     
     @State private var showSheet = false
     
@@ -25,9 +26,9 @@ struct ContentView: View {
                             CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
                             .padding(.leading, 5)
                         }
+                        .animation(.default)
+                        .transition(.opacity)
                     }
-                    .animation(.default)
-                    .transition(.opacity)
                 }
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(
@@ -46,6 +47,11 @@ struct ContentView: View {
                 
             }
             .onAppear(perform: core_driver.syncTimer)
+            onReceive(core_driver.viewDismissalModePublisher) { shouldPop in
+                if shouldPop {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }
         }
 #if os(iOS) && !targetEnvironment(macCatalyst)
         .blur(radius: core_driver.isActive ? 0 : 5)
@@ -59,6 +65,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel.TestModel
         
-        return ContentView().environmentObject(core_driver)
+        return ContentView(core_driver: core_driver) //.environmentObject(core_driver)
     }
 }
