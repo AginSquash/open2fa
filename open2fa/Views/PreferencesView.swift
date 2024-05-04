@@ -63,7 +63,8 @@ struct PreferencesView: View {
                             Spacer()
                             NavigationLink(
                                 destination:
-                                    EditCodeView(service: c),
+                                    EditCodeView(service: c)
+                                    .environmentObject(core_driver),
                                 label: {
                                     Image(systemName: "square.and.pencil")
                                         .resizable()

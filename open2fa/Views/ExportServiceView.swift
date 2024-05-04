@@ -112,8 +112,8 @@ struct ExportServiceView: View {
 struct ExportServiceView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel.TestModel
-
-        let firstID = "somerandomID" //core_driver.codes.first!.id
+        
+        let firstID = core_driver.codes.first!.id //core_driver.codes.first!.id
         
         return ExportServiceView(serviceUUID: firstID, isCloseExport: .constant(false)).environmentObject(core_driver)
     }

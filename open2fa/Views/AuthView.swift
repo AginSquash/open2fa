@@ -12,14 +12,7 @@ import LocalAuthentication
 struct AuthView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
-    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
-    let fileName = "encrypted.o2fa" // wow change this
-    var baseURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
-    }
-    var isEnableLocalKeyChain: Bool {
-        return storageLocalKeyChain == "true"
-    }
+    @State var isEnableLocalKeyChain: Bool = UserDefaultsService.get(key: .storageLocalKeychainEnable)
     
     var serviceUUID: String
     
@@ -37,14 +30,13 @@ struct AuthView: View {
                 NavigationLink(
                     destination:
                         ExportServiceView(serviceUUID: serviceUUID, isCloseExport: $isCloseExport)
+                        .environmentObject(core_driver)
                         .navigationBarTitle("")
                         .navigationBarHidden(true),
                     isActive: $isUnlocked,
                                label: {
                     Button("Unlock", action: {
                         if Core2FA_ViewModel.isPasswordValid(password: self.enteredPassword) {
-                            _debugPrint(baseURL)
-                            self.core_driver.isActive = true
                             self.isUnlocked = true
                         } else {
                             self.enteredPassword = ""
@@ -96,27 +88,12 @@ struct AuthView: View {
     }
     
     func auth() {
-        guard isEnableLocalKeyChain else {
-            return
-        }
-        
-        let context = LAContext()
-        var error: NSError? = nil
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Please authenticate to unlock your codes"
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                
-                DispatchQueue.main.async {
-                    if success {
-                        // TODO: fix this
-                       // if let pass = getPasswordFromKeychain(name: fileName) {
-                       //     self.enteredPassword = pass
-                      //      self.isUnlocked = true
-                      //  }
-                    }
-                }
+        BiometricAuthService.tryBiometricAuth { result in
+            switch result {
+            case .success(let success):
+                self.isUnlocked = success
+            case .failure(let failure):
+                _debugPrint(failure.localizedDescription)
             }
         }
     }

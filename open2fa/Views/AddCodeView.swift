@@ -128,6 +128,7 @@ struct AddCodeView: View {
                         Text("Please scan your QR code or close this view for manual input.")
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
+                            .padding()
                         
                         Spacer()
                     
