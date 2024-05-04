@@ -36,6 +36,7 @@ class ImportViewModel: ObservableObject {
                     let publicED = accountsFile.publicEncryptData
                     KeychainService.shared.setSalt(salt: publicED.salt)
                     KeychainService.shared.setKVC(kvc: publicED.kvc)
+                    KeychainService.shared.setIV_KVC(iv: publicED.iv_kvc)
                     saveImportedData(accountsData: decrypted)
                     return
                 }
