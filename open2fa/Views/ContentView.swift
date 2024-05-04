@@ -45,6 +45,7 @@ struct ContentView: View {
                 }
                 
             }
+            .onAppear(perform: core_driver.syncTimer)
         }
 #if os(iOS) && !targetEnvironment(macCatalyst)
         .blur(radius: core_driver.isActive ? 0 : 5)

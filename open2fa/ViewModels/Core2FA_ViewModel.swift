@@ -126,12 +126,11 @@ class Core2FA_ViewModel: ObservableObject {
         self.cryptoModule = CryptoService(key: key)
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.syncTimer()
+        //self.syncTimer()
         
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
-        self.updateAccounts()
     }
     
     convenience init?(password: String, saveKey: Bool = false) {
@@ -170,13 +169,14 @@ class Core2FA_ViewModel: ObservableObject {
         _debugPrint("DEINT")
     }
     
-    private func syncTimer() {
+    func syncTimer() {
         let date = Date()
         let df = DateFormatter()
         df.dateFormat = "ss"
         let time = Int(df.string(from: date))!
         
         self.timeRemaning = (time > 30) ? 60 - time : 30 - time
+        self.updateAccounts()
     }
     
     func setObservers() {
