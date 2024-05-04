@@ -38,7 +38,7 @@ struct AddCodeView: View {
         }
     }
     
-    @EnvironmentObject var core: Core2FA_ViewModel
+    @StateObject var core: Core2FA_ViewModel
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
@@ -226,7 +226,7 @@ struct AddCodeView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel.TestModel
         
-        return AddCodeView().environmentObject(core_driver)
+        return AddCodeView(core: core_driver) //.environmentObject(core_driver)
     }
 }
 

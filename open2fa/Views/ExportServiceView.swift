@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ExportServiceView: View {
-    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var serviceUUID: String
@@ -115,6 +115,6 @@ struct ExportServiceView_Previews: PreviewProvider {
 
         let firstID = "somerandomID" //core_driver.codes.first!.id
         
-        return ExportServiceView(serviceUUID: firstID, isCloseExport: .constant(false)).environmentObject(core_driver)
+        return ExportServiceView(core_driver: core_driver, serviceUUID: firstID, isCloseExport: .constant(false)) //.environmentObject(core_driver)
     }
 }

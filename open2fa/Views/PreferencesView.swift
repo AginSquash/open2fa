@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PreferencesView: View {
 
-    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject var core_driver: Core2FA_ViewModel
     @StateObject private var viewModel = PreferencesViewModel()
     
     @State private var chosenForDelete: AccountCurrentCode? = nil
@@ -63,7 +63,7 @@ struct PreferencesView: View {
                             Spacer()
                             NavigationLink(
                                 destination:
-                                    EditCodeView(service: c),
+                                    EditCodeView(core_driver: core_driver, service: c),
                                 label: {
                                     Image(systemName: "square.and.pencil")
                                         .resizable()
@@ -136,6 +136,6 @@ struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel.TestModel
         
-        return PreferencesView().environmentObject(core_driver)
+        return PreferencesView(core_driver: core_driver) //.environmentObject(core_driver)
     }
 }

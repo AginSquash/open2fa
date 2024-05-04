@@ -10,7 +10,7 @@ import SwiftUI
 import XCTest
 
 struct EditCodeView: View {
-    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject var core_driver: Core2FA_ViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -69,7 +69,7 @@ struct EditCodeView: View {
             Alert(title: Text("Error!"), message: Text(error), dismissButton: .default(Text("Ok")))
         }
         .sheet(isPresented: $showAuth, content: {
-            AuthView(serviceUUID: service.id)
+            AuthView(core_driver: core_driver, serviceUUID: service.id)
         })
     }
     
@@ -140,8 +140,9 @@ struct EditCodeView: View {
         self.showAuth = true
     }
     
-    init(service: AccountCurrentCode) {
+    init(core_driver: Core2FA_ViewModel, service: AccountCurrentCode) {
         self.service = service
+        self._core_driver = StateObject(wrappedValue: core_driver)
         
         self._name = State(wrappedValue: service.name)
         self._issuer = State(wrappedValue: service.issuer)
@@ -163,6 +164,6 @@ struct EditCodeView_Previews: PreviewProvider {
         //core_driver.DEBUG()
         let service = AccountCurrentCode(id: "id", type: .TOTP, name: "Name", issuer: "Issuer", currentCode: "code", creation_date: Date())
         
-        return EditCodeView(service: service).environmentObject(core_driver)
+        return EditCodeView(core_driver: core_driver, service: service) //.environmentObject(core_driver)
     }
 }

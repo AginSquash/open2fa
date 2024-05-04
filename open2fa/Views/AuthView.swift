@@ -10,7 +10,7 @@ import SwiftUI
 import LocalAuthentication
 
 struct AuthView: View {
-    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
     @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
     let fileName = "encrypted.o2fa" // wow change this
@@ -36,7 +36,7 @@ struct AuthView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 NavigationLink(
                     destination:
-                        ExportServiceView(serviceUUID: serviceUUID, isCloseExport: $isCloseExport)
+                        ExportServiceView(core_driver: core_driver, serviceUUID: serviceUUID, isCloseExport: $isCloseExport)
                         .navigationBarTitle("")
                         .navigationBarHidden(true),
                     isActive: $isUnlocked,
@@ -128,6 +128,6 @@ struct AuthView_Previews: PreviewProvider {
 
         let firstID = core_driver.codes.first!.id
         
-        return AuthView(serviceUUID: firstID).environmentObject(core_driver)
+        return AuthView(core_driver: core_driver, serviceUUID: firstID)//.environmentObject(core_driver)
     }
 }
