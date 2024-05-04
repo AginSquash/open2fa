@@ -114,16 +114,16 @@ class Core2FA_ViewModel: ObservableObject {
         
         // IV
         var iv: [UInt8]
-        let ivKC: [UInt8]? = KeychainService.shared.getIV()
+        let ivKC: [UInt8]? = KeychainService.shared.getIV_KVC()
         if ivKC == nil {
             iv = CryptoService.generateIV()
-            KeychainService.shared.setIV(iv: iv)
+            KeychainService.shared.setIV_KVC(iv: iv)
         } else {
             iv = ivKC!
         }
         
         self.storage = StorageService.shared
-        self.cryptoModule = CryptoService(key: key, IV: iv)
+        self.cryptoModule = CryptoService(key: key)
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         self.syncTimer()
@@ -218,24 +218,24 @@ class Core2FA_ViewModel: ObservableObject {
         let key = CryptoService.generateKey(pass: password, salt: salt)
         
         // IV
-        var iv: [UInt8]
-        let ivKC: [UInt8]? = KeychainService.shared.getIV()
+        var iv_kvc: [UInt8]
+        let ivKC: [UInt8]? = KeychainService.shared.getIV_KVC()
         if ivKC == nil {
-            iv = CryptoService.generateIV()
-            KeychainService.shared.setIV(iv: iv)
+            iv_kvc = CryptoService.generateIV()
+            KeychainService.shared.setIV_KVC(iv: iv_kvc)
         } else {
-            iv = ivKC!
+            iv_kvc = ivKC!
         }
         
         guard let kvc = KeychainService.shared.getKVC() else { 
-            Core2FA_ViewModel.saveKVC(key: key, IV: iv)
+            Core2FA_ViewModel.saveKVC(key: key, iv_kvc: iv_kvc)
             return true
         }
         
         // TODO: refactor this
-        let cryptoModule = CryptoService(key: key, IV: iv)
+        let cryptoModule = CryptoService(key: key)
         
-        guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
+        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }
         let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
         _debugPrint("decoded kvc: \(decoded)")
         return decoded != nil
@@ -255,23 +255,23 @@ class Core2FA_ViewModel: ObservableObject {
         }
         
         // IV
-        var iv: [UInt8]
-        let ivKC: [UInt8]? = KeychainService.shared.getIV()
+        var iv_kvc: [UInt8]
+        let ivKC: [UInt8]? = KeychainService.shared.getIV_KVC()
         if ivKC == nil {
-            iv = CryptoService.generateIV()
-            KeychainService.shared.setIV(iv: iv)
+            iv_kvc = CryptoService.generateIV()
+            KeychainService.shared.setIV_KVC(iv: iv_kvc)
         } else {
-            iv = ivKC!
+            iv_kvc = ivKC!
         }
         
         guard let kvc = KeychainService.shared.getKVC() else {
-            Core2FA_ViewModel.saveKVC(key: key, IV: iv)
+            Core2FA_ViewModel.saveKVC(key: key, iv_kvc: iv_kvc)
             return true
         }
         
-        let cryptoModule = CryptoService(key: key, IV: iv)
+        let cryptoModule = CryptoService(key: key)
         
-        guard let decrypted = cryptoModule.decryptData(kvc) else { return false }
+        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }
         let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
         _debugPrint("decoded kvc: \(decoded)")
         return decoded != nil
@@ -299,11 +299,11 @@ class Core2FA_ViewModel: ObservableObject {
         return count
     }
         
-    static func saveKVC(key: [UInt8], IV: [UInt8]) {
-        let cryptoModel = CryptoService(key: key, IV: IV)
+    static func saveKVC(key: [UInt8], iv_kvc: [UInt8]) {
+        let cryptoModel = CryptoService(key: key)
         let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
         guard let encoded = try? JSONEncoder().encode(accountData) else { return }
-        guard let kvc = cryptoModel.encryptData(iv: IV, inputData: encoded) else { return }
+        guard let kvc = cryptoModel.encryptData(iv: iv_kvc, inputData: encoded) else { return }
         
         KeychainService.shared.setKVC(kvc: kvc)
     }

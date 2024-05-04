@@ -24,20 +24,21 @@ class ExportViewModel: ObservableObject {
     func exportButtonAction() {
         guard Core2FA_ViewModel.isPasswordValid(password: passwordEntered) else { showError(.DecryptError); return }
         guard let salt = KeychainService.shared.getSalt() else { showError(.noSalt); return }
-        guard let iv = KeychainService.shared.getIV() else { showError(.noIV); return }
+        guard let iv_publicED = KeychainService.shared.getIV_KVC() else { showError(.noIV); return }
         guard let kvc = KeychainService.shared.getKVC() else { showError(.noKVC); return }
         
-        let publicED = PublicEncryptData(salt: salt, iv: iv, kvc: kvc)
+        let publicED = PublicEncryptData(salt: salt, iv_kvc: iv_publicED, kvc: kvc)
         let fetchedAccountsObj = storage.fetch(by: AccountObject.self)
         
         let key = CryptoService.generateKey(pass: passwordEntered, salt: salt)
-        let cryptoModule = CryptoService(key: key, IV: iv)
+        let cryptoModule = CryptoService(key: key)
         let accountsData = fetchedAccountsObj.compactMap({ AccountData($0, cm: cryptoModule) })
         self.exportedCount = accountsData.count
         guard let encodedAccounts = try? JSONEncoder().encode(accountsData) else { showError(.cannotEncode); return }
-        let encrypted = cryptoModule.encryptData(encodedAccounts)
+        let iv = CryptoService.generateIV()
+        let encrypted = cryptoModule.encryptData(iv: iv, inputData: encodedAccounts)
         
-        let accounts = AccountsFileStruct(publicEncryptData: publicED, accounts: encrypted)
+        let accounts = AccountsFileStruct(publicEncryptData: publicED, iv: iv, accounts: encrypted)
         self.encryptedFile = O2FADocument(accountsFileStruct: accounts)
         self.showExportView = true
     }

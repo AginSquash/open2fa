@@ -35,7 +35,6 @@ class ImportViewModel: ObservableObject {
                     guard let decrypted = decryptFile(accountsFile: accountsFile, pass: enteredPassword) else { showError(.DecryptError); return }
                     let publicED = accountsFile.publicEncryptData
                     KeychainService.shared.setSalt(salt: publicED.salt)
-                    KeychainService.shared.setIV(iv: publicED.iv)
                     KeychainService.shared.setKVC(kvc: publicED.kvc)
                     saveImportedData(accountsData: decrypted)
                     return
@@ -78,17 +77,17 @@ class ImportViewModel: ObservableObject {
         let salt = accountsFile.publicEncryptData.salt
         let key = CryptoService.generateKey(pass: pass, salt: salt)
         
-        let iv = accountsFile.publicEncryptData.iv
-        let cryptoModule = CryptoService(key: key, IV: iv)
+        let cryptoModule = CryptoService(key: key)
+        let iv = accountsFile.iv
         
-        
-        if let accountsEncrypted =  accountsFile.accounts {
-            guard let decrypted = cryptoModule.decryptData(accountsEncrypted) else { return nil }
+        if let accountsEncrypted = accountsFile.accounts {
+            guard let decrypted = cryptoModule.decryptData(iv: iv, inputData: accountsEncrypted) else { return nil }
             return try? JSONDecoder().decode([AccountData].self, from: decrypted)
         }
         
         let kvc = accountsFile.publicEncryptData.kvc
-        guard let decrypted = cryptoModule.decryptData(kvc) else { return nil }
+        let iv_kvc = accountsFile.publicEncryptData.iv_kvc
+        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return nil }
         guard let _ = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
         return []
     }

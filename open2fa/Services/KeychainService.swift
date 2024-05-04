@@ -13,7 +13,7 @@ class KeychainService {
     enum KTag: String {
         case key = "key"
         case salt = "salt"
-        case iv = "iv"
+        case iv_kvc = "iv_kvc"
         case kvc = "kvc"
     }
     
@@ -22,13 +22,13 @@ class KeychainService {
     
     
     // IV
-    func getIV() -> [UInt8]? {
-        guard let ivKC = try? keychainLocal.getData(KTag.iv.rawValue) else { return nil }
+    func getIV_KVC() -> [UInt8]? {
+        guard let ivKC = try? keychainLocal.getData(KTag.iv_kvc.rawValue) else { return nil }
         return [UInt8](ivKC)
     }
     
-    func setIV(iv: [UInt8]) {
-        keychainLocal[data: KTag.iv.rawValue] = Data(iv)
+    func setIV_KVC(iv: [UInt8]) {
+        keychainLocal[data: KTag.iv_kvc.rawValue] = Data(iv)
     }
     
     
@@ -69,7 +69,7 @@ class KeychainService {
     
     // Reset on first launch TODO: Fix on first startup
     func reset() {
-        keychainLocal[data: KTag.iv.rawValue] = nil
+        keychainLocal[data: KTag.iv_kvc.rawValue] = nil
         keychainLocal[data: KTag.kvc.rawValue] = nil
         keychainLocal[KTag.salt.rawValue] = nil
         removeKey()

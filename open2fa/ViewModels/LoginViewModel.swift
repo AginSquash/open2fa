@@ -84,7 +84,7 @@ class LoginViewModel: ObservableObject {
     func restoreCloudData() {
         guard let publicED = publicEncryptData else { return }
         KeychainService.shared.setSalt(salt: publicED.salt)
-        KeychainService.shared.setIV(iv: publicED.iv)
+        KeychainService.shared.setIV_KVC(iv: publicED.iv_kvc)
         KeychainService.shared.setKVC(kvc: publicED.kvc)
         
         isEnableCloudSync = true

@@ -13,12 +13,12 @@ struct PublicEncryptData: Hashable, Codable {
     enum RecordKeys: String {
         case type = "PublicEncryptData"
         case salt
-        case iv
         case kvc
+        case iv_kvc
     }
     
     let salt: String
-    let iv: [UInt8]
+    let iv_kvc: [UInt8]
     let kvc: Data
 }
 
@@ -26,7 +26,7 @@ extension PublicEncryptData {
     var record: CKRecord {
         let record = CKRecord(recordType: Self.RecordKeys.type.rawValue)
         record[Self.RecordKeys.salt.rawValue] = salt
-        record[Self.RecordKeys.iv.rawValue] = iv
+        record[Self.RecordKeys.iv_kvc.rawValue] = iv_kvc
         record[Self.RecordKeys.kvc.rawValue] = kvc
         return record
     }
@@ -36,9 +36,9 @@ extension PublicEncryptData {
     init?(from record: CKRecord) {
         guard
             let salt = record[Self.RecordKeys.salt.rawValue] as? String,
-            let iv = record[Self.RecordKeys.iv.rawValue] as? [UInt8],
+            let iv = record[Self.RecordKeys.iv_kvc.rawValue] as? [UInt8],
             let kvc = record[Self.RecordKeys.kvc.rawValue] as? Data
         else { return nil }
-        self = .init(salt: salt, iv: iv, kvc: kvc)
+        self = .init(salt: salt, iv_kvc: iv, kvc: kvc)
     }
 }

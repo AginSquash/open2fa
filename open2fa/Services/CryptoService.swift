@@ -11,7 +11,6 @@ import CryptoSwift
 
 class CryptoService {
     private let key: [UInt8]
-    private let aes: AES
     
     static func generateKey(pass: String, salt: String) -> [UInt8] {
         let pass: [UInt8] = Array(pass.utf8)
@@ -40,14 +39,8 @@ class CryptoService {
     }
     
     // TODO: refactor this
-    init(key: [UInt8], IV: [UInt8]) {
+    init(key: [UInt8]) {
         self.key = key
-        self.aes = try! AES(key: key, blockMode: CBC(iv: IV), padding: .pkcs7)
-    }
-    
-    func encryptData(_ inputData: Data) -> Data? {
-        guard let encryptedBytes = try? aes.encrypt(inputData.bytes) else { return nil }
-        return Data(encryptedBytes)
     }
     
     func encryptData(iv: [UInt8], inputData: Data) -> Data? {
@@ -60,11 +53,6 @@ class CryptoService {
     func decryptData(iv: [UInt8], inputData: Data) -> Data? {
         let gcm = GCM(iv: iv, mode: .combined)
         guard let aes = try? AES(key: self.key, blockMode: gcm, padding: .noPadding) else { return nil }
-        guard let decryptedBytes = try? aes.decrypt(inputData.bytes) else { return nil } // pasword error?
-        return Data(decryptedBytes)
-    }
-    
-    func decryptData(_ inputData: Data) -> Data? {
         guard let decryptedBytes = try? aes.decrypt(inputData.bytes) else { return nil } // pasword error?
         return Data(decryptedBytes)
     }
