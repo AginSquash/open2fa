@@ -7,21 +7,18 @@
 //
 
 import SwiftUI
-import core_open2fa
 
 struct CodePreview: View {
     @State private var isCopied = false
     
-    let code: Account_Code
+    let code: AccountCurrentCode
     let timeRemaning: Int
     //let progress: CGFloat
     
     var codeSingle: String {
-        guard var codeSingle = code.codeSingle else {
-            return "Incorrect password"
-        }
+        var codeSingle = code.currentCode
         
-        codeSingle.insert(" ", at: codeSingle.index(codeSingle.startIndex,
+        codeSingle.insert(" ", at: code.currentCode.index(codeSingle.startIndex,
                                                     offsetBy: 3))
         return codeSingle
     }
@@ -82,7 +79,7 @@ struct CodePreview: View {
 struct CodePreview_Previews: PreviewProvider {
     static var previews: some View {
         
-        return CodePreview(code: Account_Code(id: UUID(), date: Date(), name: "Preview test", issuer: "Issuer", codeSingle: "123456"), timeRemaning: 15)
+        return CodePreview(code: AccountCurrentCode(id: NSUUID().uuidString, type: .TOTP, name: "Preview test", issuer: "Issuer", currentCode: "123456", creation_date: Date()), timeRemaning: 15)
         .previewLayout(.fixed(width: 300, height: 80))
     }
 }

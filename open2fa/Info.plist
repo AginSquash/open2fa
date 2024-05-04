@@ -34,8 +34,6 @@
 	<string>We need  access to import file</string>
 	<key>NSFileProviderPresenceUsageDescription</key>
 	<string>We need  access to import file</string>
-	<key>UIApplicationExitsOnSuspend</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -53,6 +51,11 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

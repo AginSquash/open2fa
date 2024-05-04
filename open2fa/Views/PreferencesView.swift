@@ -7,33 +7,32 @@
 //
 
 import SwiftUI
-import core_open2fa
 
 struct PreferencesView: View {
-    
-    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
+
     @EnvironmentObject var core_driver: Core2FA_ViewModel
+    @StateObject private var viewModel = PreferencesViewModel()
     
-    @State private var chosenForDelete: Account_Code? = nil
-    @State private var biometricStatusChange: Bool = false
-    @State private var isEnableLocalKeyChain = Binding<Bool>(get: { false }, set: { _ in})
-    
-    let fileName = "encrypted.o2fa"
+    @State private var chosenForDelete: AccountCurrentCode? = nil
     
     var body: some View {
             Form {
                 Section(header: Text("Settings")) {
                     NavigationLink(destination: ExportView(), label: { Text("Export") })
-                    Toggle(isOn: isEnableLocalKeyChain) {
+                    Toggle(isOn: $viewModel.isEnableLocalKeychain) {
                         Text("Enable FaceID / TouchID")
                     }
-                    if biometricStatusChange {
+                    .onChange(of: viewModel.isEnableLocalKeychain, perform: viewModel.onChangeLocalKeychain)
+                    if viewModel.showKeychainText {
                         Text("Please, restart app and enter password to appear change")
                             .foregroundColor(.secondary)
                     }
                     
-                    Button("Send to iCloud", action: sendToCloud)
-                    Button("Load from iCloud", action: loadFromCloud)
+                    Toggle(isOn: $viewModel.isEnableCloudSync) {
+                        Text("Enable Cloud Sync")
+                    }
+                    .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
+                    .disabled(!viewModel.cloudSyncAvailable)
                     
                     NavigationLink(
                         destination: CreditsView(),
@@ -50,21 +49,22 @@ struct PreferencesView: View {
                     #endif
                 }.layoutPriority(1)
                 ) {
-                    ForEach (core_driver.codes.sorted(by: { $0.date < $1.date }) ) { c in
+                    ForEach(Array(core_driver.codes.enumerated()), id: \.element) { index, c in
                         HStack {
                             VStack(alignment: .leading) {
                                 if c.issuer.isNotEmpty() {
                                     Text(c.issuer)
                                 }
                                 Text(c.name)
-                                Text(self.getWrappedDate(date: c.date))
+                                Text(self.getWrappedDate(date: c.creation_date))
                                     .foregroundColor(.secondary)
                                     .padding(.trailing, 10)
                             }
                             Spacer()
                             NavigationLink(
                                 destination:
-                                    EditCodeView(service: c),
+                                    EditCodeView(service: c)
+                                    .environmentObject(core_driver),
                                 label: {
                                     Image(systemName: "square.and.pencil")
                                         .resizable()
@@ -72,41 +72,51 @@ struct PreferencesView: View {
                                         .frame(width: 20)
                             }).frame(width: 40)
                         }
-                    }.onDelete(perform: callAlert)
+                        .swipeActions {
+                            Button(action: {
+                                callAlert(at: index)
+                            }) {
+                                Text("Delete")
+                            }
+                            .tint(.red)
+                        }
+                    }
                 }
             }
             .padding([.top], 1)
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
-            .alert(item: $chosenForDelete) { codeDelete in
-                Alert(title: Text( NSLocalizedString("Are you sure want to delete", comment: "delete verification") + " \(codeDelete.name)?"), message: Text("This action is irreversible"),
-                      primaryButton: .destructive(Text("Delete"), action: {
-                        self.core_driver.deleteService(uuid: codeDelete.id )
-                          self.chosenForDelete = nil }),
-                      secondaryButton: .cancel())
+            .alert(item: $chosenForDelete, content: deletionAlert)
+            .alert("This action will also delete all the saved data in iCloud",
+                   isPresented: $viewModel.showConfirmCloudSyncAlert) {
+                Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
+                Button("Delete from iCloud", role: .destructive, action: viewModel.disableCloud)
             }
-            .onAppear(perform: {
-                isEnableLocalKeyChain = Binding<Bool>(
-                    get: {
-                        let value = UserDefaults.standard.string(forKey: "isEnableLocalKeyChain")
-                        return value != "false" && value != ""
-                        },
-                    set: { changeTo in
-                        if changeTo == false {
-                            UserDefaults.standard.set("false", forKey: "isEnableLocalKeyChain")
-                            deletePasswordKeychain(name: fileName)
-                        } else {
-                            withAnimation { biometricStatusChange = true }
-                            UserDefaults.standard.set("true", forKey: "isEnableLocalKeyChain")
-                        }
-                        })
+            .alert("Found iCloud data",
+                   isPresented: $viewModel.showDeleteCloudAlert,
+                   actions: {
+                Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
+                Button("Delete data from iCloud", role: .destructive,
+                       action: viewModel.deleteFromCloudAndEnableSync)
+                    },
+                   message: {
+                Text("You already have data in iCloud. To continue, you must delete the data from the cloud.")
             })
     }
     
-
+    func deletionAlert(_ codeDelete: AccountCurrentCode) -> Alert {
+        Alert(title: Text("Are you sure want to delete \(codeDelete.name)?"),
+              message: Text("This action is irreversible"),
+              primaryButton:
+                .destructive(Text("Delete"), action: {
+                    self.core_driver.deleteService(uuid: codeDelete.id )
+                    self.chosenForDelete = nil
+                }),
+                secondaryButton: .cancel())
+    }
     
-    func callAlert(at offset: IndexSet) {
-        self.chosenForDelete = core_driver.codes[offset.first!]
+    func callAlert(at offset: Int) {
+        self.chosenForDelete = core_driver.codes[offset]
     }
     
     func getWrappedDate(date: Date) -> String {
@@ -114,19 +124,6 @@ struct PreferencesView: View {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
-    
-    }
-    
-    func sendToCloud() {
-        let uploadTask = Task {
-            try? await core_driver.uploadDataToCloud()
-        }
-    }
-    
-    func loadFromCloud() {
-        let loadTask = Task {
-            try? await core_driver.loadCloudStoreData()
-        }
     }
 }
 
@@ -138,9 +135,7 @@ extension String {
 
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
-
-        core_driver.DEBUG()
+        let core_driver = Core2FA_ViewModel.TestModel
         
         return PreferencesView().environmentObject(core_driver)
     }
