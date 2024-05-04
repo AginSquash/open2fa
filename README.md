@@ -42,8 +42,8 @@ Email: <vladislav.vrublevsky@gmail.com> <br>
 Telegram: http://t.me/aginsquash
 
 ## Notes
-This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
-Also i want to thank all the libraries developers and of course the wonderful SwiftUI community.
+This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/). <br>
+I'd also like to thank all the library developers and of course the wonderful SwiftUI community.
 
 
 ## License
