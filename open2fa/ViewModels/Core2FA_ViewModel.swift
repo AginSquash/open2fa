@@ -215,7 +215,7 @@ class Core2FA_ViewModel: ObservableObject {
     private func checkShouldPopView() {
         guard let willResignActiveDate = willResignActiveDate else { return }
         if Date() > willResignActiveDate.addingTimeInterval(60.0) {
-            BiometricAuthService.biometricAuth { result in
+            BiometricAuthService.tryBiometricAuth { result in
                 switch result {
                 case .successful:
                     self.isActive = true

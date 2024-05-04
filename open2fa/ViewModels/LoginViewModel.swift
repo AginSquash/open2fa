@@ -109,7 +109,7 @@ class LoginViewModel: ObservableObject {
     func tryBiometricAuth() {
         self.core = nil
         if !isFirstRun {
-            BiometricAuthService.biometricAuth { result in
+            BiometricAuthService.tryBiometricAuth { result in
                 switch result {
                 case .successful:
                     guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
