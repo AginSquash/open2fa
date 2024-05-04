@@ -48,7 +48,7 @@ Also i want to thank all the libraries developers and of course the wonderful Sw
 
 ## License
 
-Copyright (C) 2020 Vladislav Vrublevsky <avladislav.vrublevsky@gmail.com>
+Copyright (C) 2020 Vladislav Vrublevsky <vladislav.vrublevsky@gmail.com>
 
 This software is provided 'as-is', without any express or implied warranty.
 
