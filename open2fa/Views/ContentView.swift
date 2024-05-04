@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-   // @EnvironmentObject var core_driver: Core2FA_ViewModel
-    @StateObject var core_driver: Core2FA_ViewModel
-    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject var core_driver: Core2FA_ViewModel
+    
     @State private var showSheet = false
     
     var body: some View {
@@ -33,9 +32,9 @@ struct ContentView: View {
                 .navigationBarTitle("Open 2FA")
                 .navigationBarItems(
                     leading:
-                        NavigationLink(destination: PreferencesView(core_driver: core_driver) , label: { Text("Preferences") }),
+                        NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
                     trailing:
-                                        NavigationLink(destination: AddCodeView(core: core_driver), label: { Text("Add") }) )
+                        NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
                 
                 if core_driver.codes.count == 0 {
                     Text("Add your accounts using the button above")
@@ -47,12 +46,6 @@ struct ContentView: View {
                 
             }
             .onAppear(perform: core_driver.syncTimer)
-            .onReceive(core_driver.viewDismissalModePublisher) { shouldPop in
-                if shouldPop {
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-            }
-            .animation(.none)
         }
 #if os(iOS) && !targetEnvironment(macCatalyst)
         .blur(radius: core_driver.isActive ? 0 : 5)
@@ -66,6 +59,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let core_driver = Core2FA_ViewModel.TestModel
         
-        return ContentView(core_driver: core_driver)
+        return ContentView().environmentObject(core_driver)
     }
 }

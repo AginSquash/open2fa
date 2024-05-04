@@ -14,65 +14,65 @@ func _debugPrint(_ obj: Any) {
 }
 
 struct LoginView: View {
-    @StateObject private var vm = LoginViewModel()
+    @ObservedObject private var vm = LoginViewModel()
         
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 VStack {
-                    VStack(alignment: .trailing, spacing: 0) {
-                        HStack {
-                            Image("LogoIcon")
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            VStack {
-                                Text("Open2FA")
-                                    .font(.title)
-                                Text("by Vlad Vrublevsky")
-                                    .foregroundColor(.secondary)
-                                    .font(.footnote)
-                            }
-                        }
-                    }
-                    .frame(height: geo.size.height / 10)
-                    .padding(.top, geo.size.height / 20)
-                    .padding(.bottom, 10)
-                
-                    Group {
-                        Spacer()
-                        if vm.isFirstRun {
-                            Text("For start using Open2FA, create a password")
-                                .multilineTextAlignment(.center)
-                                .lineLimit(2)
-                                .layoutPriority(1)
-                                .padding(.top, 5)
-                                .padding(.bottom, geo.size.height / 50 )
-                            SecureField("Please create password", text: $vm.enteredPassword)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            SecureField("Re-enter password", text: $vm.enteredPasswordSecond)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            
-                            VStack {
-                                if !vm.availableBiometricAuth.isEmpty {
+                        VStack(alignment: .trailing, spacing: 0) {
+                             HStack {
+                                 Image("LogoIcon")
+                                     .resizable()
+                                     .frame(width: 60, height: 60)
+                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                 VStack {
+                                     Text("Open2FA")
+                                     .font(.title)
+                                     Text("by Vlad Vrublevsky")
+                                         .foregroundColor(.secondary)
+                                         .font(.footnote)
+                                 }
+                             }
+                         }
+                        .frame(height: geo.size.height / 10)
+                        .padding(.top, geo.size.height / 20)
+                        .padding(.bottom, 10)
+                    
+                        Group {
+                            Spacer()
+                            if vm.isFirstRun {
+                                Text("For start using Open2FA, create a password")
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(2)
+                                    .layoutPriority(1)
+                                    .padding(.top, 5)
+                                    .padding(.bottom, geo.size.height / 50 )
+                                SecureField("Please create password", text: $vm.enteredPassword)
+                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                SecureField("Re-enter password", text: $vm.enteredPasswordSecond)
+                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                
+                                VStack {
+                                    if !vm.availableBiometricAuth.isEmpty {
+                                        Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
+                                    }
+                                    Toggle("☁️ Enable iCloud", isOn: $vm.isEnableCloudSync)
+                                        .disabled(!vm.cloudSyncAvailable)
+                                    
+                                }
+                            }  else {
+                                Text("Please, enter your password")
+                                    .padding(.bottom, geo.size.height / 50 )
+                                SecureField("Password", text: $vm.enteredPassword)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                           
+                                if (vm.isLoadedFromCloud) && (!vm.availableBiometricAuth.isEmpty) {
                                     Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
                                 }
-                                Toggle("☁️ Enable iCloud", isOn: $vm.isEnableCloudSync)
-                                    .disabled(!vm.cloudSyncAvailable)
-                                
                             }
-                        }  else {
-                            Text("Please, enter your password")
-                                .padding(.bottom, geo.size.height / 50 )
-                            SecureField("Password", text: $vm.enteredPassword)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            
-                            if (vm.isLoadedFromCloud) && (!vm.availableBiometricAuth.isEmpty) {
-                                Toggle("🔐 Enable \(vm.availableBiometricAuth)", isOn: $vm.isEnablelocalKeychain.animation(.default))
-                            }
-                        }
-                    }.padding(.horizontal)
-                    
+                        }.padding(.horizontal)
+                        
                     VStack {
                         Button(action: vm.loginButtonAction, label: {
                             VStack {
@@ -81,7 +81,7 @@ struct LoginView: View {
                             }
                         })
                         .disabled(vm.isDisableLoginButton)
-                        
+                                                
                         if !vm.isFirstRun && vm.isEnablelocalKeychain {
                             VStack {
                                 Text("- or -")
@@ -102,32 +102,33 @@ struct LoginView: View {
                     }
                     
                     if vm.isFirstRun {
-                        VStack {
-                            Spacer(minLength: 5)
-                            Text("Already used Open2fa?")
-                            NavigationLink("Import", destination: ImportView( importedSuccessfully: vm.importHandler))
-                                .padding(.bottom, geo.size.height / 15)
+                            VStack {
+                                Spacer(minLength: 5)
+                                Text("Already used Open2fa?")
+                                NavigationLink("Import", destination: ImportView( importedSuccessfully: vm.importHandler))
+                                    .padding(.bottom, geo.size.height / 15)
+                            }
+                        } else {
+                            Spacer()
+                                .frame(height: geo.size.height / 10)
+                                .padding(.bottom, geo.size.height / 20)
                         }
-                    } else {
-                        Spacer()
-                            .frame(height: geo.size.height / 10)
-                            .padding(.bottom, geo.size.height / 20)
                     }
-                }
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
+                    .navigationBarTitle("")
+                    .navigationBarHidden(true)
                 
                 // Programmatically push to main view
                 if let core = vm.core {
                     NavigationLink(
                         destination:
-                            ContentView(core_driver: core)
-                            .navigationBarTitle("")
-                            .navigationBarHidden(true),
+                            ContentView()
+                                .environmentObject(core)
+                                .navigationBarTitle("")
+                                .navigationBarHidden(true),
                         isActive: $vm.isUnlocked) {
                             Text("Programmatically push view")
                         }
-                        .hidden()
+                    .hidden()
                 }
             }
         }

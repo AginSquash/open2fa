@@ -57,10 +57,8 @@ class LoginViewModel: ObservableObject {
             UserDefaultsService.set(true, forKey: .alreadyInited)
         }
         
-        self.core = nil
         guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
-        self.enteredPassword = ""
         
         if isFirstRun && isEnableCloudSync {
             Task { try? await CloudKitService.uploadPublicEncryptData() }
@@ -121,7 +119,6 @@ class LoginViewModel: ObservableObject {
     }
     
     private func biometricAuth() {
-        self.core = nil
         let context = LAContext()
         let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
         

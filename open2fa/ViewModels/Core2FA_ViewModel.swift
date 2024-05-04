@@ -14,7 +14,6 @@ import CloudKit
 import RealmSwift
 import SwiftOTP
 import Combine
-import LocalAuthentication
 
 class Core2FA_ViewModel: ObservableObject {
     
@@ -24,16 +23,7 @@ class Core2FA_ViewModel: ObservableObject {
     @Published var progress: CGFloat = 1.0
 
     private var accountsData = [AccountData]()
-    
-    private var willResignActiveDate: Date? = nil
-    var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
-    private var shouldPopView = false {
-        didSet {
-            self.free()
-            viewDismissalModePublisher.send(shouldPopView)
-        }
-    }
-    
+
     /// Realm
     private var storage: StorageService
     var notificationToken: NotificationToken?
@@ -51,24 +41,6 @@ class Core2FA_ViewModel: ObservableObject {
             self.codes = self.getOTPList()
         }
         progress = CGFloat( Double(timeRemaning) / 30 )
-    }
-    
-    
-    private func free() {
-        notificationToken?.invalidate()
-        timer?.invalidate()
-        //timer = nil
-       // notificationToken = nil
-        
-        NotificationCenter.default.removeObserver(self,
-            name: UIApplication.willResignActiveNotification,
-            object: nil)
-        
-        NotificationCenter.default.removeObserver(self,
-            name: UIApplication.didBecomeActiveNotification,
-            object: nil)
-        
-        _debugPrint("core free")
     }
     
     func getOTPList() -> [AccountCurrentCode] {
@@ -154,7 +126,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.cryptoModule = CryptoService(key: key)
         
         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        self.setObservers()
+        //self.syncTimer()
         
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
@@ -183,7 +155,7 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     deinit {
-        self.timer?.invalidate()
+        self.timer = nil
         self.notificationToken?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
@@ -220,46 +192,12 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     @objc func willResignActiveNotification() {
-        self.isActive = false
-        self.willResignActiveDate = Date()
+            self.isActive = false
     }
     
     @objc func didBecomeActiveNotification() {
-        checkShouldPopView()
         withAnimation(.easeInOut(duration: 0.2)) {
             self.isActive = true
-        }
-    }
-    
-    private func checkShouldPopView() {
-        guard let willResignActiveDate = willResignActiveDate else { return }
-        if (Date() > willResignActiveDate.addingTimeInterval(5.0)) && !isActive {
-            biometricAuth()
-        }
-    }
-    
-    private func biometricAuth() {
-        let context = LAContext()
-        let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-        
-        var error: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-            print(error?.localizedDescription ?? "Can't evaluate policy")
-            self.shouldPopView = true
-            return
-        }
-        
-        Task {
-            do {
-                try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
-                DispatchQueue.main.async {
-                    self.isActive = true
-                }
-            } catch let error {
-                DispatchQueue.main.async {
-                    self.shouldPopView = true
-                }
-            }
         }
     }
     
@@ -334,8 +272,15 @@ class Core2FA_ViewModel: ObservableObject {
         
         guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }
         let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
+        _debugPrint("decoded kvc: \(decoded)")
         return decoded != nil
     }
+    
+    /*
+    static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
+        return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
+    }
+     */
     
     func importFromGAuth(gauthString: String) -> Int {
      guard let decryprtedGAuth = GAuthDecryptFrom(string: gauthString) else {
