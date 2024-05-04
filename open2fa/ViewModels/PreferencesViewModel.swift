@@ -80,7 +80,6 @@ class PreferencesViewModel: ObservableObject {
         Task {
             try? await CloudKitService.deleteAllAccounts()
             try? await CloudKitService.deleteAllPublicEncryptData()
-            try? await CloudKitService.uploadPublicEncryptData()
             
             await MainActor.run {
                 self.enableCloud()
