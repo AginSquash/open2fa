@@ -232,7 +232,6 @@ class Core2FA_ViewModel: ObservableObject {
             return true
         }
         
-        // TODO: refactor this
         let cryptoModule = CryptoService(key: key)
         
         guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }

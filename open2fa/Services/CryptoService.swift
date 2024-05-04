@@ -38,7 +38,6 @@ class CryptoService {
         return iv
     }
     
-    // TODO: refactor this
     init(key: [UInt8]) {
         self.key = key
     }
