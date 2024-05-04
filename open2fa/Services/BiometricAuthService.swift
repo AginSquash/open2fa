@@ -10,22 +10,21 @@ import Foundation
 import LocalAuthentication
 
 class BiometricAuthService {
-    enum ResultBA {
-        case successful
-        case error
+    enum BAError: Error {
+        case authError
         case noBiometric
         case keychainNotSet
     }
     
-    static func tryBiometricAuth(_ completionHandler: @escaping (ResultBA)->() ) {
-        guard UserDefaultsService.get(key: .storageLocalKeychainEnable) else { completionHandler(.keychainNotSet); return }
+    static func tryBiometricAuth(_ completionHandler: @escaping (Result<Bool, BAError>)->() ) {
+        guard UserDefaultsService.get(key: .storageLocalKeychainEnable) else { completionHandler(.failure(.keychainNotSet)); return }
         let context = LAContext()
         let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
         
         var error: NSError?
         guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
             print(error?.localizedDescription ?? "Can't evaluate policy")
-            completionHandler(.noBiometric)
+            completionHandler(.failure(.noBiometric))
             return
         }
         
@@ -33,11 +32,11 @@ class BiometricAuthService {
             do {
                 try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
                 DispatchQueue.main.async {
-                    completionHandler(.successful)
+                    completionHandler(.success(true))
                 }
             } catch let error {
                 DispatchQueue.main.async {
-                    completionHandler(.error)
+                    completionHandler(.failure(.authError))
                 }
             }
         }

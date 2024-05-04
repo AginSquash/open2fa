@@ -217,7 +217,8 @@ class Core2FA_ViewModel: ObservableObject {
         if Date() > willResignActiveDate.addingTimeInterval(60.0) {
             BiometricAuthService.tryBiometricAuth { result in
                 switch result {
-                case .successful:
+                case .success(let isAuth):
+                    guard isAuth else { self.shouldPopView = true; return }
                     self.isActive = true
                 default:
                     self.shouldPopView = true

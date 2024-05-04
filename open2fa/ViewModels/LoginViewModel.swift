@@ -111,7 +111,8 @@ class LoginViewModel: ObservableObject {
         if !isFirstRun {
             BiometricAuthService.tryBiometricAuth { result in
                 switch result {
-                case .successful:
+                case .success(let isAuth):
+                    guard isAuth else { return }
                     guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
                     guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
                     self.core = core
