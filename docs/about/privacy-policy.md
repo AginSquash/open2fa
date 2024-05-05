@@ -2,7 +2,7 @@
 
 We are not interested in collecting any personal information. We believe such information is yours and yours alone. We do not store or transmit your personal details, nor do we include any advertising or analytics software that talks to third parties.
 
-All data added to the app is stored either locally on your device or on your personal iCloud.
+All data added to the app is stored either locally on your device or on your personal Cloud Drive.
 
 
 **Contact Us**
