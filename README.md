@@ -9,11 +9,11 @@
 
 Open2FA is a simple, open source two-factor authentication application written using SwiftUI. Two-step verification helps you protect your accounts, even if attackers have your password.
 
-- All your codes are stored in an encrypted file (AES-256) 🔐
-- Codes can be added by QR scanning or manually  📷
-- FaceID & TouchID support 👨‍🦱
+- All your codes are stored encrypted (AES-256) 🔐.
+- Codes can be added via QR scan or manually 📷
+- FaceID and TouchID support 👨‍🦱
 - Import and export encrypted file with codes 📲
-- Your codes are not stored in iCloud, all works locally 👩‍💻
+- You can store data as in iCloud and synchronize between devices, or store everything locally on your device 👩‍💻
 
 ### Screenshots
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1_0.95.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
@@ -29,21 +29,19 @@ Open2FA is a simple, open source two-factor authentication application written u
  2. Go to **open2fa** folder and open the **open2fa.xcodeproj** file.
  3. Wait until xcode downloads all dependencies and then run project.  
 
-
-## Dependencies
-All dependencies in this project are added through SPM. Links to them:
-- https://github.com/lachlanbell/SwiftOTP
-- https://github.com/krzyzanowskim/CryptoSwift
-- https://github.com/twostraws/CodeScanner
+## Support
+Need help with the app? Feel free to contact me via: <br>
+Email: <vladislav.vrublevsky@gmail.com> <br>
+Telegram: http://t.me/aginsquash
 
 ## Notes
-This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/)
-Also i want to thank all the libraries developers and of course the wonderful SwiftUI community.
+This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/). <br>
+I'd also like to thank all the library developers and of course the wonderful SwiftUI community.
 
 
 ## License
 
-Copyright (C) 2020 Vladislav Vrublevsky <agins.main@gmail.com>
+Copyright (C) 2024 Vladislav Vrublevsky <vladislav.vrublevsky@gmail.com>
 
 This software is provided 'as-is', without any express or implied warranty.
 

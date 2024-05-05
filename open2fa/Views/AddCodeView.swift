@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import core_open2fa
 #if os(iOS) && !targetEnvironment(macCatalyst)
 import AVFoundation
 import CodeScanner
@@ -113,8 +112,8 @@ struct AddCodeView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 VStack {
-                        CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { result in
-                            switch result {
+                        CodeScannerView(codeTypes: [.qr], simulatedData: "otpauth://totp/Test?secret=2fafa") { alertObject in
+                            switch alertObject {
                             case .success(let code):
                                 self.showScaner = false
                                 handleCode(code: code)
@@ -129,6 +128,7 @@ struct AddCodeView: View {
                         Text("Please scan your QR code or close this view for manual input.")
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
+                            .padding()
                         
                         Spacer()
                     
@@ -225,7 +225,8 @@ struct AddCodeView: View {
 
 struct AddCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel.TestModel
+        
         return AddCodeView().environmentObject(core_driver)
     }
 }

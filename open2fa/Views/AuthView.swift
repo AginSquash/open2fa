@@ -12,16 +12,9 @@ import LocalAuthentication
 struct AuthView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
-    @AppStorage("isEnableLocalKeyChain") var storageLocalKeyChain: String = ""
-    let fileName = "encrypted.o2fa" // wow change this
-    var baseURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
-    }
-    var isEnableLocalKeyChain: Bool {
-        return storageLocalKeyChain == "true"
-    }
+    @State var isEnableLocalKeyChain: Bool = UserDefaultsService.get(key: .storageLocalKeychainEnable)
     
-    var serviceUUID: UUID
+    var serviceUUID: String
     
     @State private var enteredPassword: String = ""
     @State private var isUnlocked: Bool = false
@@ -37,14 +30,13 @@ struct AuthView: View {
                 NavigationLink(
                     destination:
                         ExportServiceView(serviceUUID: serviceUUID, isCloseExport: $isCloseExport)
+                        .environmentObject(core_driver)
                         .navigationBarTitle("")
                         .navigationBarHidden(true),
                     isActive: $isUnlocked,
                                label: {
                     Button("Unlock", action: {
-                        if Core2FA_ViewModel.isPasswordCorrect(fileURL: self.baseURL, password: self.enteredPassword) {
-                            _debugPrint(baseURL)
-                            self.core_driver.isActive = true
+                        if Core2FA_ViewModel.isPasswordValid(password: self.enteredPassword) {
                             self.isUnlocked = true
                         } else {
                             self.enteredPassword = ""
@@ -96,27 +88,12 @@ struct AuthView: View {
     }
     
     func auth() {
-        guard isEnableLocalKeyChain else {
-            return
-        }
-        
-        let context = LAContext()
-        var error: NSError? = nil
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Please authenticate to unlock your codes"
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                
-                DispatchQueue.main.async {
-                    if success {
-                        if let pass = getPasswordFromKeychain(name: fileName) {
-                            self.enteredPassword = pass
-                            
-                            self.isUnlocked = true
-                        }
-                    }
-                }
+        BiometricAuthService.tryBiometricAuth { result in
+            switch result {
+            case .success(let success):
+                self.isUnlocked = success
+            case .failure(let failure):
+                _debugPrint(failure.localizedDescription)
             }
         }
     }
@@ -124,9 +101,8 @@ struct AuthView: View {
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
+        let core_driver = Core2FA_ViewModel.TestModel
 
-        core_driver.DEBUG()
         let firstID = core_driver.codes.first!.id
         
         return AuthView(serviceUUID: firstID).environmentObject(core_driver)

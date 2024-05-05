@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */; };
+		CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
+		CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = CD188EBE2BD88CB00029D7E0 /* KeychainAccess */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
+		CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */; };
+		CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
 		CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */; };
 		CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */; };
@@ -23,25 +28,42 @@
 		CD87B4DC246F53B900E04D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */; };
 		CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D71B324A3B7BA00A2C133 /* ImportView.swift */; };
 		CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8D71B524A3B7CE00A2C133 /* ExportView.swift */; };
-		CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */; };
+		CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */; };
 		CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = CD9A8F2825B6F58C00DFD47F /* CodeScanner */; };
 		CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA02C92263ACCFE0097882E /* CreditsView.swift */; };
+		CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */; };
+		CDA74CC22BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */; };
+		CDA74CC62BE1E05F007C8D62 /* ImportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC52BE1E05F007C8D62 /* ImportViewModel.swift */; };
+		CDA74CC82BE1F87E007C8D62 /* AccountsFileStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */; };
+		CDA74CCC2BE30058007C8D62 /* ExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CCB2BE30058007C8D62 /* ExportViewModel.swift */; };
+		CDA74CD02BE45179007C8D62 /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA74CCF2BE45179007C8D62 /* PreferencesViewModel.swift */; };
 		CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */; };
 		CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB61AF42804614C001A0FA9 /* AuthView.swift */; };
-		CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */ = {isa = PBXBuildFile; productRef = CDC636F02471DC8400F10540 /* core_open2fa */; };
+		CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F52BDD453E00583AC6 /* AccountData.swift */; };
+		CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */; };
 		CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD6703124EC13C40097D45D /* TimeLeftView.swift */; };
-		CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */; };
+		CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDBFE6524A61A2000EE41AF /* KeychainService.swift */; };
+		CDDDB67A2BD5BD9B00FEB3F8 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */; };
+		CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */ = {isa = PBXBuildFile; productRef = CDDDB67C2BD5C30600FEB3F8 /* IceCream */; };
+		CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */; };
+		CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */; };
+		CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763032BD996DF00234D18 /* SwiftOTP */; };
+		CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763062BD998BE00234D18 /* CryptoSwift */; };
+		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
+		CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
+		CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		CD20FCCF24D0F175008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CD20FCD724D0F938008F5E6A /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		CD20FCD824D0F938008F5E6A /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
 		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicEncryptData.swift; sourceTree = "<group>"; };
 		CD6786FA24AB7F3C00422233 /* open2fa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = open2fa.entitlements; sourceTree = "<group>"; };
 		CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core2FA_ViewModel.swift; sourceTree = "<group>"; };
 		CD7CA0EE248AD35800EA9B4B /* CodePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePreview.swift; sourceTree = "<group>"; };
@@ -56,13 +78,26 @@
 		CD87B4DD246F53B900E04D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD8D71B324A3B7BA00A2C133 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		CD8D71B524A3B7CE00A2C133 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
-		CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEnterView.swift; sourceTree = "<group>"; };
+		CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CDA02C92263ACCFE0097882E /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudImportView.swift; sourceTree = "<group>"; };
+		CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthentication+BiometricType.swift"; sourceTree = "<group>"; };
+		CDA74CC52BE1E05F007C8D62 /* ImportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewModel.swift; sourceTree = "<group>"; };
+		CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsFileStruct.swift; sourceTree = "<group>"; };
+		CDA74CCB2BE30058007C8D62 /* ExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewModel.swift; sourceTree = "<group>"; };
+		CDA74CCF2BE45179007C8D62 /* PreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewModel.swift; sourceTree = "<group>"; };
 		CDB61AF22804572D001A0FA9 /* ExportServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceView.swift; sourceTree = "<group>"; };
 		CDB61AF42804614C001A0FA9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		CDD361F52BDD453E00583AC6 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
+		CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCurrentCode.swift; sourceTree = "<group>"; };
 		CDD6703124EC13C40097D45D /* TimeLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftView.swift; sourceTree = "<group>"; };
-		CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		CDDBFE6524A61A2000EE41AF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
+		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
+		CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +107,11 @@
 			files = (
 				CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */,
 				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
-				CDC636F12471DC8400F10540 /* core_open2fa in Frameworks */,
+				CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */,
+				CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */,
+				CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */,
 				CD9A8F2925B6F58C00DFD47F /* CodeScanner in Frameworks */,
+				CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,13 +138,14 @@
 		CD87B4CE246F53B800E04D70 /* open2fa */ = {
 			isa = PBXGroup;
 			children = (
+				CDD361F92BDD45C100583AC6 /* Services */,
+				CDDDB6732BD5BB3A00FEB3F8 /* Models */,
+				CDD361F42BDD450400583AC6 /* ViewModels */,
+				CDB6AB8624D6E91E00F552E7 /* Views */,
+				CDA74CC02BE08E98007C8D62 /* Extensions */,
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
-				CDB6AB8624D6E91E00F552E7 /* Views */,
-				CDDBFE6524A61A2000EE41AF /* KeychainWrapper.swift */,
-				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
-				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
 				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
 				CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */,
@@ -124,10 +163,18 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		CDA74CC02BE08E98007C8D62 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		CDB6AB8624D6E91E00F552E7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CD8DEC61249A5CEB00CF7F98 /* PasswordEnterView.swift */,
+				CD8DEC61249A5CEB00CF7F98 /* LoginView.swift */,
 				CD8D71B324A3B7BA00A2C133 /* ImportView.swift */,
 				CD8D71B524A3B7CE00A2C133 /* ExportView.swift */,
 				CD87B4D3246F53B800E04D70 /* ContentView.swift */,
@@ -139,6 +186,7 @@
 				CDA02C92263ACCFE0097882E /* CreditsView.swift */,
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CDD6703124EC13C40097D45D /* TimeLeftView.swift */,
+				CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -149,6 +197,45 @@
 				CD58E2E227885EA900D9047E /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CDD361F42BDD450400583AC6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD7CA0EC248AD0DA00EA9B4B /* Core2FA_ViewModel.swift */,
+				CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */,
+				CDA74CC52BE1E05F007C8D62 /* ImportViewModel.swift */,
+				CDA74CCB2BE30058007C8D62 /* ExportViewModel.swift */,
+				CDA74CCF2BE45179007C8D62 /* PreferencesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CDD361F92BDD45C100583AC6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CDDBFE6524A61A2000EE41AF /* KeychainService.swift */,
+				CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */,
+				CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */,
+				CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */,
+				CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */,
+				CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CDDDB6732BD5BB3A00FEB3F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */,
+				CDD361F52BDD453E00583AC6 /* AccountData.swift */,
+				CDD361F72BDD457000583AC6 /* AccountCurrentCode.swift */,
+				CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */,
+				CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */,
+				CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */,
+				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,9 +255,12 @@
 			);
 			name = open2fa;
 			packageProductDependencies = (
-				CDC636F02471DC8400F10540 /* core_open2fa */,
 				CD9A8F2825B6F58C00DFD47F /* CodeScanner */,
 				CD6A580028E49D930075C0CE /* GAuthDecrypt */,
+				CDDDB67C2BD5C30600FEB3F8 /* IceCream */,
+				CD188EBE2BD88CB00029D7E0 /* KeychainAccess */,
+				CDE763032BD996DF00234D18 /* SwiftOTP */,
+				CDE763062BD998BE00234D18 /* CryptoSwift */,
 			);
 			productName = open2fa;
 			productReference = CD87B4CC246F53B800E04D70 /* open2fa.app */;
@@ -199,13 +289,15 @@
 				en,
 				Base,
 				ru,
-				be,
 			);
 			mainGroup = CD87B4C3246F53B800E04D70;
 			packageReferences = (
-				CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */,
 				CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */,
+				CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */,
+				CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */,
+				CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			);
 			productRefGroup = CD87B4CD246F53B800E04D70 /* Products */;
 			projectDirPath = "";
@@ -235,23 +327,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */,
+				CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */,
+				CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */,
 				CDB61AF32804572D001A0FA9 /* ExportServiceView.swift in Sources */,
+				CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */,
+				CDDDB67A2BD5BD9B00FEB3F8 /* AccountModel.swift in Sources */,
 				CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */,
+				CDA74CD02BE45179007C8D62 /* PreferencesViewModel.swift in Sources */,
 				CD87B4D0246F53B800E04D70 /* AppDelegate.swift in Sources */,
 				CDA02C93263ACCFE0097882E /* CreditsView.swift in Sources */,
+				CDA74CC82BE1F87E007C8D62 /* AccountsFileStruct.swift in Sources */,
+				CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */,
+				CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
+				CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
-				CDDBFE6624A61A2000EE41AF /* KeychainWrapper.swift in Sources */,
+				CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */,
+				CDDBFE6624A61A2000EE41AF /* KeychainService.swift in Sources */,
 				CD87B4D4246F53B800E04D70 /* ContentView.swift in Sources */,
 				CD7CA0ED248AD0DA00EA9B4B /* Core2FA_ViewModel.swift in Sources */,
+				CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */,
+				CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */,
 				CD7CA0F1248AFC8C00EA9B4B /* AddCodeView.swift in Sources */,
-				CD8DEC62249A5CEB00CF7F98 /* PasswordEnterView.swift in Sources */,
+				CD8DEC62249A5CEB00CF7F98 /* LoginView.swift in Sources */,
 				CD8D71B424A3B7BA00A2C133 /* ImportView.swift in Sources */,
 				CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */,
+				CDA74CC22BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift in Sources */,
 				CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
+				CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
+				CDA74CCC2BE30058007C8D62 /* ExportViewModel.swift in Sources */,
+				CDA74CC62BE1E05F007C8D62 /* ImportViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +371,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				CD20FCD324D0F18D008F5E6A /* ru */,
-				CD20FCD824D0F938008F5E6A /* be */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -272,7 +380,6 @@
 			children = (
 				CD87B4DB246F53B900E04D70 /* Base */,
 				CD20FCCF24D0F175008F5E6A /* ru */,
-				CD20FCD724D0F938008F5E6A /* be */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -332,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -391,7 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -411,20 +518,20 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 180;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Open2FA;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"XCTest\"",
@@ -447,20 +554,20 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 180;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = open2fa/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Open2FA;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"XCTest\"",
@@ -500,20 +607,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AginSquash/GAuthDecrypt";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
-			};
-		};
-		CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AginSquash/core-open2fa";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
 			};
 		};
 		CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -524,9 +631,38 @@
 				minimumVersion = 1.0.7;
 			};
 		};
+		CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/leoz/IceCream/";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lachlanbell/SwiftOTP";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.2;
+			};
+		};
+		CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD188EBE2BD88CB00029D7E0 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD188EBD2BD88CB00029D7E0 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		CD6A580028E49D930075C0CE /* GAuthDecrypt */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */;
@@ -537,10 +673,20 @@
 			package = CD9A8F2725B6F58C00DFD47F /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
 		};
-		CDC636F02471DC8400F10540 /* core_open2fa */ = {
+		CDDDB67C2BD5C30600FEB3F8 /* IceCream */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CD87B4E3246F53EB00E04D70 /* XCRemoteSwiftPackageReference "core-open2fa" */;
-			productName = core_open2fa;
+			package = CDDDB67B2BD5C30600FEB3F8 /* XCRemoteSwiftPackageReference "IceCream" */;
+			productName = IceCream;
+		};
+		CDE763032BD996DF00234D18 /* SwiftOTP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */;
+			productName = SwiftOTP;
+		};
+		CDE763062BD998BE00234D18 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDE763052BD998BE00234D18 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

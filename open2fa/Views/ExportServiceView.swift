@@ -7,13 +7,12 @@
 //
 
 import SwiftUI
-import core_open2fa
 
 struct ExportServiceView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    var serviceUUID: UUID
+    var serviceUUID: String
     
     @State private var secret: String = "error!"
     @State private var QRImage: Image?
@@ -78,13 +77,14 @@ struct ExportServiceView: View {
             fatalError("Auth with incorrect pass/other")
         }
         
-        self.secret = code_secure.secret
+        self.secret = code_secure.secret.base32EncodedString
         getQRCode(cs: code_secure)
     }
     
-    func getQRCode(cs: UNPROTECTED_AccountData) {
+    func getQRCode(cs: AccountData) {
         let name = cs.name.replacingOccurrences(of: " ", with: "%20")
-        var exportText = "otpauth://totp/\(name)?secret=\(cs.secret)"
+        let secret = cs.secret.base32EncodedString
+        var exportText = "otpauth://totp/\(name)?secret=\(secret)"
         if cs.issuer.isNotEmpty() {
             exportText.append("&issuer=\(cs.issuer)")
         }
@@ -106,14 +106,14 @@ struct ExportServiceView: View {
         UIGraphicsEndImageContext();
         self.QRImage = Image(uiImage: image)
     }
+
 }
 
 struct ExportServiceView_Previews: PreviewProvider {
     static var previews: some View {
-        let core_driver = Core2FA_ViewModel(fileURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("test_file"), pass: "pass")
-
-        core_driver.DEBUG()
-        let firstID = core_driver.codes.first!.id
+        let core_driver = Core2FA_ViewModel.TestModel
+        
+        let firstID = core_driver.codes.first!.id //core_driver.codes.first!.id
         
         return ExportServiceView(serviceUUID: firstID, isCloseExport: .constant(false)).environmentObject(core_driver)
     }
