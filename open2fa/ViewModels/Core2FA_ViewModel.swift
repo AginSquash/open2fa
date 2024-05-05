@@ -112,8 +112,34 @@ class Core2FA_ViewModel: ObservableObject {
         return accountsData.first(where: { $0.id == id })
     }
     
-    func NoCrypt_ExportALLService() -> [CoreOpen2FA_AccountData] {
-        return [] //core.NoCrypt_ExportAllServicesSECRETS()
+    func importFromGAuth(gauthString: String) -> Int {
+     guard let decryprtedGAuth = GAuthDecryptFrom(string: gauthString) else {
+            return 0
+        }
+        
+        var count = 0
+        for decrypted in decryprtedGAuth {
+            if decrypted.type == .hotp { continue }
+            
+            _ = self.addAccount(name: decrypted.name, issuer: decrypted.issuer, secret: decrypted.secret)
+            count += 1
+        }
+        
+        return count
+    }
+        
+    static func saveKVC(key: [UInt8], iv_kvc: [UInt8]) {
+        let cryptoModel = CryptoService(key: key)
+        let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
+        guard let encoded = try? JSONEncoder().encode(accountData) else { return }
+        guard let kvc = cryptoModel.encryptData(iv: iv_kvc, inputData: encoded) else { return }
+        
+        KeychainService.shared.setKVC(kvc: kvc)
+    }
+    
+    public func importAccounts(accounts: [AccountData]) {
+        let accountObjects = accounts.map({ AccountObject($0, cm: cryptoModule) })
+        try? storage.saveOrUpdateAllObjects(objects: accountObjects)
     }
         
     init?(key: [UInt8], inMemory: Bool = false) {
@@ -162,8 +188,24 @@ class Core2FA_ViewModel: ObservableObject {
         self.init(key: key)
     }
     
+    
+    private func free() {
+        self.timer?.invalidate()
+        self.notificationToken?.invalidate()
+    
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        
+        NotificationCenter.default.removeObserver(self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+        
+        _debugPrint("core free")
+    }
+    
     deinit {
-        self.timer = nil
+        self.timer?.invalidate()
         self.notificationToken?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
@@ -214,7 +256,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     private func checkShouldPopView() {
         guard let willResignActiveDate = willResignActiveDate else { return }
-        if Date() > willResignActiveDate.addingTimeInterval(60.0) {
+        if Date() > willResignActiveDate.addingTimeInterval(60.0) { //TODO: add config
             BiometricAuthService.tryBiometricAuth { result in
                 switch result {
                 case .success(let isAuth):
@@ -226,22 +268,11 @@ class Core2FA_ViewModel: ObservableObject {
             }
         }
     }
-    
-    private func free() {
-        self.timer?.invalidate()
-        self.notificationToken?.invalidate()
-    
-        NotificationCenter.default.removeObserver(self,
-            name: UIApplication.willResignActiveNotification,
-            object: nil)
-        
-        NotificationCenter.default.removeObserver(self,
-            name: UIApplication.didBecomeActiveNotification,
-            object: nil)
-        
-        _debugPrint("core free")
-    }
-    
+
+}
+
+// MARK: - Password & Key check
+extension Core2FA_ViewModel {
     static func isPasswordValid(password: String) -> Bool {
         
         // Salt
@@ -268,7 +299,7 @@ class Core2FA_ViewModel: ObservableObject {
             iv_kvc = ivKC!
         }
         
-        guard let kvc = KeychainService.shared.getKVC() else { 
+        guard let kvc = KeychainService.shared.getKVC() else {
             Core2FA_ViewModel.saveKVC(key: key, iv_kvc: iv_kvc)
             return true
         }
@@ -277,7 +308,6 @@ class Core2FA_ViewModel: ObservableObject {
         
         guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }
         let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
-        _debugPrint("decoded kvc: \(decoded)")
         return decoded != nil
     }
     
@@ -313,47 +343,11 @@ class Core2FA_ViewModel: ObservableObject {
         
         guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return false }
         let decoded = try? JSONDecoder().decode(AccountData.self, from: decrypted)
-        _debugPrint("decoded kvc: \(decoded)")
         return decoded != nil
-    }
-    
-    /*
-    static func checkFileO2FA(fileURL: URL, password: String) -> FUNC_RESULT {
-        return CORE_OPEN2FA.checkPassword(fileURL: fileURL, password: password)
-    }
-     */
-    
-    func importFromGAuth(gauthString: String) -> Int {
-     guard let decryprtedGAuth = GAuthDecryptFrom(string: gauthString) else {
-            return 0
-        }
-        
-        var count = 0
-        for decrypted in decryprtedGAuth {
-            if decrypted.type == .hotp { continue }
-            
-            _ = self.addAccount(name: decrypted.name, issuer: decrypted.issuer, secret: decrypted.secret)
-            count += 1
-        }
-        
-        return count
-    }
-        
-    static func saveKVC(key: [UInt8], iv_kvc: [UInt8]) {
-        let cryptoModel = CryptoService(key: key)
-        let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
-        guard let encoded = try? JSONEncoder().encode(accountData) else { return }
-        guard let kvc = cryptoModel.encryptData(iv: iv_kvc, inputData: encoded) else { return }
-        
-        KeychainService.shared.setKVC(kvc: kvc)
-    }
-    
-    public func importAccounts(accounts: [AccountData]) {
-        let accountObjects = accounts.map({ AccountObject($0, cm: cryptoModule) })
-        try? storage.saveOrUpdateAllObjects(objects: accountObjects)
     }
 }
 
+// MARK: - TestModel
 extension Core2FA_ViewModel {
     static var TestModel: Core2FA_ViewModel {
         let pass = "1234"
