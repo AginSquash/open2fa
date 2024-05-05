@@ -12,13 +12,20 @@ struct CreditsView: View {
     var body: some View {
         Form {
             Section(header: Text("License")) {
-                Text("Copyright (C) 2020 Vladislav Vrublevsky agins.main@gmail.com ")
+                Text("Copyright (C) 2024 Vladislav Vrublevsky vladislav.vrublevsky@gmail.com")
                 Text("This software is provided 'as-is', without any express or implied warranty.")
                 Text("In no event will the authors be held liable for any damages arising from the use of this software.")
                 VStack(alignment: .leading) {
                     Text("Source code is available on GitHub:")
                     Link("(https://github.com/AginSquash/open2fa)", destination: URL(string: "https://github.com/AginSquash/open2fa")!)
                 }
+            }
+            
+            Section(header: Text("Privacy Policy")) {
+                VStack(alignment: .leading, content: {
+                    Text("In short: we do not collect or share any information.")
+                    Link("(https://aginsquash.github.io/open2fa/about/privacy-policy)", destination: URL(string: "https://aginsquash.github.io/open2fa/about/privacy-policy")!)
+                })
             }
             
             Section(header: Text("Acknowledgements")) {
