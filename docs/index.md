@@ -3,8 +3,7 @@
 
 ### Two-factor authentication app for iOS and macOS
 
-[![Latest Release](https://img.shields.io/github/v/release/AginSquash/open2fa)](https://github.com/AginSquash/open2fa/releases)
-![Platform](https://img.shields.io/badge/iOS-14.0%2B-orange)
+![Platform](https://img.shields.io/badge/iOS-15.0%2B-orange)
 ![Platform](https://img.shields.io/badge/macOS-11.0%2B-orange)
 
 Open2FA is a simple, open source two-factor authentication application written using SwiftUI. Two-step verification helps you protect your accounts, even if attackers have your password.
