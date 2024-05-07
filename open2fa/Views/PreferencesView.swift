@@ -87,11 +87,15 @@ struct PreferencesView: View {
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete, content: deletionAlert)
-            .alert("This action will also delete all the saved data in iCloud",
-                   isPresented: $viewModel.showConfirmCloudSyncAlert) {
-                Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
-                Button("Delete from iCloud", role: .destructive, action: viewModel.disableCloud)
-            }
+            .alert("Warning!",
+                   isPresented: $viewModel.showConfirmCloudSyncAlert,
+                   actions: {
+                    Button("Cancel", role: .cancel, action: viewModel.toggleBackCloud)
+                    Button("Delete from iCloud", role: .destructive, action: viewModel.disableCloud)
+                    },
+                   message: {
+                    Text("This action will also delete all the saved data in iCloud")
+            })
             .alert("Found iCloud data",
                    isPresented: $viewModel.showDeleteCloudAlert,
                    actions: {

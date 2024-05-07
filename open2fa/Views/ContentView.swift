@@ -28,7 +28,7 @@ struct ContentView: View {
                     .animation(.default)
                     .transition(.opacity)
                 }
-                .navigationBarTitle("Open 2FA")
+                .navigationBarTitle("Open2FA")
                 .navigationBarItems(
                     leading:
                         NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
