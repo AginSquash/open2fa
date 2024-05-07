@@ -518,7 +518,7 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
@@ -554,7 +554,7 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;

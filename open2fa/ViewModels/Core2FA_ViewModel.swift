@@ -226,6 +226,8 @@ class Core2FA_ViewModel: ObservableObject {
         let time = Int(df.string(from: date))!
         
         self.timeRemaning = (time > 30) ? 60 - time : 30 - time
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.syncEngine?.pull()
         self.updateAccounts()
     }
     
