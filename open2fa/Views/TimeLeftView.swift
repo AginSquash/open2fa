@@ -11,6 +11,8 @@ import SwiftUI
 struct TimeLeftView: View {
     let progress: CGFloat
     
+    @State private var animation: Animation? = .none
+    
     var currentColor: Color {
         if progress > 0.17 {
             return Color.orange
@@ -32,10 +34,18 @@ struct TimeLeftView: View {
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(currentColor, style: StrokeStyle(lineWidth: 5.0, lineCap: CGLineCap.round))
-                .animation(.linear, value: progress)
+                .animation(animation, value: progress)
                 .rotationEffect(.degrees(-90))
                 .scaleEffect(x: isInverted)
                 .animation(.none, value: isInverted)
+                .onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.animation = .linear
+                    }
+                })
+                .onDisappear(perform: {
+                    self.animation = .none
+                })
         }
     }
     
