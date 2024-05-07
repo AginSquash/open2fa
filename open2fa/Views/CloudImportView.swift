@@ -56,7 +56,7 @@ struct CloudImportView: View {
             .padding(.horizontal)
             
             Button(action: disableCloud, label: {
-                Text("Disable sync")
+                Text("Disable iCloud")
                     .background(rectReader($maxWidth))
                     //.frame(maxWidth: .infinity)
                     .frame(width: maxWidth)

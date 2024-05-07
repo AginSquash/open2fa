@@ -15,6 +15,7 @@
 "Please authenticate to unlock your codes" = "Please authenticate to unlock your codes";
 "Already used Open2fa?" = "Already used Open2FA?";
 "FaceID and TouchID will be not available" = "FaceID and TouchID will be not available";
+"🔐 Enable %@" = "🔐 Enable %@";
 "🔐 Enable FaceID / TouchID" = "🔐 Enable FaceID / TouchID";
 "☁️ Enable iCloud" = "☁️ Enable iCloud";
 "Please, enter your password" = "Please, enter your password";
@@ -69,6 +70,7 @@
 "SwiftOTP - library for generating One Time Passwords (OTP)" = "SwiftOTP - library for generating One Time Passwords (OTP)";
 "Notes" = "Notes";
 "This product includes software developed by the \"Marcin Krzyzanowski\"" = "This product includes software developed by the \"Marcin Krzyzanowski\"";
+"Acknowledgements" = "Acknowledgements";
 
 /// ContentView
 "Add your accounts using the button above" = "Add your accounts using the button above";
@@ -120,6 +122,9 @@
 "iCloud data found" = "iCloud data found";
 "Open2FA data has been found in iCloud.\nYou can:\n - Delete them and start from scratch.\n - Restore the data from iCloud & enable sync\n - Disable iCloud sync on this device." = "Open2FA data has been found in iCloud.\nYou can:\n - Delete them and start from scratch.\n - Restore the data from iCloud & enable sync\n - Disable iCloud sync on this device.";
 "Restore data from iCloud and enable synchronization?" = "Restore data from iCloud and enable synchronization?";
+"Restore" = "Restore";
+"Disable iCloud" = "Disable iCloud";
+"Are you sure?\nThis action is irreversible" = "Are you sure?\nThis action is irreversible";
 
 /// Permissions
 "We need use camera for scan QR codes" = "We need use camera for scan QR codes";
