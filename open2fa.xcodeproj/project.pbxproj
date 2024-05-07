@@ -12,6 +12,7 @@
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
 		CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = CD188EBE2BD88CB00029D7E0 /* KeychainAccess */; };
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
+		CD43DA6E2BEA8D3C00381372 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CD43DA6D2BEA8D3C00381372 /* PrivacyInfo.xcprivacy */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
 		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */; };
@@ -53,7 +54,6 @@
 		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
 		CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */; };
-		CDEADD9E2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +61,7 @@
 		CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CD43DA6D2BEA8D3C00381372 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
 		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 		CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
-		CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +125,6 @@
 		CD87B4C3246F53B800E04D70 = {
 			isa = PBXGroup;
 			children = (
-				CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */,
 				CD87B4CE246F53B800E04D70 /* open2fa */,
 				CD87B4CD246F53B800E04D70 /* Products */,
 				CDC636EF2471DC8400F10540 /* Frameworks */,
@@ -152,6 +151,7 @@
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
+				CD43DA6D2BEA8D3C00381372 /* PrivacyInfo.xcprivacy */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
 				CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */,
 				CD87B4DD246F53B900E04D70 /* Info.plist */,
@@ -330,7 +330,7 @@
 				CD87B4DC246F53B900E04D70 /* LaunchScreen.storyboard in Resources */,
 				CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */,
 				CD87B4D9246F53B900E04D70 /* Preview Assets.xcassets in Resources */,
-				CDEADD9E2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy in Resources */,
+				CD43DA6E2BEA8D3C00381372 /* PrivacyInfo.xcprivacy in Resources */,
 				CD87B4D6246F53B900E04D70 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,7 +534,7 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
@@ -570,7 +570,7 @@
 				CODE_SIGN_ENTITLEMENTS = open2fa/open2fa.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"open2fa/Preview Content\"";
 				DEVELOPMENT_TEAM = Z7788V56C7;
 				ENABLE_PREVIEWS = YES;
