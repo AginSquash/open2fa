@@ -17,20 +17,18 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                List {
-                    let timeLeftView = TimeLeftView(progress: core_driver.progress)
-                    ForEach (core_driver.codes) { c in
-                        HStack {
-                            timeLeftView
-                                .frame(width: 30, height: 30, alignment: .center)
-                            CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
-                            .padding(.leading, 5)
-                        }
-                        .animation(.default)
-                        .transition(.opacity)
+                let timeLeftView = TimeLeftView(progress: core_driver.progress)
+                List(core_driver.codes) { c in
+                    HStack {
+                        timeLeftView
+                            .frame(width: 30, height: 30, alignment: .center)
+                        CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
+                        .padding(.leading, 5)
                     }
+                    .animation(.default)
+                    .transition(.opacity)
                 }
-                .navigationBarTitle("Open 2FA")
+                .navigationBarTitle("Open2FA")
                 .navigationBarItems(
                     leading:
                         NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),

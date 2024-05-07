@@ -81,7 +81,7 @@ struct EditCodeView: View {
                     .foregroundColor(.red)
             })
             .alert(isPresented: $deleteThisService) {
-                Alert(title: Text(NSLocalizedString("Are you sure want to delete", comment: "delete verification") + " \(name)?"), message: Text("This action is irreversible"),
+                Alert(title: Text("Are you sure want to delete \(name)?"), message: Text("This action is irreversible"),
                       primaryButton: .destructive(Text("Delete"), action: {
                         self.core_driver.deleteService(uuid: service.id )
                         self.presentationMode.wrappedValue.dismiss()

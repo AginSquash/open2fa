@@ -47,6 +47,7 @@
 		CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */ = {isa = PBXBuildFile; productRef = CDDDB67C2BD5C30600FEB3F8 /* IceCream */; };
 		CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */; };
 		CDDDB6812BD5EBB900FEB3F8 /* CryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */; };
+		CDDFC0FB2BEA73DF0091DFEE /* String+Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC0FA2BEA73DF0091DFEE /* String+Localize.swift */; };
 		CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763032BD996DF00234D18 /* SwiftOTP */; };
 		CDE763072BD998BE00234D18 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CDE763062BD998BE00234D18 /* CryptoSwift */; };
 		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
@@ -59,7 +60,6 @@
 		CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
-		CD20FCCF24D0F175008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD20FCD324D0F18D008F5E6A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CD58E2E027885ADF00D9047E /* EditCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCodeView.swift; sourceTree = "<group>"; };
 		CD58E2E227885EA900D9047E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -96,6 +96,8 @@
 		CDDDB6792BD5BD9B00FEB3F8 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		CDDDB67E2BD5CB5200FEB3F8 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		CDDDB6802BD5EBB900FEB3F8 /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
+		CDDFC0FA2BEA73DF0091DFEE /* String+Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localize.swift"; sourceTree = "<group>"; };
+		CDDFC0FC2BEA75F30091DFEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 		CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
@@ -146,10 +148,10 @@
 				CDD361F42BDD450400583AC6 /* ViewModels */,
 				CDB6AB8624D6E91E00F552E7 /* Views */,
 				CDA74CC02BE08E98007C8D62 /* Extensions */,
+				CDDFC0FD2BEA781A0091DFEE /* Locale */,
 				CD6786FA24AB7F3C00422233 /* open2fa.entitlements */,
 				CD87B4CF246F53B800E04D70 /* AppDelegate.swift */,
 				CD87B4D1246F53B800E04D70 /* SceneDelegate.swift */,
-				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
 				CD87B4D5246F53B900E04D70 /* Assets.xcassets */,
 				CD87B4DA246F53B900E04D70 /* LaunchScreen.storyboard */,
 				CD87B4DD246F53B900E04D70 /* Info.plist */,
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				CDA74CC12BE08ED8007C8D62 /* LocalAuthentication+BiometricType.swift */,
+				CDDFC0FA2BEA73DF0091DFEE /* String+Localize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -239,6 +242,14 @@
 				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CDDFC0FD2BEA781A0091DFEE /* Locale */ = {
+			isa = PBXGroup;
+			children = (
+				CD20FCD424D0F18D008F5E6A /* Localizable.strings */,
+			);
+			path = Locale;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,6 +373,7 @@
 				CDB61AF52804614C001A0FA9 /* AuthView.swift in Sources */,
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
 				CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */,
+				CDDFC0FB2BEA73DF0091DFEE /* String+Localize.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 				CDA74CCC2BE30058007C8D62 /* ExportViewModel.swift in Sources */,
 				CDA74CC62BE1E05F007C8D62 /* ImportViewModel.swift in Sources */,
@@ -375,6 +387,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CD20FCD324D0F18D008F5E6A /* ru */,
+				CDDFC0FC2BEA75F30091DFEE /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -383,7 +396,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				CD87B4DB246F53B900E04D70 /* Base */,
-				CD20FCCF24D0F175008F5E6A /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

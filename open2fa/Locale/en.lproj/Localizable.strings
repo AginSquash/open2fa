@@ -1,0 +1,135 @@
+/* 
+  Localizable.strings
+  open2fa
+
+  Created by Vlad Vrublevsky on 29.07.2020.
+  Copyright © 2020 Vlad Vrublevsky. All rights reserved.
+*/
+
+/// PasswordEnteredView
+"Open2FA" = "Open2FA";
+"For start using Open2FA, create a password" = "For start using Open2FA, create a password";
+"by Vlad Vrublevsky" = "by Vlad Vrublevsky";
+"Create" = "Create";
+"Unlock" = "Unlock";
+"Please authenticate to unlock your codes" = "Please authenticate to unlock your codes";
+"Already used Open2fa?" = "Already used Open2FA?";
+"FaceID and TouchID will be not available" = "FaceID and TouchID will be not available";
+"🔐 Enable %@" = "🔐 Enable %@";
+"🔐 Enable FaceID / TouchID" = "🔐 Enable FaceID / TouchID";
+"☁️ Enable iCloud" = "☁️ Enable iCloud";
+"Please, enter your password" = "Please, enter your password";
+"Retry" = "Retry";
+"Error" = "Error";
+"- or -" = "- or -";
+"Import" = "Import";
+"Password is incorrect" = "Password is incorrect";
+"Passwords don't match" = "Passwords don't match";
+"Please create password" = "Please create password";
+"Re-enter password" = "Re-enter password";
+
+
+/// ImportView
+"If you have already used Open2FA, please enter your password and select the file using button below." = "If you have already used Open2FA, please enter your password and select the file using button below.";
+"Password" = "Password";
+"Imported!" = "Imported!";
+"Your o2fa file was imported successfully!" = "Your o2fa file was imported successfully!";
+"Error" = "Error";
+
+/// CodePreview
+"Copied!" = "Copied!";
+"Incorrect password" = "Incorrect password";
+"Preferences" = "Preferences";
+
+/// PreferenceView
+"Settings" = "Settings";
+"Please, restart app and enter password to appear change" = "Please, restart app and enter password to appear change";
+"Enable Cloud Sync" = "Enable Cloud Sync";
+"Export" = "Export";
+"Credits" = "Credits";
+"Edit and Delete" = "Edit and Delete";
+"Share & Edit" = "Share & Edit";
+"Tap to share or edit, swipe from right edge to the left to " = "Tap to share or edit, swipe from right edge to the left to ";
+"Enable FaceID / TouchID" = "Enable FaceID / TouchID";
+"delete" = "delete";
+"Delete" = "Delete";
+"Are you sure want to delete %@?" = "Are you sure want to delete %@?";
+"This action is irreversible" = "This action is irreversible";
+"You already have data in iCloud. To continue, you must delete the data from the cloud." = "You already have data in iCloud. To continue, you must delete the data from the cloud.";
+
+/// Credit View
+"License" = "License";
+"This software is provided 'as-is', without any express or implied warranty." = "This software is provided 'as-is', without any express or implied warranty.";
+"Copyright (C) 2024 Vladislav Vrublevsky vladislav.vrublevsky@gmail.com" = "Copyright (C) 2024 Vladislav Vrublevsky vladislav.vrublevsky@gmail.com";
+"In no event will the authors be held liable for any damages arising from the use of this software." = "In no event will the authors be held liable for any damages arising from the use of this software.";
+"Source code is available on GitHub:" = "Source code is available on GitHub:";
+"Privacy Policy" = "Privacy Policy";
+"In short: we do not collect or share any information." = "In short: we do not collect or share any information.";
+"CryptoSwift - Crypto related functions and helpers for Swift" = "CryptoSwift - Crypto related functions and helpers for Swift";
+"CodeScanner - SwiftUI framework for scan QR codes and barcodes" = "CodeScanner - SwiftUI framework for scan QR codes and barcodes";
+"SwiftOTP - library for generating One Time Passwords (OTP)" = "SwiftOTP - library for generating One Time Passwords (OTP)";
+"Notes" = "Notes";
+"This product includes software developed by the \"Marcin Krzyzanowski\"" = "This product includes software developed by the \"Marcin Krzyzanowski\"";
+"Acknowledgements" = "Acknowledgements";
+
+/// ContentView
+"Add your accounts using the button above" = "Add your accounts using the button above";
+"Add" = "Add";
+
+
+/// AddCodeView
+"Name of your account" = "Name of your account";
+"Name" = "Name";
+"Issuer" = "Issuer";
+"(◕‿◕)♡" = "(◕‿◕)♡";
+"Your secret code" = "Your secret code";
+"Code" = "Code";
+"Name cannot be empty" = "Name cannot be empty";
+"Save" = "Save";
+"Adding new Account" = "Adding new Account";
+"Error!" = "Error!";
+"Please scan your QR code or close this view for manual input." = "Please scan your QR code or close this view for manual input.";
+"Close" = "Close";
+"Scan QR code" = "Scan QR code";
+"HOTP currently not supported!" = "HOTP currently not supported!";
+
+/// EditCodeView
+"Account editing" = "Account editing";
+"Created on" = "Created on";
+
+/// AuthView
+"Authentication" = "Authentication";
+
+/// ExportServiceView
+"QR code" = "QR code";
+"Exporting an Account" = "Exporting an Account";
+
+/// ExportView
+"For your protection, we need to identify you. Please enter your password below." = "For your protection, we need to identify you. Please enter your password below.";
+"🔐 All your codes will remain encrypted with AES-256" = "🔐 All your codes will remain encrypted with AES-256";
+"Yes, I understand that I still need to put this file in a safe place." = "Yes, I understand that I still need to put this file in a safe place.";
+"Success" = "Success";
+"Your file successfully exported!" = "Your file successfully exported!";
+"Still encrypted" = "Still encrypted";
+"Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option" = "Your codes will not be protected by encryption, which will allow you to import them into other applications.\nIs an unsafe option";
+"Warning!" = "Warning!";
+"Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks" = "Are you sure? This option will remove encryption from the file, which will make your file vulnerable to hacker attacks";
+"Export unencrypted" = "Export unencrypted";
+"Cancel" = "Cancel";
+
+/// CloudImportView
+"iCloud" = "iCloud";
+"iCloud data found" = "iCloud data found";
+"Open2FA data has been found in iCloud.\nYou can:\n - Delete them and start from scratch.\n - Restore the data from iCloud & enable sync\n - Disable iCloud sync on this device." = "Open2FA data has been found in iCloud.\nYou can:\n - Delete them and start from scratch.\n - Restore the data from iCloud & enable sync\n - Disable iCloud sync on this device.";
+"Restore data from iCloud and enable synchronization?" = "Restore data from iCloud and enable synchronization?";
+"Restore" = "Restore";
+"Disable iCloud" = "Disable iCloud";
+"Are you sure?\nThis action is irreversible" = "Are you sure?\nThis action is irreversible";
+
+/// Permissions
+"We need use camera for scan QR codes" = "We need use camera for scan QR codes";
+"Please identify yourself to unlock the app" = "Please identify yourself to unlock the app";
+
+
+"Ok" = "OK";
+"OK" = "OK";
