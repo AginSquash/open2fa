@@ -52,6 +52,7 @@
 		CDE763092BD9A02F00234D18 /* tmp_core2fa.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */; };
 		CDEA8B262547243B006DA70A /* O2FADocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA8B252547243B006DA70A /* O2FADocument.swift */; };
 		CDEADD9B2BE637D600917B88 /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */; };
+		CDEADD9E2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		CDE763082BD9A02F00234D18 /* tmp_core2fa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmp_core2fa.swift; sourceTree = "<group>"; };
 		CDEA8B252547243B006DA70A /* O2FADocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = O2FADocument.swift; sourceTree = "<group>"; };
 		CDEADD9A2BE637D600917B88 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
+		CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		CD87B4C3246F53B800E04D70 = {
 			isa = PBXGroup;
 			children = (
+				CDEADD9D2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy */,
 				CD87B4CE246F53B800E04D70 /* open2fa */,
 				CD87B4CD246F53B800E04D70 /* Products */,
 				CDC636EF2471DC8400F10540 /* Frameworks */,
@@ -316,6 +319,7 @@
 				CD87B4DC246F53B900E04D70 /* LaunchScreen.storyboard in Resources */,
 				CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */,
 				CD87B4D9246F53B900E04D70 /* Preview Assets.xcassets in Resources */,
+				CDEADD9E2BE9AB1F00917B88 /* PrivacyInfo.xcprivacy in Resources */,
 				CD87B4D6246F53B900E04D70 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
