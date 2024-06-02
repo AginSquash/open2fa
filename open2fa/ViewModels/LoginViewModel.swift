@@ -60,6 +60,7 @@ class LoginViewModel: ObservableObject {
         self.core = nil
         guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
         self.core = core
+        self.core?.isActive = true
         self.enteredPassword = ""
         
         if isFirstRun && isEnableCloudSync {
