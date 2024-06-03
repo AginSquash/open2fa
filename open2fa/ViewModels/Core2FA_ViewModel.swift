@@ -18,7 +18,7 @@ class Core2FA_ViewModel: ObservableObject {
     
     @Published var codes: [AccountCurrentCode] = []
     @Published var timeRemaning: Int = 0
-    @Published var isActive: Bool = true
+    @Published var isActive: Bool = false
     @Published var progress: CGFloat = 1.0
 
     private var accountsData = [AccountData]()
@@ -30,7 +30,7 @@ class Core2FA_ViewModel: ObservableObject {
     /// Crypto
     private var cryptoModule: CryptoService
     
-    private var willResignActiveDate: Date? = nil
+    private var willResignActiveDate = Date()
     var viewDismissalModePublisher = PassthroughSubject<Bool, Never>()
     private var shouldPopView = false {
         didSet {
@@ -251,23 +251,24 @@ class Core2FA_ViewModel: ObservableObject {
     @objc func didBecomeActiveNotification() {
         syncTimer()
         checkShouldPopView()
-        withAnimation(.easeInOut(duration: 0.2)) {
-            self.isActive = true
-        }
     }
     
     private func checkShouldPopView() {
-        guard let willResignActiveDate = willResignActiveDate else { return }
-        if Date() > willResignActiveDate.addingTimeInterval(60.0) { //TODO: add config
+        let deadline = willResignActiveDate.addingTimeInterval(60.0) //TODO: add config
+        if Date() > deadline {
             BiometricAuthService.tryBiometricAuth { result in
                 switch result {
                 case .success(let isAuth):
                     guard isAuth else { self.shouldPopView = true; return }
+                    // In case when user exit app on successful FaceID
+                    guard self.willResignActiveDate < deadline else { return }
                     self.isActive = true
                 default:
                     self.shouldPopView = true
                 }
             }
+        } else {
+            self.isActive = true
         }
     }
 
