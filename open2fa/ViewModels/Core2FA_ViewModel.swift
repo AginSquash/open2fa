@@ -244,8 +244,8 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     @objc func willResignActiveNotification() {
-            self.isActive = false
-            self.willResignActiveDate = Date()
+        self.isActive = false
+        self.willResignActiveDate = Date()
     }
     
     @objc func didBecomeActiveNotification() {
@@ -254,7 +254,8 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     private func checkShouldPopView() {
-        let deadline = willResignActiveDate.addingTimeInterval(60.0) //TODO: add config
+        let lockTimeout = UserDefaults.standard.double(forKey: AppSettings.SettingsKeys.lockTimeout.rawValue)
+        let deadline = willResignActiveDate.addingTimeInterval(lockTimeout) 
         if Date() > deadline {
             BiometricAuthService.tryBiometricAuth { result in
                 switch result {

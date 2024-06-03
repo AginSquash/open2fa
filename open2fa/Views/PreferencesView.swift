@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct PreferencesView: View {
-
+    @AppStorage(AppSettings.SettingsKeys.lockTimeout.rawValue) var lockTimeout: Double = 60.0
+    
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @StateObject private var viewModel = PreferencesViewModel()
     
@@ -33,6 +34,14 @@ struct PreferencesView: View {
                     }
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
+                    
+                    NavigationLink(destination: TimeoutSettingsView()) {
+                        HStack {
+                            Text("Session timout")
+                            Spacer()
+                            Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
+                        }
+                    }
                     
                     NavigationLink(
                         destination: CreditsView(),

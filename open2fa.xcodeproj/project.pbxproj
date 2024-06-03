@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93B922302C0E054300A01F4F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9222F2C0E054300A01F4F /* AppSettings.swift */; };
+		93B922322C0E0A4200A01F4F /* TimeoutSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B922312C0E0A4200A01F4F /* TimeoutSettingsView.swift */; };
 		CD0EF0242BDD554800F4FEB1 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */; };
 		CD0EF0262BDD74CC00F4FEB1 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */; };
 		CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD104A302499897F005A8E47 /* PreferencesView.swift */; };
@@ -57,6 +59,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93B9222F2C0E054300A01F4F /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		93B922312C0E0A4200A01F4F /* TimeoutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutSettingsView.swift; sourceTree = "<group>"; };
 		CD0EF0232BDD554800F4FEB1 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		CD0EF0252BDD74CC00F4FEB1 /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		CD104A302499897F005A8E47 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 				CD7CA0F0248AFC8C00EA9B4B /* AddCodeView.swift */,
 				CDD6703124EC13C40097D45D /* TimeLeftView.swift */,
 				CDA74CBD2BE064CB007C8D62 /* CloudImportView.swift */,
+				93B922312C0E0A4200A01F4F /* TimeoutSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */,
 				CDA74CC72BE1F87E007C8D62 /* AccountsFileStruct.swift */,
 				CDEA8B252547243B006DA70A /* O2FADocument.swift */,
+				93B9222F2C0E054300A01F4F /* AppSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -356,6 +362,7 @@
 				CDDDB67F2BD5CB5200FEB3F8 /* StorageService.swift in Sources */,
 				CDD361F62BDD453E00583AC6 /* AccountData.swift in Sources */,
 				CD7CA0EF248AD35800EA9B4B /* CodePreview.swift in Sources */,
+				93B922302C0E054300A01F4F /* AppSettings.swift in Sources */,
 				CDD6703224EC13C40097D45D /* TimeLeftView.swift in Sources */,
 				CDA74CBE2BE064CB007C8D62 /* CloudImportView.swift in Sources */,
 				CD87B4D2246F53B800E04D70 /* SceneDelegate.swift in Sources */,
@@ -374,6 +381,7 @@
 				CD8D71B624A3B7CE00A2C133 /* ExportView.swift in Sources */,
 				CDD361F82BDD457000583AC6 /* AccountCurrentCode.swift in Sources */,
 				CDDFC0FB2BEA73DF0091DFEE /* String+Localize.swift in Sources */,
+				93B922322C0E0A4200A01F4F /* TimeoutSettingsView.swift in Sources */,
 				CD104A312499897F005A8E47 /* PreferencesView.swift in Sources */,
 				CDA74CCC2BE30058007C8D62 /* ExportViewModel.swift in Sources */,
 				CDA74CC62BE1E05F007C8D62 /* ImportViewModel.swift in Sources */,
