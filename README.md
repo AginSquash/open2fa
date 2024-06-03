@@ -15,6 +15,8 @@ Open2FA is a simple, open source two-factor authentication application written u
 - Import and export encrypted file with codes 📲
 - You can store data as in iCloud and synchronize between devices, or store everything locally on your device 👩‍💻
 
+[<img src="screenshots/appstore-badge.png" height="50">](https://apps.apple.com/ru/app/open2fa/id6497407368)
+
 ### Screenshots
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot1_0.95.png?raw=true" width="250" alt="Screenshot of the Login screen" /> &nbsp;
 <img src="https://github.com/AginSquash/open2fa/blob/master/screenshots/screenshot2_1.2.1.png?raw=true" width="250" alt="Screenshot of the token list" /> &nbsp;
