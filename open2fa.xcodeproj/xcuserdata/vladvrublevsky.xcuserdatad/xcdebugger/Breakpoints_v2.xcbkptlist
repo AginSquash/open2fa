@@ -116,28 +116,28 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "810F0DED-652A-436D-AE13-50F4089EFB0A - 3b5be2c83712a044"
+                  uuid = "810F0DED-652A-436D-AE13-50F4089EFB0A - 20ecdf06abfecaa6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "open2fa.LoginView.getErrorAlert(open2fa.LoginViewModel.errorType) -&gt; SwiftUI.Alert"
                   moduleName = "open2fa"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/LoginView.swift"
+                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/Views/LoginView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "150"
                   endingLineNumber = "150">
                </Location>
                <Location
-                  uuid = "810F0DED-652A-436D-AE13-50F4089EFB0A - 11ce511ffb63a0ba"
+                  uuid = "810F0DED-652A-436D-AE13-50F4089EFB0A - a796cd1678fca18"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 () -&gt; () in open2fa.LoginView.getErrorAlert(open2fa.LoginViewModel.errorType) -&gt; SwiftUI.Alert"
                   moduleName = "open2fa"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/open2fa/Views/LoginView.swift"
+                  urlString = "file:///Users/vladvrublevsky/Documents/Projects/open2fa/open2fa/Views/LoginView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "151"

@@ -35,11 +35,13 @@ struct PreferencesView: View {
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
                     
-                    NavigationLink(destination: TimeoutSettingsView()) {
-                        HStack {
-                            Text("Session timout")
-                            Spacer()
-                            Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
+                    if viewModel.isEnableLocalKeychain {
+                        NavigationLink(destination: TimeoutSettingsView()) {
+                            HStack {
+                                Text("Session timout")
+                                Spacer()
+                                Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
+                            }
                         }
                     }
                     
