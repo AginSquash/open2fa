@@ -18,7 +18,6 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 let timeLeftView = TimeLeftView(progress: core_driver.progress)
-#if os(iOS) 
                 List(core_driver.codes) { c in
                     HStack {
                         timeLeftView
@@ -35,37 +34,7 @@ struct ContentView: View {
                         NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
                     trailing:
                         NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
-#else
-                VStack {
-                    List {
-                        Section {
-                            ForEach(core_driver.codes) { c in
-                                HStack {
-                                    timeLeftView
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                    CodePreview(code: c, timeRemaning: self.core_driver.timeRemaning)
-                                        .padding(.leading, 5)
-                                }
-                            }
-                        } header: {
-                            Spacer(minLength: 10).listRowInsets(EdgeInsets())
-                        }
-                        .animation(.default)
-                        .transition(.opacity)
-                    }
-                    .listStyle(.insetGrouped)
-                    .environment(\.defaultMinListHeaderHeight, 0)
-                }
-                .navigationBarTitle("")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
-                .navigationBarItems(
-                    leading:
-                        NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
-                    trailing:
-                        NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
-#endif
-                
+    
                 if core_driver.codes.count == 0 {
                     Text("Add your accounts using the button above")
                         .multilineTextAlignment(.center)
