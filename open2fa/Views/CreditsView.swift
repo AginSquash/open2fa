@@ -50,6 +50,7 @@ struct CreditsView: View {
                 }
             }
         }
+        .navigationBarTitle("Credits", displayMode: .inline)
     }
 }
 

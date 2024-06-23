@@ -94,7 +94,9 @@ struct PreferencesView: View {
                     }
                 }
             }
+#if os(iOS) && !targetEnvironment(macCatalyst)
             .padding([.top], 1)
+#endif
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete, content: deletionAlert)
