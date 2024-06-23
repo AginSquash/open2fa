@@ -232,6 +232,7 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func setObservers() {
+#if !targetEnvironment(macCatalyst)
         NotificationCenter.default.addObserver(self,
             selector: #selector(willResignActiveNotification),
             name: UIApplication.willResignActiveNotification,
@@ -241,6 +242,7 @@ class Core2FA_ViewModel: ObservableObject {
             selector: #selector(didBecomeActiveNotification),
             name: UIApplication.didBecomeActiveNotification,
             object: nil)
+#endif
     }
     
     @objc func willResignActiveNotification() {

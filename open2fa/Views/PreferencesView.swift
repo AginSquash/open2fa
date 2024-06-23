@@ -35,7 +35,7 @@ struct PreferencesView: View {
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
                     
-                    if viewModel.isEnableLocalKeychain {
+                    if viewModel.isEnableLocalKeychain && !viewModel.isMacCatalyst {
                         NavigationLink(destination: TimeoutSettingsView()) {
                             HStack {
                                 Text("Session timout")
