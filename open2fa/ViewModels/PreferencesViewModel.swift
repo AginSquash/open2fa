@@ -22,12 +22,6 @@ class PreferencesViewModel: ObservableObject {
     
     var isRollbackCloud: Bool = false
     
-#if targetEnvironment(macCatalyst)
-    let isMacCatalyst = true
-#else
-    let isMacCatalyst = false
-#endif
-    
     
     init() {
         isEnableLocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)

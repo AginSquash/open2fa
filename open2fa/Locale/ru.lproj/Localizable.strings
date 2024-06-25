@@ -56,7 +56,7 @@
 "Are you sure want to delete %@?" = "Вы уверены, что хотите удалить %@?";
 "This action is irreversible" = "Это действие необратимо";
 "You already have data in iCloud. To continue, you must delete the data from the cloud." = "У вас уже есть данные в iCloud. Чтобы продолжить, вы должны удалить данные из облака.";
-"Session timout" = "Таймаут сессии";
+"Session timeout" = "Таймаут сессии";
 "Immediately" = "Моментально";
 "%lld sec." = "%lld сек.";
 "%lld seсonds" = "%lld секунд";

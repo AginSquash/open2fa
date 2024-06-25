@@ -35,15 +35,15 @@ struct PreferencesView: View {
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
                     
-                    if viewModel.isEnableLocalKeychain && !viewModel.isMacCatalyst {
-                        NavigationLink(destination: TimeoutSettingsView()) {
-                            HStack {
-                                Text("Session timout")
-                                Spacer()
-                                Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
-                            }
+                    #if os(iOS) && !targetEnvironment(macCatalyst)
+                    NavigationLink(destination: TimeoutSettingsView()) {
+                        HStack {
+                            Text("Session timeout")
+                            Spacer()
+                            Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
                         }
                     }
+                    #endif
                     
                     NavigationLink(
                         destination: CreditsView(),

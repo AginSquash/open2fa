@@ -13,7 +13,7 @@ struct TimeoutSettingsView: View {
     
     var body: some View {
         Form {
-            Section(header: Text("Session timout")) {
+            Section(header: Text("Session timeout")) {
                 ForEach(AppSettings.possibleLockTimeout, id: \.self) { time in
                     HStack {
                         Text(time == 0.0 ? "Immediately" : "\(Int(time)) seсonds")
