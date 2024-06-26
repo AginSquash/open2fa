@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct PreferencesView: View {
-
+    @AppStorage(AppSettings.SettingsKeys.lockTimeout.rawValue) var lockTimeout: Double = 60.0
+    
     @EnvironmentObject var core_driver: Core2FA_ViewModel
     @StateObject private var viewModel = PreferencesViewModel()
     
@@ -33,6 +34,16 @@ struct PreferencesView: View {
                     }
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
+                    
+                    #if os(iOS) && !targetEnvironment(macCatalyst)
+                    NavigationLink(destination: TimeoutSettingsView()) {
+                        HStack {
+                            Text("Session timeout")
+                            Spacer()
+                            Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
+                        }
+                    }
+                    #endif
                     
                     NavigationLink(
                         destination: CreditsView(),
@@ -83,7 +94,9 @@ struct PreferencesView: View {
                     }
                 }
             }
+#if os(iOS) && !targetEnvironment(macCatalyst)
             .padding([.top], 1)
+#endif
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .alert(item: $chosenForDelete, content: deletionAlert)

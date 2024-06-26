@@ -34,7 +34,7 @@ struct ContentView: View {
                         NavigationLink(destination: PreferencesView().environmentObject(self.core_driver), label: { Text("Preferences") }),
                     trailing:
                         NavigationLink(destination: AddCodeView().environmentObject(self.core_driver), label: { Text("Add") }) )
-                
+    
                 if core_driver.codes.count == 0 {
                     Text("Add your accounts using the button above")
                         .multilineTextAlignment(.center)

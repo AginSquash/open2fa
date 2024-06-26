@@ -22,6 +22,7 @@ class PreferencesViewModel: ObservableObject {
     
     var isRollbackCloud: Bool = false
     
+    
     init() {
         isEnableLocalKeychain = UserDefaultsService.get(key: .storageLocalKeychainEnable)
         isEnableCloudSync = UserDefaultsService.get(key: .cloudSync)

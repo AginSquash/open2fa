@@ -14,7 +14,11 @@ struct CloudImportView: View {
     let disableAction: ()->()
     
     @Environment(\.dismiss) var dismiss
+#if os(iOS) && targetEnvironment(macCatalyst)
+    @State private var maxWidth: CGFloat = 275
+#else
     @State private var maxWidth: CGFloat = .zero
+#endif
     @State private var isShowDeleteAlert: Bool = false
     
     var body: some View {

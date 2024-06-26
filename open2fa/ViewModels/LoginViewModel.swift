@@ -27,6 +27,8 @@ class LoginViewModel: ObservableObject {
     @Published var isLoadedFromCloud: Bool = false
     @Published var isFirstRun: Bool
     
+    var appSettings = AppSettings()
+    
     var isDisableLoginButton: Bool {
         return (enteredPassword != enteredPasswordSecond && isFirstRun) || ( enteredPassword.isEmpty )
     }

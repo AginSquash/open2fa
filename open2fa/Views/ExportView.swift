@@ -48,7 +48,9 @@ struct ExportView: View {
             })
             .disabled(viewModel.passwordEntered.isEmpty)
         }
+#if os(iOS) && !targetEnvironment(macCatalyst)
         .padding([.top], 1) //Fix for bug with form in center of screen, not on top
+#endif
         .navigationBarTitle("Export", displayMode: .inline)
         .alert(item: $viewModel.exportResult) { alert in
             Alert(title: Text(alert.title), 
