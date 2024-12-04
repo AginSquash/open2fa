@@ -640,8 +640,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = revision;
+				revision = e0c7eebc5a4465a3c4680764f26b7a61f567cdaf;
 			};
 		};
 		CD6A57FF28E49D930075C0CE /* XCRemoteSwiftPackageReference "GAuthDecrypt" */ = {
@@ -664,8 +664,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/leoz/IceCream/";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = revision;
+				revision = 2640543e2402301a11f41c1d0a5abcb3063aaf6e;
 			};
 		};
 		CDE763022BD996DF00234D18 /* XCRemoteSwiftPackageReference "SwiftOTP" */ = {

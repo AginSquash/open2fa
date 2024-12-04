@@ -42,8 +42,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/leoz/IceCream/",
       "state" : {
-        "branch" : "master",
-        "revision" : "7288b4f9d821dbc2a78a6a66b8aaa0a5cc2f2efa"
+        "revision" : "2640543e2402301a11f41c1d0a5abcb3063aaf6e"
       }
     },
     {
