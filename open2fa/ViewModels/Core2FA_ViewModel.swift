@@ -165,6 +165,11 @@ class Core2FA_ViewModel: ObservableObject {
         self.notificationToken = storage.realm!.observe { notification, realm in
             self.updateAccounts()
         }
+        
+#if DEBUG
+        guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" else { return }
+        self.isActive = true
+#endif
     }
     
     convenience init?(password: String, saveKey: Bool = false) {

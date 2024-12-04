@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import XCTest
 
 struct EditCodeView: View {
     @EnvironmentObject var core_driver: Core2FA_ViewModel

@@ -16,7 +16,6 @@
 		CD20FCD224D0F18D008F5E6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD20FCD424D0F18D008F5E6A /* Localizable.strings */; };
 		CD43DA6E2BEA8D3C00381372 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CD43DA6D2BEA8D3C00381372 /* PrivacyInfo.xcprivacy */; };
 		CD58E2E127885ADF00D9047E /* EditCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58E2E027885ADF00D9047E /* EditCodeView.swift */; };
-		CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD58E2E227885EA900D9047E /* XCTest.framework */; };
 		CD5ADD692BDC5352004956F8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5ADD682BDC5352004956F8 /* LoginViewModel.swift */; };
 		CD630CBD2BDE40F4004774C1 /* PublicEncryptData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD630CBC2BDE40F4004774C1 /* PublicEncryptData.swift */; };
 		CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CD6A580028E49D930075C0CE /* GAuthDecrypt */; };
@@ -114,7 +113,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD6A580128E49D930075C0CE /* GAuthDecrypt in Frameworks */,
-				CD58E2E327885EA900D9047E /* XCTest.framework in Frameworks */,
 				CD188EBF2BD88CB00029D7E0 /* KeychainAccess in Frameworks */,
 				CDDDB67D2BD5C30600FEB3F8 /* IceCream in Frameworks */,
 				CDE763042BD996DF00234D18 /* SwiftOTP in Frameworks */,
@@ -561,10 +559,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
-				OTHER_LDFLAGS = (
-					"-weak_framework",
-					"\"XCTest\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -597,10 +592,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
-				OTHER_LDFLAGS = (
-					"-weak_framework",
-					"\"XCTest\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vladvrublevsky.open2fa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
