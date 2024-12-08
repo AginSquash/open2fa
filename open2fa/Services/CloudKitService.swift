@@ -41,9 +41,9 @@ class CloudKitService {
     }
     
     static func uploadPublicEncryptData() async throws {
-        guard let kvc = KeychainService.shared.getKVC() else { return  }
-        guard let salt = KeychainService.shared.getSalt() else { return }
-        guard let iv = KeychainService.shared.getIV_KVC() else { return }
+        guard let kvc = await KeychainService.shared.getKVC() else { return  }
+        guard let salt = await KeychainService.shared.getSalt() else { return }
+        guard let iv = await KeychainService.shared.getIV_KVC() else { return }
 
         let publicED = PublicEncryptData(salt: salt, iv_kvc: iv, kvc: kvc)
         try await CloudKitService.save(publicED.record)

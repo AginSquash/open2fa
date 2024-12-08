@@ -11,6 +11,7 @@ import LocalAuthentication
 import SwiftUI
 import IceCream
 
+@MainActor
 class LoginViewModel: ObservableObject {
     @Published var isUnlocked: Bool = false
     @Published var isEnablelocalKeychain: Bool = true

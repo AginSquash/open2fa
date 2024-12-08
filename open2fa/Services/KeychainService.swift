@@ -9,6 +9,7 @@
 import Foundation
 import KeychainAccess
 
+@MainActor
 class KeychainService {
     enum KTag: String {
         case key = "key"

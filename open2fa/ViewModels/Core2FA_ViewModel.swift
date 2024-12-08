@@ -14,6 +14,7 @@ import RealmSwift
 import SwiftOTP
 import Combine
 
+@MainActor
 class Core2FA_ViewModel: ObservableObject {
     
     @Published var codes: [AccountCurrentCode] = []

@@ -9,6 +9,7 @@
 import Foundation
 import CryptoSwift
 
+@MainActor
 class ImportViewModel: ObservableObject {
     
     @Published var alertObject: AlertObject? = nil

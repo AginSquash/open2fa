@@ -11,6 +11,7 @@ import RealmSwift
 import IceCream
 import CommonCrypto
 
+@MainActor //TODO: Check is it ok?
 final class StorageService {
 
     public let realm: Realm?

@@ -11,7 +11,7 @@ import IceCream
 import CloudKit
 import RealmSwift
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var syncEngine: SyncEngine?
     
