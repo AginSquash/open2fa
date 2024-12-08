@@ -18,7 +18,9 @@ struct CodesFile_legacy: Codable {
 }
 
 struct O2FADocument: FileDocument {
-    static var readableContentTypes: [UTType] = [UTType(filenameExtension: "o2fa")!]
+    static var readableContentTypes: [UTType] {
+        [UTType(filenameExtension: "o2fa")!]
+    }
     
     var accountsFileStruct: AccountsFileStruct
     
