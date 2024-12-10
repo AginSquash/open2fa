@@ -112,18 +112,21 @@ class LoginViewModel: ObservableObject {
     
     func tryBiometricAuth() {
         self.core = nil
-        if !isFirstRun {
-            BiometricAuthService.tryBiometricAuth { result in
-                switch result {
-                case .success(let isAuth):
-                    guard isAuth else { return }
-                    guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
-                    guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
-                    self.core = core
-                    self.pushMainView()
-                default:
-                    _debugPrint("Biometric error")
-                }
+        guard !isFirstRun else { return }
+        
+        Task { @MainActor in
+            do {
+                let isAuth = try await BiometricAuthService.tryBiometricAuth()
+                guard isAuth else { return }
+                
+                // from here all must be on @MainActor; KeychainService and Core2FA_ViewModel already marked like @MainActor
+                guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
+                guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
+                self.core = core
+                self.pushMainView()
+                
+            } catch (let error) {
+                _debugPrint("Biometric error: \(error.localizedDescription)")
             }
         }
     }

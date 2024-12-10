@@ -160,7 +160,7 @@ class Core2FA_ViewModel: ObservableObject {
         self.storage = StorageService.shared
         self.cryptoModule = CryptoService(key: key)
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        self.initTimer()
         self.setObservers()
         
         self.notificationToken = storage.realm!.observe { notification, realm in
@@ -211,7 +211,7 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     deinit {
-        self.timer?.invalidate()
+        //self.timer?.invalidate() //TODO: memory leak?
         self.notificationToken?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
@@ -258,23 +258,26 @@ class Core2FA_ViewModel: ObservableObject {
     
     @objc func didBecomeActiveNotification() {
         syncTimer()
-        checkShouldPopView()
+        Task {
+            await checkShouldPopView()
+        }
     }
     
-    private func checkShouldPopView() {
+    private func initTimer() {
+        guard self.timer?.isValid != true else { return }
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+    }
+    
+    private func checkShouldPopView() async {
         let lockTimeout = UserDefaults.standard.double(forKey: AppSettings.SettingsKeys.lockTimeout.rawValue)
         let deadline = willResignActiveDate.addingTimeInterval(lockTimeout) 
         if Date() > deadline {
-            BiometricAuthService.tryBiometricAuth { result in
-                switch result {
-                case .success(let isAuth):
-                    guard isAuth else { self.shouldPopView = true; return }
-                    // In case when user exit app on successful FaceID
-                    guard self.willResignActiveDate < deadline else { return }
-                    self.isActive = true
-                default:
-                    self.shouldPopView = true
-                }
+            let isAuth = try? await BiometricAuthService.tryBiometricAuth()
+            if isAuth == true  {
+                guard self.willResignActiveDate < deadline else { return }
+                self.isActive = true
+            } else {
+                self.shouldPopView = true
             }
         } else {
             self.isActive = true
