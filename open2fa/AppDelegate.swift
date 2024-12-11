@@ -18,9 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+#if DEBUG
         /// Check for xcode preview
         guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { return true }
-        
+#endif
         guard UserDefaultsService.get(key: .cloudSync) else { return true }
         
         syncEngine = SyncEngine(objects: [
