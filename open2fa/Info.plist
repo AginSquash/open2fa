@@ -29,13 +29,13 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need use camera for scan QR codes</string>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>We need  access to import file</string>
+	<string>We need access to import file</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Please identify yourself to unlock the app</string>
 	<key>NSFileProviderDomainUsageDescription</key>
-	<string>We need  access to import file</string>
+	<string>We need access to import file</string>
 	<key>NSFileProviderPresenceUsageDescription</key>
-	<string>We need  access to import file</string>
+	<string>We need access to import file</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import IceCream
 
+@MainActor
 class PreferencesViewModel: ObservableObject {
     @Published var isEnableLocalKeychain: Bool = false
     @Published var showKeychainText: Bool = false

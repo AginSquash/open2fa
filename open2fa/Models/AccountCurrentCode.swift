@@ -9,13 +9,13 @@
 import Foundation
 
 // MARK: - OTP_Type
-public enum OTP_Type: Codable {
+public enum OTP_Type: Codable, Sendable {
     case TOTP
     case HOTP
 }
 
 // MARK: - AccountCurrentCode
-struct AccountCurrentCode: Identifiable, Hashable {
+struct AccountCurrentCode: Identifiable, Hashable, Sendable {
     let id: String
     let type: OTP_Type
     let name: String

@@ -88,13 +88,11 @@ struct AuthView: View {
     }
     
     func auth() {
-        BiometricAuthService.tryBiometricAuth { result in
-            switch result {
-            case .success(let success):
-                self.isUnlocked = success
-            case .failure(let failure):
-                _debugPrint(failure.localizedDescription)
+        Task {
+            guard let isAuth = try? await BiometricAuthService.tryBiometricAuth() else {
+                return _debugPrint("Error on Auth");
             }
+            self.isUnlocked = isAuth
         }
     }
 }

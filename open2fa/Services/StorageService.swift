@@ -11,18 +11,19 @@ import RealmSwift
 import IceCream
 import CommonCrypto
 
+@MainActor //TODO: Check is it ok?
 final class StorageService {
 
     public let realm: Realm?
     public static let shared = StorageService()
     
     init(inMemory: Bool = false) {
-        let configuration: Realm.Configuration
+        var configuration = Realm.Configuration()
+#if DEBUG
         if inMemory || ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             configuration = Realm.Configuration( inMemoryIdentifier: "inMemory" )
-        } else {
-            configuration = Realm.Configuration()
         }
+#endif
         self.realm = try? Realm(configuration: configuration)
     }
     
