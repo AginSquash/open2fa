@@ -55,8 +55,8 @@ class Core2FA_ViewModel: ObservableObject {
     func getOTPList() -> [AccountCurrentCode] {
         var accountsCurrentCode: [AccountCurrentCode] = []
         for account in accountsData {
-            guard let totp = TOTP(secret: account.secret) else { continue }
-            guard let currentCode = totp.generate(time: Date()) else { continue }
+            guard let totp = TOTP(secret: account.secret),
+                  let currentCode = totp.generate(time: Date()) else { continue }
             let newACC = AccountCurrentCode(account, currentCode: currentCode)
             accountsCurrentCode.append(newACC)
         }
@@ -64,10 +64,9 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     func addAccount(name: String, issuer: String, secret: String) -> String? {
-        guard let baase32Decoded = secret.base32DecodedData else { return "Incorrect secret" } // TODO: result?
-        
-        guard let totp = TOTP(secret: baase32Decoded) else { return "Incorrect secret" }
-        guard let _ = totp.generate(time: Date()) else { return "Incorrect secret" }
+        guard let baase32Decoded = secret.base32DecodedData,
+              let totp = TOTP(secret: baase32Decoded),
+              let _ = totp.generate(time: Date()) else { return "Incorrect secret" }
         
         let newAccount = AccountData(name: name, issuer: issuer, secret: baase32Decoded)
         let accountObject = AccountObject(newAccount, cm: cryptoModule)
@@ -132,8 +131,8 @@ class Core2FA_ViewModel: ObservableObject {
     static func saveKVC(key: [UInt8], iv_kvc: [UInt8]) {
         let cryptoModel = CryptoService(key: key)
         let accountData = AccountData(name: NSUUID().uuidString, issuer: NSUUID().uuidString, secret: CryptoService.generateSalt().base32DecodedData ?? Data())
-        guard let encoded = try? JSONEncoder().encode(accountData) else { return }
-        guard let kvc = cryptoModel.encryptData(iv: iv_kvc, inputData: encoded) else { return }
+        guard let encoded = try? JSONEncoder().encode(accountData),
+              let kvc = cryptoModel.encryptData(iv: iv_kvc, inputData: encoded) else { return }
         
         KeychainService.shared.setKVC(kvc: kvc)
     }

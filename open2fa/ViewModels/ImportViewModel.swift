@@ -21,8 +21,8 @@ class ImportViewModel: ObservableObject {
             switch result {
             case .success(let file):
                 print(file.absoluteString)
-                guard file.startAccessingSecurityScopedResource() else { showError(.ReadFileError); return }
-                guard let data = try? Data(contentsOf: file.absoluteURL) else { showError(.ReadFileError); return }
+                guard file.startAccessingSecurityScopedResource(),
+                      let data = try? Data(contentsOf: file.absoluteURL) else { return showError(.ReadFileError) }
                 file.stopAccessingSecurityScopedResource()
                 
                 if let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data) {
@@ -89,8 +89,8 @@ class ImportViewModel: ObservableObject {
         
         let kvc = accountsFile.publicEncryptData.kvc
         let iv_kvc = accountsFile.publicEncryptData.iv_kvc
-        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc) else { return nil }
-        guard let _ = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
+        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc),
+              let _ = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
         return []
     }
 }
