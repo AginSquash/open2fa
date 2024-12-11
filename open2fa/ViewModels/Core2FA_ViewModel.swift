@@ -211,7 +211,6 @@ class Core2FA_ViewModel: ObservableObject {
     }
     
     deinit {
-        //self.timer?.invalidate() //TODO: memory leak?
         self.notificationToken?.invalidate()
         
         NotificationCenter.default.removeObserver(self,
@@ -232,6 +231,7 @@ class Core2FA_ViewModel: ObservableObject {
         let time = Int(df.string(from: date))!
         
         self.timeRemaning = (time > 30) ? 60 - time : 30 - time
+        self.progress = CGFloat( Double(timeRemaning) / 30 )
         let delegate = UIApplication.shared.delegate as! AppDelegate
         delegate.syncEngine?.pull()
         self.updateAccounts()
@@ -254,10 +254,12 @@ class Core2FA_ViewModel: ObservableObject {
     @objc func willResignActiveNotification() {
         self.isActive = false
         self.willResignActiveDate = Date()
+        self.timer?.invalidate()
     }
     
     @objc func didBecomeActiveNotification() {
         syncTimer()
+        initTimer()
         Task {
             await checkShouldPopView()
         }
