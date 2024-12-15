@@ -8,6 +8,7 @@
 
 import Foundation
 
+@MainActor
 class ExportViewModel: ObservableObject {
     let storage = StorageService.shared
     

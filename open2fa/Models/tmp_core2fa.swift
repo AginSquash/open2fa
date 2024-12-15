@@ -9,7 +9,7 @@
 import Foundation
 
 /// Legacy code with secret for 2FA generation
-public struct CoreOpen2FA_AccountData: Identifiable, Codable, Equatable {
+public struct CoreOpen2FA_AccountData: Identifiable, Codable, Equatable, Sendable {
     public let id: UUID
     public let type: OTP_Type
     public let date: Date
