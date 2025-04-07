@@ -17,10 +17,10 @@ import Combine
 @MainActor
 class Core2FA_ViewModel: ObservableObject {
     
-    @Published var codes: [AccountCurrentCode] = []
-    @Published var timeRemaning: Int = 0
+    @Published private(set) var codes: [AccountCurrentCode] = []
+    @Published private(set) var timeRemaning: Int = 0
     @Published var isActive: Bool = false
-    @Published var progress: CGFloat = 1.0
+    @Published private(set) var progress: CGFloat = 1.0
 
     private var accountsData = [AccountData]()
 
