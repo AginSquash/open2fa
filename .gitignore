@@ -1,3 +1,5 @@
 .DS_Store
-open2fa.xcodeproj/project.xcworkspace/xcuserdata/*
-open2fa.xcodeproj/xcuserdata/*
+
+# Ignore Xcode user data
+*.xcuserstate
+open2fa.xcodeproj/xcuserdata
