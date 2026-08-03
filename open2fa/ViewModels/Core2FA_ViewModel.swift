@@ -20,6 +20,12 @@ class Core2FA_ViewModel: ObservableObject {
     @Published var timeRemaning: Int = 0
     @Published var isActive: Bool = false
     @Published var progress: CGFloat = 1.0
+    @Published var searchText = ""
+
+    var filteredCodes: [AccountCurrentCode] {
+        guard !searchText.isEmpty else { return codes }
+        return codes.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.issuer.localizedCaseInsensitiveContains(searchText) }
+    }
 
     private var accountsData = [AccountData]()
 
