@@ -13,6 +13,7 @@ class UserDefaultsService {
         case storageLocalKeychainEnable
         case cloudSync
         case alreadyInited
+        case biometricKeyStored
     }
     
     static func set(_ value: Bool, forKey key: UserDefaultsTags) {

@@ -22,6 +22,7 @@ class PreferencesViewModel: ObservableObject {
     @Published var showDeleteCloudAlert: Bool = false
     
     var isRollbackCloud: Bool = false
+    private var isRollbackKeychain = false
     
     
     init() {
@@ -32,12 +33,26 @@ class PreferencesViewModel: ObservableObject {
         Task { await getSavedFromCloud() }
     }
     
-    func onChangeLocalKeychain(_ value: Bool) {
-        UserDefaultsService.set(value, forKey: .storageLocalKeychainEnable)
-        if !value {
-            KeychainService.shared.removeKey()
+    func onChangeLocalKeychain(_ value: Bool, core: Core2FA_ViewModel) {
+        guard !isRollbackKeychain else {
+            isRollbackKeychain = false
+            return
         }
-        showKeychainText.toggle()
+        if value {
+            do {
+                try core.enrollBiometricKey()
+                UserDefaultsService.set(true, forKey: .storageLocalKeychainEnable)
+                showKeychainText = false
+            } catch {
+                isRollbackKeychain = true
+                isEnableLocalKeychain = false
+                showKeychainText = true
+            }
+        } else {
+            KeychainService.shared.removeKey()
+            UserDefaultsService.set(false, forKey: .storageLocalKeychainEnable)
+            showKeychainText = false
+        }
     }
     
     func toggleBackCloud() {

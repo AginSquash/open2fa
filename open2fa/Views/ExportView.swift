@@ -24,29 +24,24 @@ struct ExportView: View {
             }
             
             Section {
-                /*
-                Toggle(isOn: $viewModel.isSecureExport, label: {
-                    Text("Encrypted export")
-                })
-                 */
-                if !viewModel.isSecureExport {
-                    Text("⚠️ Warning! Your file with account keys will be exported in json format WITHOUT encryption!")
-                } else {
-                    Text("🔐 All your codes will remain encrypted with AES-256")
-                }
+                Text("🔐 All your codes will remain encrypted with AES-256")
             }
             
             Button(action: viewModel.exportButtonAction, label: {
                 HStack {
                     Spacer()
-                    Text("Export")
-                        .foregroundColor(
-                            viewModel.passwordEntered.isEmpty ? .secondary : .red
-                        )
+                    if viewModel.isExporting {
+                        ProgressView()
+                    } else {
+                        Text("Export")
+                            .foregroundColor(
+                                viewModel.passwordEntered.isEmpty ? .secondary : .red
+                            )
+                    }
                     Spacer()
                 }
             })
-            .disabled(viewModel.passwordEntered.isEmpty)
+            .disabled(viewModel.passwordEntered.isEmpty || viewModel.isExporting)
         }
 #if os(iOS) && !targetEnvironment(macCatalyst)
         .padding([.top], 1) //Fix for bug with form in center of screen, not on top

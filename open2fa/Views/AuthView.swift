@@ -20,6 +20,7 @@ struct AuthView: View {
     @State private var isUnlocked: Bool = false
     @State private var showPasswordError: Bool = false
     @State private var isCloseExport: Bool = false
+    @State private var isChecking = false
     
     var body: some View {
         NavigationView {
@@ -36,13 +37,21 @@ struct AuthView: View {
                     isActive: $isUnlocked,
                                label: {
                     Button("Unlock", action: {
-                        if Core2FA_ViewModel.isPasswordValid(password: self.enteredPassword) {
-                            self.isUnlocked = true
-                        } else {
-                            self.enteredPassword = ""
-                            self.showPasswordError = true
+                        guard !isChecking else { return }
+                        isChecking = true
+                        let password = enteredPassword
+                        Task {
+                            let isValid = await core_driver.verifyPassword(password)
+                            isChecking = false
+                            if isValid {
+                                isUnlocked = true
+                            } else {
+                                enteredPassword = ""
+                                showPasswordError = true
+                            }
                         }
                     })
+                    .disabled(isChecking || enteredPassword.isEmpty)
                 })
                 
                 if isEnableLocalKeyChain {

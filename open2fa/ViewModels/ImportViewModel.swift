@@ -20,29 +20,10 @@ class ImportViewModel: ObservableObject {
     func fileImportHandler(_ result: Result<URL, any Error>) {
             switch result {
             case .success(let file):
-                print(file.absoluteString)
-                guard file.startAccessingSecurityScopedResource(),
-                      let data = try? Data(contentsOf: file.absoluteURL) else { return showError(.ReadFileError) }
-                file.stopAccessingSecurityScopedResource()
-                
-                if let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data) {
-                    guard let decrypted = decryptLegacyFile(codesFile: codesFile, pass: enteredPassword) else { showError(.DecryptError); return }
-                    let accounts = decrypted.compactMap(AccountData.init)
-                    saveImportedData(accountsData: accounts)
-                    return
-                }
-                
-                if let accountsFile = try? JSONDecoder().decode(AccountsFileStruct.self, from: data) {
-                    guard let decrypted = decryptFile(accountsFile: accountsFile, pass: enteredPassword) else { showError(.DecryptError); return }
-                    let publicED = accountsFile.publicEncryptData
-                    KeychainService.shared.setSalt(salt: publicED.salt)
-                    KeychainService.shared.setKVC(kvc: publicED.kvc)
-                    KeychainService.shared.setIV_KVC(iv: publicED.iv_kvc)
-                    saveImportedData(accountsData: decrypted)
-                    return
-                }
-                
-                showError(.WrongFormat)
+                guard file.startAccessingSecurityScopedResource() else { showError(.ReadFileError); return }
+                defer { file.stopAccessingSecurityScopedResource() }
+                guard let data = try? Data(contentsOf: file) else { showError(.ReadFileError); return }
+                Task { await importData(data) }
             case .failure(let error):
                 self.alertObject = AlertObject(title: "Error", message: error.localizedDescription)
             }
@@ -56,12 +37,49 @@ class ImportViewModel: ObservableObject {
         self.alertObject = AlertObject(title: "Imported", message: "Successfully imported \(importedAccountCount) accounts", isSuccessful: true)
     }
     
-    private func saveImportedData(accountsData: [AccountData]) {
-        guard let core = Core2FA_ViewModel(password: enteredPassword, saveKey: isEnableLocalKeyChain) else { return }
-        core.importAccounts(accounts: accountsData)
-        UserDefaultsService.set(true, forKey: .alreadyInited)
-        UserDefaultsService.set(isEnableLocalKeyChain, forKey: .storageLocalKeychainEnable)
-        showSuccessAlert(importedAccountCount: accountsData.count)
+    private func importData(_ data: Data) async {
+        if let accountsFile = try? JSONDecoder().decode(AccountsFileStruct.self, from: data) {
+            guard let decrypted = await decryptFile(accountsFile: accountsFile, pass: enteredPassword) else {
+                showError(.DecryptError)
+                return
+            }
+            await commitImport(decrypted, legacy: false)
+            return
+        }
+
+        if let codesFile = try? JSONDecoder().decode(CodesFile_legacy.self, from: data) {
+            guard let decrypted = decryptLegacyFile(codesFile: codesFile, pass: enteredPassword) else {
+                showError(.DecryptError)
+                return
+            }
+            await commitImport(decrypted.compactMap(AccountData.init), legacy: true)
+            return
+        }
+
+        showError(.WrongFormat)
+    }
+
+    private func commitImport(_ accounts: [AccountData], legacy: Bool) async {
+        if !UserDefaultsService.get(key: .alreadyInited) {
+            KeychainService.shared.reset()
+        }
+        do {
+            let core = try await Core2FA_ViewModel.unlock(
+                password: enteredPassword,
+                saveKey: isEnableLocalKeyChain,
+                enforcePolicy: false
+            )
+            try core.importAccounts(accounts: accounts)
+            UserDefaultsService.set(true, forKey: .alreadyInited)
+            UserDefaultsService.set(isEnableLocalKeyChain, forKey: .storageLocalKeychainEnable)
+            var message = "Successfully imported \(accounts.count) accounts"
+            if legacy {
+                message += "\n" + NSLocalizedString("This backup used obsolete MD5 encryption and was re-encrypted.", comment: "")
+            }
+            self.alertObject = AlertObject(title: "Imported", message: message, isSuccessful: true)
+        } catch {
+            showError(.DecryptError)
+        }
     }
     
     private func decryptLegacyFile(codesFile: CodesFile_legacy, pass: String) -> [CoreOpen2FA_AccountData]? {
@@ -75,22 +93,28 @@ class ImportViewModel: ObservableObject {
         } catch { return nil }
     }
     
-    private func decryptFile(accountsFile: AccountsFileStruct, pass: String) -> [AccountData]? {
-        let salt = accountsFile.publicEncryptData.salt
-        let key = CryptoService.generateKey(pass: pass, salt: salt)
-        
+    private func decryptFile(accountsFile: AccountsFileStruct, pass: String) async -> [AccountData]? {
+        let publicData = accountsFile.publicEncryptData
+        let params = publicData.kdfParams
+        guard KDFParams.isAllowed(params),
+              let salt = CryptoService.saltData(stored: publicData.salt, isBase64: params.saltIsBase64),
+              let key = try? await CryptoService.deriveKey(password: pass, salt: salt, iterations: params.iterations) else {
+            return nil
+        }
         let cryptoModule = CryptoService(key: key)
-        let iv = accountsFile.iv
-        
+        defer { cryptoModule.wipe() }
+
         if let accountsEncrypted = accountsFile.accounts {
-            guard let decrypted = cryptoModule.decryptData(iv: iv, inputData: accountsEncrypted) else { return nil }
+            let cipher = accountsFile.accountsCipherVersion ?? params.cipherVersion
+            guard let decrypted = cryptoModule.decrypt(iv: Data(accountsFile.iv), payload: accountsEncrypted, cipherVersion: cipher) else {
+                return nil
+            }
             return try? JSONDecoder().decode([AccountData].self, from: decrypted)
         }
-        
-        let kvc = accountsFile.publicEncryptData.kvc
-        let iv_kvc = accountsFile.publicEncryptData.iv_kvc
-        guard let decrypted = cryptoModule.decryptData(iv: iv_kvc, inputData: kvc),
-              let _ = try? JSONDecoder().decode(AccountData.self, from: decrypted) else { return nil }
+
+        guard cryptoModule.openKVC(iv: publicData.iv_kvc, kvc: publicData.kvc, cipherVersion: params.cipherVersion) else {
+            return nil
+        }
         return []
     }
 }

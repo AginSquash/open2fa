@@ -45,8 +45,14 @@ class CloudKitService {
               let salt = await KeychainService.shared.getSalt(),
               let iv = await KeychainService.shared.getIV_KVC() else { return }
 
-        let publicED = PublicEncryptData(salt: salt, iv_kvc: iv, kvc: kvc)
-        try await CloudKitService.save(publicED.record)
+        let params = await KeychainService.shared.loadParams()
+        let publicED = PublicEncryptData(salt: salt, iv_kvc: iv, kvc: kvc, params: params)
+        let saved = try await CKContainer.default().privateCloudDatabase.save(publicED.record)
+        let records = try await CloudKitService.fecth(recordType: PublicEncryptData.RecordKeys.type.rawValue)
+        let stale = records.map(\.recordID).filter { $0 != saved.recordID }
+        if !stale.isEmpty {
+            _ = try await CKContainer.default().privateCloudDatabase.modifyRecords(saving: [], deleting: stale)
+        }
     }
     
     static func deleteAllPublicEncryptData() async throws {

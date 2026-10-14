@@ -39,34 +39,7 @@ struct O2FADocument: FileDocument {
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let encoded = try! JSONEncoder().encode(accountsFileStruct)
+        let encoded = try JSONEncoder().encode(accountsFileStruct)
         return FileWrapper(regularFileWithContents: encoded)
     }
-    
-}
-
-
-struct O2FA_Unencrypted: FileDocument {
-    static var readableContentTypes: [UTType] { [.json] }
-    var accountsUnencrypted: [CoreOpen2FA_AccountData]
-    
-    init(accounts: [CoreOpen2FA_AccountData]) {
-        self.accountsUnencrypted = accounts
-    }
-    
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents,
-              let accounts = try? JSONDecoder().decode([CoreOpen2FA_AccountData].self, from: data)
-            else {
-                throw CocoaError(.fileReadCorruptFile)
-        }
-        
-        accountsUnencrypted = accounts
-    }
-    
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let jsonData = try JSONEncoder().encode(self.accountsUnencrypted)
-        return FileWrapper(regularFileWithContents: jsonData)
-    }
-    
 }

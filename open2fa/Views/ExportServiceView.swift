@@ -34,7 +34,7 @@ struct ExportServiceView: View {
                             Text(secret)
                             Spacer()
                             Button(action: {
-                                UIPasteboard.general.string = secret
+                                SensitivePasteboard.copy(secret)
                             }, label: {
                                 Image(systemName: "doc.on.doc")
                                     .resizable()
@@ -73,8 +73,9 @@ struct ExportServiceView: View {
     }
     
     func startup() {
-        guard let code_secure = core_driver.NoCrypt_ExportService(with: serviceUUID) else {
-            fatalError("Auth with incorrect pass/other")
+        guard let code_secure = core_driver.accountForExport(id: serviceUUID) else {
+            secret = ""
+            return
         }
         
         self.secret = code_secure.secret.base32EncodedString

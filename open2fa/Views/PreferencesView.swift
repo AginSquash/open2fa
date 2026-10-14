@@ -23,7 +23,17 @@ struct PreferencesView: View {
                     Toggle(isOn: $viewModel.isEnableLocalKeychain) {
                         Text("Enable FaceID / TouchID")
                     }
-                    .onChange(of: viewModel.isEnableLocalKeychain, perform: viewModel.onChangeLocalKeychain)
+                    .onChange(of: viewModel.isEnableLocalKeychain) { value in
+                        viewModel.onChangeLocalKeychain(value, core: core_driver)
+                    }
+                    NavigationLink(destination: ChangePasswordView().environmentObject(core_driver)) {
+                        Text("Change password")
+                    }
+                    if core_driver.needsSecurityUpgrade {
+                        NavigationLink(destination: SecurityUpgradeView().environmentObject(core_driver)) {
+                            Text("Upgrade encryption")
+                        }
+                    }
                     if viewModel.showKeychainText {
                         Text("Please, restart app and enter password to appear change")
                             .foregroundColor(.secondary)
@@ -35,7 +45,6 @@ struct PreferencesView: View {
                     .onChange(of: viewModel.isEnableCloudSync, perform: viewModel.onChangeCloudSync)
                     .disabled(!viewModel.cloudSyncAvailable)
                     
-                    #if os(iOS) && !targetEnvironment(macCatalyst)
                     NavigationLink(destination: TimeoutSettingsView()) {
                         HStack {
                             Text("Session timeout")
@@ -43,7 +52,6 @@ struct PreferencesView: View {
                             Text(lockTimeout == 0.0 ? "Immediately" : "\(Int(lockTimeout)) sec.")
                         }
                     }
-                    #endif
                     
                     NavigationLink(
                         destination: CreditsView(),
@@ -147,6 +155,140 @@ struct PreferencesView: View {
 extension String {
     func isNotEmpty() -> Bool {
         !self.isEmpty
+    }
+}
+
+struct ChangePasswordView: View {
+    @EnvironmentObject var core: Core2FA_ViewModel
+    @Environment(\.presentationMode) var presentationMode
+
+    @State private var current = ""
+    @State private var newPassword = ""
+    @State private var confirm = ""
+    @State private var errorMessage: String?
+    @State private var working = false
+
+    var body: some View {
+        Form {
+            Section {
+                SecureField("Current password", text: $current)
+                SecureField("New password", text: $newPassword)
+                SecureField("Confirm new password", text: $confirm)
+                if !newPassword.isEmpty, let reason = PasswordPolicy.rejectionReason(newPassword) {
+                    Text(LocalizedStringKey(reason))
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+            }
+            Section {
+                Button(action: submit, label: {
+                    HStack {
+                        Spacer()
+                        if working {
+                            ProgressView()
+                        } else {
+                            Text("Change password")
+                        }
+                        Spacer()
+                    }
+                })
+                .disabled(working || current.isEmpty || newPassword != confirm || PasswordPolicy.rejectionReason(newPassword) != nil)
+            }
+        }
+        .navigationBarTitle("Change password", displayMode: .inline)
+        .alert(isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+            Alert(title: Text("Error"), message: Text(errorMessage ?? ""), dismissButton: .default(Text("OK")))
+        }
+    }
+
+    private func submit() {
+        guard !working else { return }
+        working = true
+        let currentPassword = current
+        let replacement = newPassword
+        Task {
+            do {
+                try await core.changePassword(current: currentPassword, newPassword: replacement)
+                presentationMode.wrappedValue.dismiss()
+            } catch let error as VaultUnlockError {
+                errorMessage = error.userFacingMessage
+            } catch {
+                errorMessage = "Unexpected error"
+            }
+            working = false
+        }
+    }
+}
+
+struct SecurityUpgradeView: View {
+    @EnvironmentObject var core: Core2FA_ViewModel
+    @Environment(\.presentationMode) var presentationMode
+
+    @State private var password = ""
+    @State private var errorMessage: String?
+    @State private var working = false
+
+    var body: some View {
+            Form {
+                Section {
+                    Text("Your vault still uses a weak key derivation. Enter your password to re-encrypt it.")
+                    SecureField("Password", text: $password)
+                }
+                Section {
+                    Button(action: submit, label: {
+                        HStack {
+                            Spacer()
+                            if working { ProgressView() } else { Text("Upgrade encryption") }
+                            Spacer()
+                        }
+                    })
+                    .disabled(working || password.isEmpty)
+                    Button("Not now") {
+                        core.deferSecurityUpgrade = true
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+            .navigationBarTitle("Upgrade encryption", displayMode: .inline)
+            .alert(isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+                Alert(title: Text("Error"), message: Text(errorMessage ?? ""), dismissButton: .default(Text("OK")))
+            }
+    }
+
+    private func submit() {
+        guard !working else { return }
+        working = true
+        let entered = password
+        Task {
+            do {
+                try await core.upgradeEncryption(password: entered)
+                presentationMode.wrappedValue.dismiss()
+            } catch let error as VaultUnlockError {
+                errorMessage = error.userFacingMessage
+            } catch {
+                errorMessage = "Unexpected error"
+            }
+            working = false
+        }
+    }
+}
+
+extension VaultUnlockError {
+    var userFacingMessage: String {
+        switch self {
+        case .wrongPassword:
+            return NSLocalizedString("Password is incorrect", comment: "")
+        case .weakPassword(let key):
+            return NSLocalizedString(key, comment: "")
+        case .needsRecovery:
+            return NSLocalizedString("Vault check data is missing. Restore from an export instead of creating a new password.", comment: "")
+        case .incompleteVault:
+            return NSLocalizedString("Could not decrypt every account. Encryption was not changed.", comment: "")
+        case .keyNotSaved:
+            return NSLocalizedString("Please enter your password for further login with Face ID", comment: "")
+        case .cryptoFailure:
+            return NSLocalizedString("Unexpected error", comment: "")
+        }
     }
 }
 

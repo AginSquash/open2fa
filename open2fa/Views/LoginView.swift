@@ -10,7 +10,9 @@ import SwiftUI
 import LocalAuthentication
 
 func _debugPrint(_ obj: Any) {
+    #if DEBUG
     print("DEBUG: \(obj)")
+    #endif
 }
 
 struct LoginView: View {
@@ -52,6 +54,11 @@ struct LoginView: View {
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
                                 SecureField("Re-enter password", text: $vm.enteredPasswordSecond)
                                      .textFieldStyle(RoundedBorderTextFieldStyle())
+                                if !vm.enteredPassword.isEmpty, let reason = PasswordPolicy.rejectionReason(vm.enteredPassword) {
+                                    Text(LocalizedStringKey(reason))
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                }
                                 
                                 VStack {
                                     if !vm.availableBiometricAuth.isEmpty {
@@ -76,13 +83,24 @@ struct LoginView: View {
                     VStack {
                         Button(action: vm.loginButtonAction, label: {
                             VStack {
-                                Text( vm.isFirstRun ? "Create" : "Unlock")
-                                    .padding(.top, geo.size.height / 50 )
+                                if vm.isUnlocking {
+                                    ProgressView()
+                                } else {
+                                    Text( vm.isFirstRun ? "Create" : "Unlock")
+                                }
                             }
+                            .padding(.top, geo.size.height / 50 )
                         })
                         .disabled(vm.isDisableLoginButton)
                                                 
-                        if !vm.isFirstRun && vm.isEnablelocalKeychain {
+                        if vm.remoteCryptoUpdated {
+                            Text("iCloud has a newer encryption setup. Enter your password.")
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                        }
+                        if !vm.isFirstRun && vm.isEnablelocalKeychain && !vm.remoteCryptoUpdated {
                             VStack {
                                 Text("- or -")
                                     .foregroundColor(.secondary)
@@ -159,6 +177,15 @@ struct LoginView: View {
         case .keyNotSaved:
             message = "Please enter your password for further login with Face ID"
             action = { }
+        case .needsRecovery:
+            message = "Vault check data is missing. Restore from an export instead of creating a new password."
+            action = { }
+        case .weakPassword:
+            message = error.message ?? "Password must be at least 12 characters"
+            action = {
+                self.vm.enteredPassword = ""
+                self.vm.enteredPasswordSecond = ""
+            }
         default:
             message = "Unexpected error"
             action = {

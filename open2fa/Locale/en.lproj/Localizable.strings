@@ -133,3 +133,22 @@
 
 "Ok" = "OK";
 "OK" = "OK";
+
+"Password must be at least 12 characters" = "Password must be at least 12 characters";
+"Password is too simple" = "Password is too simple";
+"Password is too common" = "Password is too common";
+"Change password" = "Change password";
+"Current password" = "Current password";
+"New password" = "New password";
+"Confirm new password" = "Confirm new password";
+"Upgrade encryption" = "Upgrade encryption";
+"Your vault still uses a weak key derivation. Enter your password to re-encrypt it." = "Your vault still uses a weak key derivation. Enter your password to re-encrypt it.";
+"Not now" = "Not now";
+"Vault check data is missing. Restore from an export instead of creating a new password." = "Vault check data is missing. Restore from an export instead of creating a new password.";
+"Could not decrypt every account. Encryption was not changed." = "Could not decrypt every account. Encryption was not changed.";
+"Unexpected error" = "Unexpected error";
+"iCloud has a newer encryption setup. Enter your password." = "iCloud has a newer encryption setup. Enter your password.";
+"Old backups that used MD5 are accepted only as a one-time import and are re-encrypted." = "Old backups that used MD5 are accepted only as a one-time import and are re-encrypted.";
+"This backup used obsolete MD5 encryption and was re-encrypted." = "This backup used obsolete MD5 encryption and was re-encrypted.";
+"Session timeout" = "Session timeout";
+"Immediately" = "Immediately";

@@ -20,6 +20,9 @@ struct ImportView: View {
             Form {
                 Section {
                     Text("If you have already used Open2FA, please enter your password and select the file using button below.")
+                    Text("Old backups that used MD5 are accepted only as a one-time import and are re-encrypted.")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
                 }
                 Section {
                     SecureField("Password", text: $viewModel.enteredPassword)

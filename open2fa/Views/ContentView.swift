@@ -51,10 +51,17 @@ struct ContentView: View {
                 }
             }
         }
-#if os(iOS) && !targetEnvironment(macCatalyst)
         .blur(radius: core_driver.isActive ? 0 : 5)
-#endif
         .navigationViewStyle(StackNavigationViewStyle())
+        .sheet(isPresented: Binding(
+            get: { core_driver.needsSecurityUpgrade && !core_driver.deferSecurityUpgrade },
+            set: { isPresented in
+                if !isPresented { core_driver.deferSecurityUpgrade = true }
+            }
+        )) {
+            SecurityUpgradeView()
+                .environmentObject(core_driver)
+        }
     }
     
 }

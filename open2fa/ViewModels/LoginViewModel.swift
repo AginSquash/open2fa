@@ -21,6 +21,8 @@ class LoginViewModel: ObservableObject {
     @Published var enteredPasswordSecond = ""
     @Published var errorDiscription: errorType? = nil
     @Published var showCloudLoadedAlert: Bool = false
+    @Published var isUnlocking: Bool = false
+    @Published var remoteCryptoUpdated: Bool = false
     
     @Published var core: Core2FA_ViewModel?
     
@@ -31,7 +33,12 @@ class LoginViewModel: ObservableObject {
     var appSettings = AppSettings()
     
     var isDisableLoginButton: Bool {
-        return (enteredPassword != enteredPasswordSecond && isFirstRun) || ( enteredPassword.isEmpty )
+        if enteredPassword.isEmpty || isUnlocking { return true }
+        if isFirstRun {
+            if enteredPassword != enteredPasswordSecond { return true }
+            if PasswordPolicy.rejectionReason(enteredPassword) != nil { return true }
+        }
+        return false
     }
     
     var availableBiometricAuth: String
@@ -54,30 +61,51 @@ class LoginViewModel: ObservableObject {
     }
     
     func loginButtonAction() {
-        if isFirstRun || publicEncryptData != nil {
-            UserDefaultsService.set(isEnablelocalKeychain, forKey: .storageLocalKeychainEnable)
-            UserDefaultsService.set(isEnableCloudSync, forKey: .cloudSync)
-            UserDefaultsService.set(true, forKey: .alreadyInited)
+        guard !isUnlocking else { return }
+        isUnlocking = true
+        let password = enteredPassword
+        let saveKey = isEnablelocalKeychain
+        let firstRun = isFirstRun
+        let enableCloud = isEnableCloudSync
+        Task {
+            defer { isUnlocking = false }
+            do {
+                let core = try await Core2FA_ViewModel.unlock(password: password, saveKey: saveKey, enforcePolicy: firstRun)
+                if firstRun || publicEncryptData != nil {
+                    UserDefaultsService.set(saveKey, forKey: .storageLocalKeychainEnable)
+                    UserDefaultsService.set(enableCloud, forKey: .cloudSync)
+                    UserDefaultsService.set(true, forKey: .alreadyInited)
+                }
+                self.core = core
+                self.enteredPassword = ""
+                self.enteredPasswordSecond = ""
+                if firstRun && enableCloud {
+                    try? await CloudKitService.uploadPublicEncryptData()
+                    let delegate = UIApplication.shared.delegate as? AppDelegate
+                    delegate?.syncEngine = SyncEngine(objects: [
+                        SyncObject(type: AccountObject.self)
+                    ])
+                }
+                pushMainView()
+            } catch let error as VaultUnlockError {
+                self.core = nil
+                self.errorDiscription = .from(error)
+            } catch {
+                self.core = nil
+                self.errorDiscription = .init(error: .cannotCreateCore2FA)
+            }
         }
-        
-        self.core = nil
-        guard let core = Core2FA_ViewModel(password: self.enteredPassword, saveKey: isEnablelocalKeychain) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
-        self.core = core
-        self.core?.isActive = true
-        self.enteredPassword = ""
-        
-        if isFirstRun && isEnableCloudSync {
-            Task { try? await CloudKitService.uploadPublicEncryptData() }
-            let delegate = UIApplication.shared.delegate as! AppDelegate
-            delegate.syncEngine = SyncEngine(objects: [
-                SyncObject(type: AccountObject.self)
-            ])
-        }
-        pushMainView()
     }
     
     func onAppear() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: tryBiometricAuth)
+        Task {
+            let updated = await refreshRemoteCryptoParamsIfNeeded()
+            if updated {
+                remoteCryptoUpdated = true
+            } else {
+                tryBiometricAuth()
+            }
+        }
     }
     
     func deleteCloudData() {
@@ -89,9 +117,7 @@ class LoginViewModel: ObservableObject {
     
     func restoreCloudData() {
         guard let publicED = publicEncryptData else { return }
-        KeychainService.shared.setSalt(salt: publicED.salt)
-        KeychainService.shared.setIV_KVC(iv: publicED.iv_kvc)
-        KeychainService.shared.setKVC(kvc: publicED.kvc)
+        KeychainService.shared.apply(publicED)
         
         isEnableCloudSync = true
         isFirstRun = false
@@ -112,21 +138,17 @@ class LoginViewModel: ObservableObject {
     
     func tryBiometricAuth() {
         self.core = nil
-        guard !isFirstRun else { return }
+        guard !isFirstRun, !isUnlocking else { return }
         
         Task { @MainActor in
             do {
-                let isAuth = try await BiometricAuthService.tryBiometricAuth()
-                guard isAuth else { return }
-                
-                // from here all must be on @MainActor; KeychainService and Core2FA_ViewModel already marked like @MainActor
-                guard let key = KeychainService.shared.getKey() else { self.errorDiscription = .init(error: .keyNotSaved); return }
-                guard let core = Core2FA_ViewModel(key: key) else { self.errorDiscription = .init(error: .passwordIncorrect); return }
+                let core = try await Core2FA_ViewModel.unlockWithBiometrics()
                 self.core = core
                 self.pushMainView()
-                
-            } catch (let error) {
-                _debugPrint("Biometric error: \(error.localizedDescription)")
+            } catch VaultUnlockError.keyNotSaved {
+                self.errorDiscription = .init(error: .keyNotSaved)
+            } catch {
+                _debugPrint("Biometric error: \(error)")
             }
         }
     }
@@ -148,12 +170,27 @@ class LoginViewModel: ObservableObject {
     private func getSavedFromCloud() async {
         let records = try? await CloudKitService.fetchPublicEncryptData()
         guard let records = records else { return }
+        let newest = records.max { lhs, rhs in rhs.kdfParams.isNewer(than: lhs.kdfParams) }
         await MainActor.run {
-            publicEncryptData = records.first
+            publicEncryptData = newest
             showCloudLoadedAlert = publicEncryptData != nil
         }
     }
     
+    private func refreshRemoteCryptoParamsIfNeeded() async -> Bool {
+        guard !isFirstRun, UserDefaultsService.get(key: .cloudSync) else { return false }
+        guard let records = try? await CloudKitService.fetchPublicEncryptData() else { return false }
+        guard let remote = records.max(by: { lhs, rhs in
+            rhs.kdfParams.isNewer(than: lhs.kdfParams)
+        }) else { return false }
+        let local = KeychainService.shared.loadParams()
+        guard remote.kdfParams.isNewer(than: local), KDFParams.isAllowed(remote.kdfParams) else { return false }
+        KeychainService.shared.apply(remote)
+        KeychainService.shared.removeKey()
+        (UIApplication.shared.delegate as? AppDelegate)?.syncEngine?.pull()
+        return true
+    }
+
     private func loadCloudSyncAvailable() async {
         let result = try? await CloudKitService.checkAccountStatus()
         guard let result = result else { return }
@@ -172,9 +209,32 @@ extension LoginViewModel {
             case passwordDontMatch
             case keyNotSaved
             case cannotCreateCore2FA
+            case needsRecovery
+            case weakPassword
         }
         
         let id = UUID()
         let error: errorTypeEnum
+        var message: String? = nil
+
+        init(error: errorTypeEnum, message: String? = nil) {
+            self.error = error
+            self.message = message
+        }
+
+        static func from(_ error: VaultUnlockError) -> errorType {
+            switch error {
+            case .wrongPassword:
+                return errorType(error: .passwordIncorrect)
+            case .needsRecovery, .incompleteVault:
+                return errorType(error: .needsRecovery)
+            case .weakPassword(let message):
+                return errorType(error: .weakPassword, message: message)
+            case .keyNotSaved:
+                return errorType(error: .keyNotSaved)
+            case .cryptoFailure:
+                return errorType(error: .cannotCreateCore2FA)
+            }
+        }
     }
 }

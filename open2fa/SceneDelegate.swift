@@ -12,6 +12,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private var privacyShield: UIView?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -47,13 +48,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        hidePrivacyShield()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+        showPrivacyShield()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -62,10 +61,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        showPrivacyShield()
+    }
 
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+    private func showPrivacyShield() {
+        guard privacyShield == nil, let window else { return }
+        let shield = UIView(frame: window.bounds)
+        shield.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        shield.backgroundColor = .systemBackground
+        shield.isUserInteractionEnabled = true
+        window.addSubview(shield)
+        privacyShield = shield
+    }
+
+    private func hidePrivacyShield() {
+        privacyShield?.removeFromSuperview()
+        privacyShield = nil
     }
 }
 

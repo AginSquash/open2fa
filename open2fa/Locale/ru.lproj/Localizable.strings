@@ -137,3 +137,22 @@
 
 "Ok" = "OK";
 "OK" = "OK";
+
+"Password must be at least 12 characters" = "Пароль должен быть не короче 12 символов";
+"Password is too simple" = "Пароль слишком простой";
+"Password is too common" = "Пароль слишком распространённый";
+"Change password" = "Сменить пароль";
+"Current password" = "Текущий пароль";
+"New password" = "Новый пароль";
+"Confirm new password" = "Повторите новый пароль";
+"Upgrade encryption" = "Обновить шифрование";
+"Your vault still uses a weak key derivation. Enter your password to re-encrypt it." = "Хранилище всё ещё использует слабый вывод ключа. Введите пароль, чтобы перешифровать его.";
+"Not now" = "Не сейчас";
+"Vault check data is missing. Restore from an export instead of creating a new password." = "Нет данных для проверки пароля. Восстановите хранилище из экспорта, а не создавайте новый пароль.";
+"Could not decrypt every account. Encryption was not changed." = "Не удалось расшифровать все аккаунты. Шифрование не изменено.";
+"Unexpected error" = "Непредвиденная ошибка";
+"iCloud has a newer encryption setup. Enter your password." = "В iCloud более новая схема шифрования. Введите пароль.";
+"Old backups that used MD5 are accepted only as a one-time import and are re-encrypted." = "Старые копии на MD5 принимаются только как разовый импорт и сразу перешифровываются.";
+"This backup used obsolete MD5 encryption and was re-encrypted." = "Эта копия использовала устаревшее шифрование MD5 и была перешифрована.";
+"Session timeout" = "Таймаут сессии";
+"Immediately" = "Сразу";

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CodePreview: View {
     @State private var isCopied = false
@@ -67,12 +68,24 @@ struct CodePreview: View {
         .frame(height: 40)
         .onTapGesture {
             let pasteboard = self.codeSingle.replacingOccurrences(of: " ", with: "")
-            UIPasteboard.general.string = pasteboard
+            SensitivePasteboard.copy(pasteboard)
             withAnimation(.easeIn(duration: 0.15), { self.isCopied = true })
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
                 withAnimation(.easeIn(duration: 0.15), { self.isCopied = false })
             })
         }
+    }
+}
+
+enum SensitivePasteboard {
+    static func copy(_ value: String, lifetime: TimeInterval = 60) {
+        UIPasteboard.general.setItems(
+            [[UIPasteboard.typeAutomatic: value]],
+            options: [
+                .expirationDate: Date().addingTimeInterval(lifetime),
+                .localOnly: true
+            ]
+        )
     }
 }
 

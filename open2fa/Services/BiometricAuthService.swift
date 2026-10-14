@@ -17,17 +17,25 @@ class BiometricAuthService {
         case keychainNotSet
     }
     
-    static func tryBiometricAuth() async throws -> Bool  {
+    static func authenticatedContext() async throws -> LAContext {
         guard UserDefaultsService.get(key: .storageLocalKeychainEnable) else { throw BAError.keychainNotSet }
         let context = LAContext()
+        context.touchIDAuthenticationAllowableReuseDuration = 10
         let reason = NSLocalizedString("Please identify yourself to unlock the app", comment: "Biometric auth")
-        
+
         var error: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-            print(error?.localizedDescription ?? "Can't evaluate policy")
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            _debugPrint(error?.localizedDescription ?? "Can't evaluate policy")
             throw BAError.noBiometric
         }
-        
-        return try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
+
+        let isAuthenticated = try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
+        guard isAuthenticated else { throw BAError.authError }
+        return context
+    }
+
+    static func tryBiometricAuth() async throws -> Bool {
+        _ = try await authenticatedContext()
+        return true
     }
 }
